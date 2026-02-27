@@ -379,7 +379,7 @@ tr:last-child td{border-bottom:none}
 <div class="table-card">
 <div class="table-head"><h3>👥 All Users</h3><div class="th-actions"><button class="t-btn gray" onclick="renderUsers()">🔄 Refresh</button></div></div>
 <div class="filter-bar">
-<input type="text" id="userSearch" placeholder="Search by name or email..." oninput="renderUsers()">
+<input type="text" id="userSearch" placeholder="Search by name or ID..." oninput="renderUsers()">
 </div>
 <div id="usersList"></div>
 </div>
@@ -429,6 +429,14 @@ tr:last-child td{border-bottom:none}
 </div>
 </div>
 
+<!-- DEPOSIT APPROVAL WITH CODE MODAL -->
+<div class="modal-ov" id="approveDepModal" onclick="if(event.target===this)closeModal('approveDepModal')">
+<div class="modal-box">
+<div class="modal-head"><h3>✅ Approve Deposit</h3><button class="modal-x" onclick="closeModal('approveDepModal')">✕</button></div>
+<div class="modal-body" id="approveDepBody"></div>
+</div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -458,7 +466,7 @@ function doLogout(){location.reload()}
 function startAdmin(){
 startClock();
 refreshAll();
-setInterval(refreshAll,5000); // Poll every 5s for real-time updates
+setInterval(refreshAll,5000);
 }
 
 function startClock(){
@@ -489,7 +497,7 @@ if(s==='deposits')renderDeposits();
 if(s==='withdrawals')renderWithdrawals();
 }
 
-// ===== ADMIN EVENTS (API bridge with Delta Exchange) =====
+// ===== ADMIN EVENTS =====
 function checkAdminEvents(){
 var events=LS('delta_admin_events')||[];
 var newOnes=[];
@@ -563,7 +571,6 @@ document.getElementById('notifList').innerHTML=h;
 function toggleNotifPanel(){
 var p=document.getElementById('notifPanel');p.classList.toggle('on');
 if(p.classList.contains('on')){
-// Mark all as read
 var notifs=LS('delta_notifs')||[];
 for(var i=0;i<notifs.length;i++)notifs[i].new=false;
 LS('delta_notifs',notifs);
@@ -574,7 +581,6 @@ renderNotifPanel();
 
 function clearNotifs(){LS('delta_notifs',null);renderNotifPanel();document.getElementById('notifPanel').classList.remove('on')}
 
-// Close notif panel when clicking elsewhere
 document.addEventListener('click',function(e){
 var p=document.getElementById('notifPanel');var btn=document.getElementById('notifBtn');
 if(p&&p.classList.contains('on')&&!p.contains(e.target)&&!btn.contains(e.target))p.classList.remove('on');
@@ -601,14 +607,14 @@ document.getElementById('statsGrid').innerHTML=
 var ruh='';
 var recentUs=users.slice(-5).reverse();
 if(!recentUs.length){ruh='<div class="empty-state"><div class="es-icon">👥</div><p>No users yet</p></div>'}
-else{ruh='<div style="padding:8px">';for(var i=0;i<recentUs.length;i++){var u=recentUs[i];ruh+='<div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;cursor:pointer;transition:.15s" onmouseover="this.style.background=\'var(--bg3)\'" onmouseout="this.style.background=\'\'" onclick="openUserModal(\''+u.id+'\')"><div class="user-av">'+u.name.charAt(0).toUpperCase()+'</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:700">'+escHtml(u.name)+'</div><div style="font-size:9px;color:var(--gray)">'+escHtml(u.email)+'</div></div><div style="font-size:8px;color:var(--gray)">'+fmtTime(u.created)+'</div></div>'}ruh+='</div>'}
+else{ruh='<div style="padding:8px">';for(var i=0;i<recentUs.length;i++){var u=recentUs[i];ruh+='<div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;cursor:pointer;transition:.15s" onmouseover="this.style.background=\'var(--bg3)\'" onmouseout="this.style.background=\'\'" onclick="openUserModal(\''+u.id+'\')"><div class="user-av">'+u.name.charAt(0).toUpperCase()+'</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:700">'+escHtml(u.name)+'</div><div style="font-size:9px;color:var(--gray)">ID: '+u.id.slice(-10)+'</div></div><div style="font-size:8px;color:var(--gray)">'+fmtTime(u.created)+'</div></div>'}ruh+='</div>'}
 document.getElementById('recentUsers').innerHTML=ruh;
 
 // Pending deposits
 var deps=LS('delta_deps')||[];var pendDeps=deps.filter(function(d){return d.status==='pending'});
 var rdh='';
 if(!pendDeps.length){rdh='<div class="empty-state"><div class="es-icon">💰</div><p>No pending deposits</p></div>'}
-else{rdh='<div style="padding:8px">';for(var i=0;i<Math.min(5,pendDeps.length);i++){var d=pendDeps[i];rdh+='<div style="display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;cursor:pointer;transition:.15s" onclick="showDepCode(\''+d.id+'\')" onmouseover="this.style.background=\'var(--bg3)\'" onmouseout="this.style.background=\'\'"><div style="width:28px;height:28px;border-radius:50%;background:rgba(240,185,11,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">💰</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:700">'+escHtml(d.userName||'-')+'</div><div style="font-size:9px;color:var(--gray)">'+escHtml(d.plan?d.plan.name:'-')+' — $'+(d.plan?d.plan.price:0)+'</div></div><div class="code-box" style="font-size:13px;padding:4px 8px;letter-spacing:4px;min-width:80px;text-align:center">'+d.code+'</div></div>'}rdh+='</div>'}
+else{rdh='<div style="padding:8px">';for(var i=0;i<Math.min(5,pendDeps.length);i++){var d=pendDeps[i];rdh+='<div style="display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;cursor:pointer;transition:.15s" onclick="showApproveDepModal(\''+d.id+'\')" onmouseover="this.style.background=\'var(--bg3)\'" onmouseout="this.style.background=\'\'"><div style="width:28px;height:28px;border-radius:50%;background:rgba(240,185,11,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">💰</div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:700">'+escHtml(d.userName||'-')+'</div><div style="font-size:9px;color:var(--gray)">'+escHtml(d.plan?d.plan.name:'-')+' — $'+(d.plan?d.plan.price:0)+'</div></div><div style="font-size:10px;color:var(--gold)">Click to approve</div></div>'}rdh+='</div>'}
 document.getElementById('recentDeposits').innerHTML=rdh;
 
 // Recent activity
@@ -627,7 +633,7 @@ else if(ev.type==='chat_message')detail=(d.text||'').substring(0,35);
 else if(ev.type==='ticket_submitted')detail=(d.sub||'').substring(0,35);
 else if(ev.type==='new_user')detail='Email: '+d.email;
 rah+='<tr><td><span class="badge badge-blue">'+icon+' '+(labels[ev.type]||ev.type)+'</span></td><td style="font-size:10px;font-weight:700">'+(d.name||d.userName||d.userEmail||'-')+'</td><td style="font-size:9px;color:var(--gray)">'+detail+'</td><td style="font-size:9px;color:var(--gray)">'+fmtTime(ev.at)+'</td><td>';
-if(ev.type==='deposit_request')rah+='<button class="act-btn" style="background:rgba(240,185,11,.15);border:1px solid rgba(240,185,11,.2);color:var(--gold)" onclick="showDepCode(\''+d.id+'\')">🔑 Code</button>';
+if(ev.type==='deposit_request')rah+='<button class="act-btn" style="background:rgba(240,185,11,.15);border:1px solid rgba(240,185,11,.2);color:var(--gold)" onclick="showApproveDepModal(\''+d.id+'\')">✅ Approve</button>';
 else if(ev.type==='chat_message')rah+='<button class="act-btn" style="background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.2);color:var(--blue)" onclick="openChat(\''+d.userId+'\');goSec(\'chats\',document.querySelectorAll(\'.nav-item\')[1])">Chat</button>';
 rah+='</td></tr>';
 }
@@ -639,9 +645,6 @@ document.getElementById('recentActivity').innerHTML=rah;
 /* ============ DEPOSITS / CODE SYSTEM ============ */
 function showDepCode(depId){
 var deps=LS('delta_deps')||[];var d=deps.find(function(x){return x.id===depId});
-// Also check pending_dep
-var pd=LS('delta_pending_dep');
-if(!d&&pd&&pd.id===depId)d=pd;
 if(!d)return toast('Deposit not found','err');
 var h='';
 h+='<div style="text-align:center;margin-bottom:16px"><div style="font-size:32px;margin-bottom:8px">🔑</div><div style="font-size:14px;font-weight:700;color:var(--gold)">Deposit Confirmation Code</div><div style="font-size:10px;color:var(--gray);margin-top:3px">Share this code with the customer</div></div>';
@@ -655,12 +658,44 @@ h+='<div class="info-row"><span class="ir-l">Status</span><span class="ir-v"><sp
 h+='<div class="info-row"><span class="ir-l">Requested</span><span class="ir-v">'+fmtTime(d.at)+'</span></div>';
 h+='<div style="margin-top:14px;display:flex;gap:8px">';
 if(d.status==='pending'){
-h+='<button class="t-btn green" style="flex:1" onclick="approveDep(\''+depId+'\')">✅ Approve Deposit</button>';
+h+='<button class="t-btn green" style="flex:1" onclick="showApproveDepModal(\''+depId+'\')">✅ Approve with Code</button>';
 }
 h+='<button class="t-btn blue" style="flex:1" onclick="cpText(\''+d.code+'\')">📋 Copy Code</button>';
 h+='</div>';
 document.getElementById('depCodeModalBody').innerHTML=h;
 document.getElementById('depCodeModal').classList.add('on');
+}
+
+function showApproveDepModal(depId){
+var deps=LS('delta_deps')||[];var d=deps.find(function(x){return x.id===depId});
+if(!d)return toast('Deposit not found','err');
+var h='<div style="text-align:center;margin-bottom:14px"><div style="font-size:32px;margin-bottom:8px">✅</div><div style="font-size:14px;font-weight:700;color:var(--gold)">Approve Deposit</div></div>';
+h+='<div class="info-row"><span class="ir-l">User</span><span class="ir-v">'+d.userName+'</span></div>';
+h+='<div class="info-row"><span class="ir-l">Plan</span><span class="ir-v">'+d.plan.name+' — $'+d.plan.price+'</span></div>';
+h+='<div class="info-row"><span class="ir-l">Bonus</span><span class="ir-v">+$'+d.plan.bonus+'</span></div>';
+h+='<div class="info-row"><span class="ir-l">Current Code</span><span class="ir-v">'+d.code+'</span></div>';
+h+='<div class="fg"><label>Enter Confirmation Code (for user)</label><input type="text" id="approveCodeInput" value="'+d.code+'" placeholder="e.g. ABC123" style="text-align:center;font-size:18px;letter-spacing:4px;font-family:JetBrains Mono,monospace"></div>';
+h+='<button class="t-btn green" style="width:100%;padding:12px;margin-top:8px" onclick="approveDepWithCode(\''+depId+'\')">✅ Confirm & Approve</button>';
+document.getElementById('approveDepBody').innerHTML=h;
+document.getElementById('approveDepModal').classList.add('on');
+}
+
+function approveDepWithCode(depId){
+var code=document.getElementById('approveCodeInput').value.trim().toUpperCase();
+if(!code){toast('Enter a code','err');return;}
+var deps=LS('delta_deps')||[];var d=deps.find(function(x){return x.id===depId});
+if(!d)return toast('Not found','err');
+var uid=d.userId;var plan=d.plan;
+if(!plan)return toast('Invalid deposit data','err');
+var w=getW(uid);w.main+=plan.price;w.bonus+=(plan.bonus||0);setW(uid,w);
+var us=LS('delta_users')||[];
+for(var i=0;i<us.length;i++){if(us[i].id===uid){var planIdx=PLANS.findIndex(function(p){return p.name===plan.name});us[i].plan=planIdx>=0?planIdx+1:1;us[i].kyc=true;break}}LS('delta_users',us);
+var txns=LS('delta_txn_'+uid)||[];txns.push({type:'deposit',amt:plan.price+plan.bonus,st:'completed',at:new Date().toISOString()});LS('delta_txn_'+uid,txns);
+for(var i=0;i<deps.length;i++){if(deps[i].id===depId){deps[i].status='approved';deps[i].code=code;break}}LS('delta_deps',deps);
+if(LS('delta_pending_dep')&&LS('delta_pending_dep').id===depId){var pd=LS('delta_pending_dep');pd.status='approved';pd.code=code;LS('delta_pending_dep',pd)}
+closeModal('approveDepModal');
+renderDeposits();renderDashboard();renderBadges();
+toast('✅ Deposit approved with code: '+code,'ok');
 }
 
 /* ============ CHAT ============ */
@@ -673,13 +708,12 @@ return cu;
 function renderChatList(){
 var q=(document.getElementById('chatSearchInput')?document.getElementById('chatSearchInput').value:'').toLowerCase();
 var users=LS('delta_users')||[];
-// Include all users (even without messages - for proactive chat)
 var sorted=users.slice().sort(function(a,b){
 var ma=LS('delta_chat_'+a.id)||[];var mb=LS('delta_chat_'+b.id)||[];
 var la=ma.length?ma[ma.length-1].at:'';var lb=mb.length?mb[mb.length-1].at:'';
 return lb.localeCompare(la);
 });
-if(q)sorted=sorted.filter(function(u){return u.name.toLowerCase().indexOf(q)>=0||u.email.toLowerCase().indexOf(q)>=0});
+if(q)sorted=sorted.filter(function(u){return u.name.toLowerCase().indexOf(q)>=0||u.id.toLowerCase().indexOf(q)>=0});
 var h='';
 for(var i=0;i<sorted.length;i++){
 var u=sorted[i];var msgs=LS('delta_chat_'+u.id)||[];
@@ -696,12 +730,11 @@ function openChat(uid){
 selChatUser=uid;
 var users=LS('delta_users')||[];var u=users.find(function(x){return x.id===uid});if(!u)return;
 var w=getW(uid);
-// Mark as read
 var msgs=LS('delta_chat_'+uid)||[];
 for(var i=0;i<msgs.length;i++){if(msgs[i].role==='user')msgs[i].read=true}
 LS('delta_chat_'+uid,msgs);
 renderChatList();
-var h='<div class="chat-top"><div class="ct-av">'+u.name.charAt(0).toUpperCase()+'</div><div class="ct-info"><div class="ct-name">'+escHtml(u.name)+'</div><div class="ct-status">● Active</div><div class="ct-email">'+escHtml(u.email)+' • Bal: $'+(w.main+w.bonus).toFixed(2)+'</div></div><div class="chat-top-actions" style="display:flex;gap:6px"><button class="act-btn" style="background:rgba(240,185,11,.15);border:1px solid rgba(240,185,11,.2);color:var(--gold)" onclick="openUserModal(\''+uid+'\')">👤 Profile</button></div></div>';
+var h='<div class="chat-top"><div class="ct-av">'+u.name.charAt(0).toUpperCase()+'</div><div class="ct-info"><div class="ct-name">'+escHtml(u.name)+'</div><div class="ct-status">● Active</div><div class="ct-email">ID: '+u.id.slice(-10)+' • Bal: $'+(w.main+w.bonus).toFixed(2)+'</div></div><div class="chat-top-actions" style="display:flex;gap:6px"><button class="act-btn" style="background:rgba(240,185,11,.15);border:1px solid rgba(240,185,11,.2);color:var(--gold)" onclick="openUserModal(\''+uid+'\')">👤 Profile</button></div></div>';
 h+='<div class="chat-messages" id="adminChatMsg_'+uid+'"></div>';
 h+='<div class="chat-input"><textarea id="adminChatInput" placeholder="Reply to '+escHtml(u.name)+'..." onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendAdminMsg(\''+uid+'\')}"></textarea><button class="chat-send" onclick="sendAdminMsg(\''+uid+'\')"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg></button></div>';
 document.getElementById('chatMain').innerHTML=h;
@@ -744,9 +777,6 @@ var db=document.getElementById('depBadge');db.style.display=pendDeps?'block':'no
 var wds=LS('delta_wds')||[];var pendWds=wds.filter(function(w){return w.status.indexOf('pending')>=0}).length;
 var wb=document.getElementById('wdBadge');wb.style.display=pendWds?'block':'none';wb.textContent=pendWds;
 
-// New users badge
-var events=LS('delta_admin_events')||[];var newUsers=events.filter(function(e){return e.type==='new_user'&&!e.processed}).length;
-// Already processed so read from storage
 var ub=document.getElementById('userBadge');ub.style.display='none';
 }
 
@@ -759,7 +789,7 @@ if(!tickets.length){h='<div class="empty-state"><div class="es-icon">🎫</div><
 else{h='<table><thead><tr><th>ID</th><th>User</th><th>Category</th><th>Subject</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>';
 for(var i=tickets.length-1;i>=0;i--){var t=tickets[i];
 h+='<tr><td class="mono" style="font-size:9px;color:var(--gray)">'+t.id+'</td>';
-h+='<td><div class="user-cell"><div class="user-av">'+t.name.charAt(0).toUpperCase()+'</div><div><div class="un">'+escHtml(t.name)+'</div><div class="ue">'+escHtml(t.email)+'</div></div></div></td>';
+h+='<td><div class="user-cell"><div class="user-av">'+t.name.charAt(0).toUpperCase()+'</div><div><div class="un">'+escHtml(t.name)+'</div><div class="ue">ID: '+t.userId.slice(-10)+'</div></div></div></td>';
 h+='<td><span class="badge badge-blue">'+escHtml(t.cat||'General')+'</span></td>';
 h+='<td style="max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px">'+escHtml(t.sub)+'</td>';
 h+='<td><span class="badge badge-'+(t.status==='open'?'red':'green')+'">'+t.status+'</span></td>';
@@ -795,17 +825,16 @@ function closeTicketItem(idx){var tks=LS('delta_tickets')||[];if(!tks[idx])retur
 function renderUsers(){
 var users=LS('delta_users')||[];
 var q=(document.getElementById('userSearch')?document.getElementById('userSearch').value:'').toLowerCase();
-if(q)users=users.filter(function(u){return u.name.toLowerCase().indexOf(q)>=0||u.email.toLowerCase().indexOf(q)>=0});
+if(q)users=users.filter(function(u){return u.name.toLowerCase().indexOf(q)>=0||u.id.toLowerCase().indexOf(q)>=0});
 var h='';
 if(!users.length){h='<div class="empty-state"><div class="es-icon">👥</div><p>No users registered yet</p></div>'}
 else{
-h='<table><thead><tr><th>User</th><th>Contact</th><th>Balance</th><th>Plan</th><th>KYC</th><th>Joined</th><th>Actions</th></tr></thead><tbody>';
-// Show newest first
+h='<table><thead><tr><th>User</th><th>ID</th><th>Balance</th><th>Plan</th><th>KYC</th><th>Joined</th><th>Actions</th></tr></thead><tbody>';
 var rev=users.slice().reverse();
 for(var i=0;i<rev.length;i++){var u=rev[i];var w=getW(u.id);var bal=(w.main+w.bonus).toFixed(2);
 h+='<tr'+(u.banned?' style="opacity:.5"':'')+'>';
-h+='<td><div class="user-cell"><div class="user-av">'+u.name.charAt(0).toUpperCase()+'</div><div><div class="un">'+escHtml(u.name)+(u.banned?' 🚫':'')+'</div><div class="ue mono" style="font-size:8px">'+u.id.slice(-10)+'</div></div></div></td>';
-h+='<td><div class="ue">'+escHtml(u.email)+'</div><div class="ue">'+(u.phone||'-')+'</div></td>';
+h+='<td><div class="user-cell"><div class="user-av">'+u.name.charAt(0).toUpperCase()+'</div><div><div class="un">'+escHtml(u.name)+(u.banned?' 🚫':'')+'</div></div></div></td>';
+h+='<td><div class="mono" style="font-size:9px">'+u.id.slice(-12)+'</div></td>';
 h+='<td><div class="mono" style="font-size:11px;font-weight:700;color:var(--gold)">$'+bal+'</div><div class="ue">₹'+Number((parseFloat(bal)*INR_RATE).toFixed(0)).toLocaleString('en-IN')+'</div></td>';
 h+='<td>'+(u.plan?'<span class="badge badge-gold">'+PLANS[u.plan-1].name+'</span>':'<span class="badge badge-gray">None</span>')+'</td>';
 h+='<td>'+(u.kyc?'<span class="badge badge-green">✅ KYC</span>':'<span class="badge badge-red">❌ No KYC</span>')+'</td>';
@@ -821,11 +850,9 @@ var users=LS('delta_users')||[];var u=users.find(function(x){return x.id===uid})
 var w=getW(uid);
 var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:14px;background:var(--bg3);border-radius:12px">';
 h+='<div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#000;flex-shrink:0">'+u.name.charAt(0).toUpperCase()+'</div>';
-h+='<div><div style="font-size:14px;font-weight:700">'+escHtml(u.name)+'</div><div style="font-size:10px;color:var(--gray)">'+escHtml(u.email)+'</div><div style="font-size:9px;color:var(--gold);font-weight:700;margin-top:2px">'+(u.plan?PLANS[u.plan-1].name+' Plan':'No Plan')+' • '+(u.kyc?'✅ KYC':'❌ No KYC')+'</div></div></div>';
-h+='<div class="info-row"><span class="ir-l">Phone</span><span class="ir-v">'+(u.phone||'-')+'</span></div>';
-h+='<div class="info-row"><span class="ir-l">Age / City</span><span class="ir-v">'+(u.age||'-')+' / '+(u.city||'-')+'</span></div>';
+h+='<div><div style="font-size:14px;font-weight:700">'+escHtml(u.name)+'</div><div style="font-size:9px;color:var(--gold);font-weight:700;margin-top:2px">'+(u.plan?PLANS[u.plan-1].name+' Plan':'No Plan')+' • '+(u.kyc?'✅ KYC':'❌ No KYC')+'</div><div class="mono" style="font-size:8px;color:var(--gray)">ID: '+u.id+'</div></div></div>';
 h+='<div class="info-row"><span class="ir-l">Password</span><span class="ir-v mono" style="color:var(--red)">'+u.password+'</span></div>';
-h+='<div class="info-row"><span class="ir-l">User ID</span><span class="ir-v mono" style="font-size:8px">'+u.id+'</span></div>';
+h+='<div class="info-row"><span class="ir-l">Age / City</span><span class="ir-v">'+(u.age||'-')+' / '+(u.city||'-')+'</span></div>';
 h+='<div class="info-row"><span class="ir-l">Referral</span><span class="ir-v">'+(u.refer||'None')+'</span></div>';
 h+='<div class="info-row"><span class="ir-l">Joined</span><span class="ir-v">'+fmtTime(u.created)+'</span></div>';
 h+='<div class="info-row"><span class="ir-l">Banned</span><span class="ir-v"><span class="badge badge-'+(u.banned?'red':'green')+'">'+(u.banned?'Yes 🚫':'No ✅')+'</span></span></div>';
@@ -856,32 +883,21 @@ else{
 h='<table><thead><tr><th>ID</th><th>User</th><th>Plan</th><th>Amount</th><th>CONFIRM CODE</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>';
 for(var i=deps.length-1;i>=0;i--){var d=deps[i];var isPend=d.status==='pending';
 h+='<tr><td class="mono" style="font-size:9px;color:var(--gray)">'+(d.id||'-').slice(-12)+'</td>';
-h+='<td><div class="user-cell"><div class="user-av">'+(d.userName||'?').charAt(0).toUpperCase()+'</div><div><div class="un">'+escHtml(d.userName||'-')+'</div><div class="ue">'+escHtml(d.userEmail||'-')+'</div></div></div></td>';
+h+='<td><div class="user-cell"><div class="user-av">'+(d.userName||'?').charAt(0).toUpperCase()+'</div><div><div class="un">'+escHtml(d.userName||'-')+'</div><div class="ue">ID: '+(d.userId||'-').slice(-10)+'</div></div></div></td>';
 h+='<td style="font-size:10px">'+escHtml(d.plan?d.plan.name:'-')+'</td>';
 h+='<td><span style="color:var(--gold);font-weight:700;font-family:JetBrains Mono,monospace">$'+(d.plan?d.plan.price:0)+'</span>'+(d.plan&&d.plan.bonus?'<br><span style="font-size:9px;color:var(--green)">+$'+d.plan.bonus+' bonus</span>':'')+'</td>';
-// BIG VISIBLE CODE
 h+='<td><div class="code-box" onclick="cpText(\''+d.code+'\')" title="Click to copy">'+d.code+'</div></td>';
 h+='<td><span class="badge badge-'+(isPend?'gold':'green')+'">'+d.status+'</span></td>';
 h+='<td style="font-size:9px;color:var(--gray)">'+fmtTime(d.at)+'</td>';
-h+='<td><div class="action-btns">'+(isPend?'<button class="act-btn" style="background:rgba(14,203,129,.15);border:1px solid rgba(14,203,129,.2);color:var(--green)" onclick="approveDep(\''+d.id+'\')">✅ Approve</button>':'<span class="badge badge-green">Done</span>')+'<button class="act-btn" style="background:rgba(240,185,11,.15);border:1px solid rgba(240,185,11,.2);color:var(--gold)" onclick="showDepCode(\''+d.id+'\')">🔑 Code</button></div></td></tr>';
+h+='<td><div class="action-btns">'+(isPend?'<button class="act-btn" style="background:rgba(14,203,129,.15);border:1px solid rgba(14,203,129,.2);color:var(--green)" onclick="showApproveDepModal(\''+d.id+'\')">✅ Approve</button>':'<span class="badge badge-green">Done</span>')+'<button class="act-btn" style="background:rgba(240,185,11,.15);border:1px solid rgba(240,185,11,.2);color:var(--gold)" onclick="showDepCode(\''+d.id+'\')">🔑 Code</button></div></td></tr>';
 }h+='</tbody></table>'
 }
 document.getElementById('depositsList').innerHTML=h;
 }
 
 function approveDep(id){
-var deps=LS('delta_deps')||[];var d=deps.find(function(x){return x.id===id});
-if(!d)return toast('Not found','err');
-var uid=d.userId;var plan=d.plan;
-if(!plan)return toast('Invalid deposit data','err');
-var w=getW(uid);w.main+=plan.price;w.bonus+=(plan.bonus||0);setW(uid,w);
-var us=LS('delta_users')||[];
-for(var i=0;i<us.length;i++){if(us[i].id===uid){var planIdx=PLANS.findIndex(function(p){return p.name===plan.name});us[i].plan=planIdx>=0?planIdx+1:1;us[i].kyc=true;break}}LS('delta_users',us);
-var txns=LS('delta_txn_'+uid)||[];txns.push({type:'deposit',amt:plan.price+plan.bonus,st:'completed',at:new Date().toISOString()});LS('delta_txn_'+uid,txns);
-for(var i=0;i<deps.length;i++){if(deps[i].id===id){deps[i].status='approved';break}}LS('delta_deps',deps);
-if(LS('delta_pending_dep')&&LS('delta_pending_dep').id===id){var pd=LS('delta_pending_dep');pd.status='approved';LS('delta_pending_dep',pd)}
-renderDeposits();renderDashboard();renderBadges();closeModal('depCodeModal');
-toast('✅ Deposit approved: +$'+(plan.price+plan.bonus),'ok');
+// Kept for compatibility but replaced by approveDepWithCode
+toast('Use Approve with Code','err');
 }
 
 /* ============ WITHDRAWALS ============ */
@@ -891,7 +907,7 @@ if(!wds.length){h='<div class="empty-state"><div class="es-icon">📤</div><p>No
 else{h='<table><thead><tr><th>ID</th><th>User</th><th>Amount</th><th>Network</th><th>Address</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>';
 for(var i=wds.length-1;i>=0;i--){var d=wds[i];var isPend=d.status.indexOf('pending')>=0;
 h+='<tr><td class="mono" style="font-size:9px;color:var(--gray)">'+(d.id||'-').slice(-12)+'</td>';
-h+='<td><div class="user-cell"><div class="user-av">'+(d.userName||'?').charAt(0).toUpperCase()+'</div><div><div class="un">'+escHtml(d.userName||'-')+'</div><div class="ue">'+escHtml(d.userEmail||'-')+'</div></div></div></td>';
+h+='<td><div class="user-cell"><div class="user-av">'+(d.userName||'?').charAt(0).toUpperCase()+'</div><div><div class="un">'+escHtml(d.userName||'-')+'</div><div class="ue">ID: '+(d.userId||'-').slice(-10)+'</div></div></div></td>';
 h+='<td><span style="color:var(--red);font-weight:700;font-family:JetBrains Mono,monospace">-$'+d.amount.toFixed(2)+'</span><br><span style="font-size:9px;color:var(--gray)">Fee: $'+(d.fee||0)+'</span></td>';
 h+='<td><span class="badge badge-blue">'+escHtml(d.method||'-')+'</span></td>';
 h+='<td style="font-size:9px;color:var(--gray);max-width:120px;word-break:break-all">'+escHtml((d.addr||'-').substring(0,20))+'...</td>';
@@ -916,4 +932,4 @@ var adId=document.getElementById('adId');if(adId)adId.focus();
 });
 </script>
 </body>
-</html>
+  </html>
